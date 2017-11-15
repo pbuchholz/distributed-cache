@@ -7,7 +7,7 @@ COPY passwordfile /var/passwordfile
 ENV ADMIN_USER admin
 ENV DOMAIN_NAME domain1 
 
-# Update and install pacRUN cat /var/passwordfilekages
+# Update and install packages
 RUN apt-get update
 
 RUN /usr/lib/payara41/glassfish/bin/asadmin --user ${ADMIN_USER} --passwordfile /var/passwordfile --interactive=false change-admin-password --domain_name ${DOMAIN_NAME}
