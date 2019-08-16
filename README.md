@@ -1,5 +1,5 @@
-# eda-kafka
-Contains same examples to build an EventDrivenArchitecture with Apache Kafka
+# Distributed Cache
+Defines a distributed caching system which uses Apache Kafka as synchronization mechanismn between several cache instances. The individual cache instances are build using Java EE 8 and are deployed as WAR files.
 
 
 ## EventSourcing
