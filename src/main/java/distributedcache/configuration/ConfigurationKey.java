@@ -3,7 +3,7 @@ package distributedcache.configuration;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import distributedcache.CacheKey;
+import distributedcache.cache.CacheKey;
 
 public class ConfigurationKey implements CacheKey<ConfigurationKey> {
 

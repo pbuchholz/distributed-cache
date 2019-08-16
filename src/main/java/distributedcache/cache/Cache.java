@@ -1,9 +1,7 @@
-package distributedcache;
+package distributedcache.cache;
 
 import java.io.Serializable;
 import java.util.Set;
-
-import distributedcache.notification.NotificationListener;
 
 /**
  * Defines a cache which is segmented into {@link CacheRegion}s.
@@ -14,12 +12,14 @@ public interface Cache<K extends CacheKey<K>, T extends Serializable> {
 
 	/**
 	 * Puts a value into the named region of the cache. The value is identified by
-	 * its key.
+	 * its key. Internally a new CacheEntry is build and put into the region with
+	 * the passed in regionName.
 	 * 
 	 * @param regionName
-	 * @param cacheEntry
+	 * @param key        The key which identifies the value.
+	 * @param value      The value.
 	 */
-	void put(String regionName, CacheEntry<K, T> cacheEntry);
+	void put(String regionName, K key, T value);
 
 	/**
 	 * Gets a value from a named region by its key out of the cache.
@@ -40,12 +40,5 @@ public interface Cache<K extends CacheKey<K>, T extends Serializable> {
 	 * @return
 	 */
 	Set<CacheRegion<K, T>> getCacheRegions();
-
-	/**
-	 * Registers the {@link NotificationListener} with the {@link Cache}.
-	 * 
-	 * @param notificationListener
-	 */
-	void registerNotificationListener(NotificationListener notificationListener);
 
 }

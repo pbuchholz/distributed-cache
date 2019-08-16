@@ -1,5 +1,8 @@
 package distributedcache;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -13,18 +16,13 @@ public class ApplicationConfiguration {
 
 	@Inject
 	@Value
-	@Property("kafka.cache.notifications.topic")
-	private String cacheNotificationsTopic;
+	@Property("kafka.cache.emit.topic")
+	private String emitTopic;
 
 	@Inject
 	@Value
-	@Property("kafka.cache.notifications.partition")
-	private String cacheNotificationsPartition;
-
-	@Inject
-	@Value
-	@Property("kafka.cache.notifications.peerpartition")
-	private String cacheNotificationPeerPartition;
+	@Property("kafka.cache.notifications.updatetopics")
+	private String updateTopics;
 
 	@Inject
 	@Value
@@ -36,16 +34,12 @@ public class ApplicationConfiguration {
 	@Property("kafka.consumer.group")
 	private String consumerGroup;
 
-	public String getCacheNotificationsTopic() {
-		return cacheNotificationsTopic;
+	public String getEmitTopic() {
+		return this.emitTopic;
 	}
 
-	public int getCacheNotificationsPartition() {
-		return Integer.valueOf(cacheNotificationsPartition);
-	}
-
-	public int getPeerPartition() {
-		return Integer.valueOf(cacheNotificationPeerPartition);
+	public List<String> getUpdateTopics() {
+		return Arrays.asList(this.updateTopics.split(","));
 	}
 
 	public String getBootstrapServers() {

@@ -14,10 +14,6 @@ public interface Notification {
 
 	NotificationType type();
 
-	void setSource(int source);
-
-	int getSource();
-
 	public enum NotificationType {
 		PUT
 	}

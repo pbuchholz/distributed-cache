@@ -1,19 +1,14 @@
-package distributedcache;
+package distributedcache.cache;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-
-import distributedcache.notification.NotificationListener;
-import distributedcache.notification.PutNotification;
 
 /**
  * Represents a basic cache segmented into {@link CacheRegion}s.
@@ -26,28 +21,23 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 
 	private Set<CacheRegion<K, T>> cacheRegions = new CopyOnWriteArraySet<>();
 
-	private Set<NotificationListener> notificationListeners = Collections.synchronizedSet(new HashSet<>());
+	private CacheConfiguration cacheConfiguration;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void put(String regionName, CacheEntry<K, T> cacheEntry) {
+	public void put(String regionName, K key, T value) {
+		CacheEntry<K, T> cacheEntry = CacheEntry.<K, T>builder() //
+				.key(key) //
+				.value(value) //
+				.created(System.currentTimeMillis()) //
+				.validationTimespan(cacheConfiguration.validationTimespanForType(value.getClass()).toMillis()) //
+				.build();
+
 		CacheRegion<K, T> cacheRegion = Objects.requireNonNull(this.findRegionByName(regionName)) //
 				.get();
 		cacheRegion.putIntoRegion(cacheEntry);
-
-		notificationListeners.forEach(l -> l.onNotification(PutNotification.builder() //
-				.identifier(UUID.randomUUID()) //
-				.cacheKey(cacheEntry.key()) //
-				.value(cacheEntry.value()) //
-				.regionName(regionName) //
-				.build()));
-	}
-
-	@Override
-	public void registerNotificationListener(NotificationListener notificationListener) {
-		this.notificationListeners.add(notificationListener);
 	}
 
 	/**
@@ -103,6 +93,11 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 			baseCache.cacheRegions.add(CacheRegion.<K, T>builder() //
 					.name(regionName) //
 					.build());
+			return this;
+		}
+
+		public Builder<K, T> cacheConfiguration(CacheConfiguration cacheConfiguration) {
+			baseCache.cacheConfiguration = cacheConfiguration;
 			return this;
 		}
 

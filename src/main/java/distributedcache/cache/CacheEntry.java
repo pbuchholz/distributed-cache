@@ -1,4 +1,4 @@
-package distributedcache;
+package distributedcache.cache;
 
 import java.io.Serializable;
 

@@ -4,8 +4,6 @@ import static distributedcache.Reflections.fromAnnotated;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -21,7 +19,6 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.TopicPartition;
 
 import distributedcache.ApplicationConfiguration;
 import distributedcache.PropertiesBuilder;
@@ -54,14 +51,7 @@ public class KafkaFactory implements Serializable {
 		UUID clientId = UUID.randomUUID();
 		kafkaConsumerProperties.put(ConsumerConfig.CLIENT_ID_CONFIG, clientId.toString());
 
-		KafkaConsumer<K, V> kafkaConsumer = new KafkaConsumer<K, V>(kafkaConsumerProperties);
-
-		List<TopicPartition> assignedPartitions = new ArrayList<>();
-		assignedPartitions.add(new TopicPartition(this.configuration.getCacheNotificationsTopic(),
-				this.configuration.getCacheNotificationsPartition()));
-		kafkaConsumer.assign(assignedPartitions);
-
-		return kafkaConsumer;
+		return new KafkaConsumer<K, V>(kafkaConsumerProperties);
 	}
 
 	@Produces

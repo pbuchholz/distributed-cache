@@ -30,17 +30,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import distributedcache.ApplicationConfiguration;
-import distributedcache.Cache;
-import distributedcache.CacheEntry;
-import distributedcache.CacheRegion;
+import distributedcache.cache.Cache;
+import distributedcache.cache.CacheEntry;
+import distributedcache.cache.CacheRegion;
 import distributedcache.configuration.ConfigurationCache;
 import distributedcache.configuration.ConfigurationKey;
 import distributedcache.configuration.ConfigurationValue;
 import distributedcache.notification.Notification;
-import distributedcache.notification.NotificationListener;
 import distributedcache.notification.PutNotification;
-import distributedcache.notification.kafka.ProducerRecordFactory;
-import distributedcache.notification.kafka.ProducerRecordFactory.PartitionKeys;
 
 /**
  * Boundary which connects to Kafka to receive {@link CacheEvent}s to keep
@@ -61,12 +58,12 @@ public class ConfigurationBoundary implements Serializable {
 	@ConsumerGroup("cache.notifications")
 	@KeyDeserializer
 	@ValueDeserializer("distributedcache.configuration.boundary.NotificationDeserializer")
-	private Consumer<PartitionKeys, Notification> notificationConsumer;
+	private Consumer<Long, Notification> notificationConsumer;
 
 	@Inject
 	@KeySerializer
 	@ValueSerializer("distributedcache.configuration.boundary.NotificationSerializer")
-	private Producer<PartitionKeys, Notification> notificationProducer;
+	private Producer<Long, Notification> notificationProducer;
 
 	// TODO Doesnt work
 	private Event<Notification> notificationEvent;
@@ -77,9 +74,6 @@ public class ConfigurationBoundary implements Serializable {
 
 	@Inject
 	private ApplicationConfiguration configuration;
-
-	@Inject
-	private ProducerRecordFactory producerRecordFactory;
 
 	@Resource
 	private ManagedExecutorService executorService;
@@ -132,30 +126,33 @@ public class ConfigurationBoundary implements Serializable {
 	@Path("{region}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void putCacheEntry(@PathParam("region") String regionName, ConfigurationValue configurationValue) {
+		ConfigurationKey configurationKey = new ConfigurationKey(configurationValue.getName());
 
-		CacheEntry<ConfigurationKey, ConfigurationValue> cacheEntry = CacheEntry
-				.<ConfigurationKey, ConfigurationValue>builder() //
-				.key(new ConfigurationKey(configurationValue.getName())) //
+		this.configurationCache.put(regionName, configurationKey, configurationValue);
+
+		this.emitNotification(PutNotification.<ConfigurationKey, ConfigurationValue>builder() //
+				.key(configurationKey)//
 				.value(configurationValue) //
-				.build();
+				.regionName(regionName) //
+				.value(configurationValue) //
+				.build());
+	}
 
-		this.configurationCache.put(regionName, cacheEntry);
+	/**
+	 * Emits the passed in {@link Notification} to the configured update topics.
+	 * 
+	 * @param notification
+	 */
+	private void emitNotification(Notification notification) {
+		for (String updateTopic : configuration.getUpdateTopics()) {
+			notificationProducer.send(new ProducerRecord<Long, Notification>(updateTopic, notification));
+		}
 	}
 
 	@PostConstruct
 	public void startup() {
-
-		/* Register NotificationListener. */
-		this.configurationCache.registerNotificationListener(new NotificationListener() {
-
-			@Override
-			public void onNotification(Notification notification) {
-				notification.setSource(configuration.getPeerPartition());
-				ProducerRecord<PartitionKeys, Notification> producerRecord = producerRecordFactory
-						.createProducerRecord(PartitionKeys.Peer, notification);
-				notificationProducer.send(producerRecord);
-			}
-		});
+		/* Subscribe to registered Topic. */
+		this.notificationConsumer.subscribe(Collections.singletonList(configuration.getEmitTopic()));
 
 		/* Start ManagedExecutor for Kafka. */
 		this.executorService.execute(kafkaWorker);
@@ -173,7 +170,7 @@ public class ConfigurationBoundary implements Serializable {
 		@Override
 		public void run() {
 			while (!shutdown.get()) {
-				ConsumerRecords<PartitionKeys, Notification> records = notificationConsumer.poll(Duration.ofDays(1L));
+				ConsumerRecords<Long, Notification> records = notificationConsumer.poll(Duration.ofDays(1L));
 				records.forEach((consumerRecord) -> {
 
 					Notification notification = consumerRecord.value();
@@ -182,14 +179,11 @@ public class ConfigurationBoundary implements Serializable {
 
 					switch (notification.type()) {
 					case PUT:
-						PutNotification putNotification = (PutNotification) notification;
+						PutNotification<ConfigurationKey, ConfigurationValue> putNotification = (PutNotification<ConfigurationKey, ConfigurationValue>) notification;
 
-						configurationCache.put(putNotification.getRegionName(),
-								CacheEntry.<ConfigurationKey, ConfigurationValue>builder() //
-										.key((ConfigurationKey) putNotification.getCacheKey()) //
-										.value((ConfigurationValue) putNotification.getValue()) //
-										.created(System.currentTimeMillis()) //
-										.build());
+						configurationCache.put(putNotification.getRegionName(), putNotification.getKey(),
+								putNotification.getValue());
+						;
 
 						/* Fire PutNotification. */
 						// notificationEvent.select(new TypeLiteral<PutNotification>() {

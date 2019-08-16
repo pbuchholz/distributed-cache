@@ -6,59 +6,57 @@ import java.util.UUID;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import distributedcache.CacheKey;
-
-public class PutNotification implements Notification, Serializable {
+public class PutNotification<K, T extends Serializable> implements Notification, Serializable {
 
 	private static final long serialVersionUID = 8459439634968402296L;
 
 	private UUID identifier;
-	private CacheKey<?> cacheKey;
-	private Serializable value;
+	private K key;
+	private T value;
 	private String regionName;
 	private int source;
 
-	public static Builder builder() {
-		return new Builder();
+	public static <K, T extends Serializable> Builder<K, T> builder() {
+		return new Builder<>();
 	}
 
-	public static class Builder {
-		private PutNotification putNotification;
+	public static class Builder<K, T extends Serializable> {
+		private PutNotification<K, T> putNotification;
 
 		private Builder() {
-			this.putNotification = new PutNotification();
+			this.putNotification = new PutNotification<>();
 		}
 
-		public Builder cacheKey(CacheKey<?> cacheKey) {
-			this.putNotification.cacheKey = cacheKey;
+		public Builder<K, T> key(K key) {
+			this.putNotification.key = key;
 			return this;
 		}
 
-		public Builder value(Serializable value) {
+		public Builder<K, T> value(T value) {
 			this.putNotification.value = value;
 			return this;
 		}
 
-		public Builder regionName(String regionName) {
+		public Builder<K, T> regionName(String regionName) {
 			this.putNotification.regionName = regionName;
 			return this;
 		}
 
-		public Builder identifier(UUID identifier) {
+		public Builder<K, T> identifier(UUID identifier) {
 			this.putNotification.identifier = identifier;
 			return this;
 		}
 
-		public PutNotification build() {
+		public PutNotification<K, T> build() {
 			return this.putNotification;
 		}
 	}
 
-	public CacheKey<?> getCacheKey() {
-		return cacheKey;
+	public K getKey() {
+		return key;
 	}
 
-	public Serializable getValue() {
+	public T getValue() {
 		return value;
 	}
 
@@ -79,16 +77,6 @@ public class PutNotification implements Notification, Serializable {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
-	}
-
-	@Override
-	public void setSource(int source) {
-		this.source = source;
-	}
-
-	@Override
-	public int getSource() {
-		return this.source;
 	}
 
 }
