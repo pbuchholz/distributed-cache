@@ -34,6 +34,11 @@ public class ApplicationConfiguration {
 	@Property("kafka.consumer.group")
 	private String consumerGroup;
 
+	@Inject
+	@Value
+	@Property("cache.invalidation.timer.period")
+	private String cacheInvalidationPeriod;
+
 	public String getEmitTopic() {
 		return this.emitTopic;
 	}
@@ -48,6 +53,10 @@ public class ApplicationConfiguration {
 
 	public String getConsumerGroup() {
 		return consumerGroup;
+	}
+
+	public int getCacheInvalidationPeriod() {
+		return Integer.valueOf(cacheInvalidationPeriod);
 	}
 
 }

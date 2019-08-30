@@ -13,6 +13,7 @@ import java.util.Objects;
 public class CacheConfiguration {
 
 	private Map<Class<?>, Duration> validationTimespanPerType;
+	private int validationPeriod;
 
 	public void registerValidationTimespan(Class<?> type, Duration duration) {
 		if (Objects.isNull(validationTimespanPerType)) {
@@ -24,6 +25,14 @@ public class CacheConfiguration {
 
 	public Duration validationTimespanForType(Class<?> type) {
 		return validationTimespanPerType.get(type);
+	}
+
+	public int getValidationPeriod() {
+		return this.validationPeriod;
+	}
+
+	public void setValidationPeriod(int validationPeriod) {
+		this.validationPeriod = validationPeriod;
 	}
 
 }

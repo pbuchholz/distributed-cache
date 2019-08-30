@@ -6,6 +6,15 @@ import java.util.UUID;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+/**
+ * Notification published to other Cache instances when a new CacheEntry has
+ * been put into another instance.
+ * 
+ * @author Philipp Buchholz
+ *
+ * @param <K>
+ * @param <T>
+ */
 public class PutNotification<K, T extends Serializable> implements Notification, Serializable {
 
 	private static final long serialVersionUID = 8459439634968402296L;
@@ -14,7 +23,6 @@ public class PutNotification<K, T extends Serializable> implements Notification,
 	private K key;
 	private T value;
 	private String regionName;
-	private int source;
 
 	public static <K, T extends Serializable> Builder<K, T> builder() {
 		return new Builder<>();

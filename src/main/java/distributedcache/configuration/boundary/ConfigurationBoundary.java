@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import distributedcache.ApplicationConfiguration;
 import distributedcache.cache.Cache;
 import distributedcache.cache.CacheEntry;
+import distributedcache.cache.CacheManager;
 import distributedcache.cache.CacheRegion;
 import distributedcache.configuration.ConfigurationCache;
 import distributedcache.configuration.ConfigurationKey;
@@ -71,6 +72,9 @@ public class ConfigurationBoundary implements Serializable {
 	@Inject
 	@ConfigurationCache
 	private Cache<ConfigurationKey, ConfigurationValue> configurationCache;
+
+	@Inject
+	private CacheManager<ConfigurationKey, ConfigurationValue> configurationCacheManager;
 
 	@Inject
 	private ApplicationConfiguration configuration;
@@ -151,6 +155,9 @@ public class ConfigurationBoundary implements Serializable {
 
 	@PostConstruct
 	public void startup() {
+		/* Initialize CacheManager for ConfigurationCache. */
+		this.configurationCacheManager.manageCache(this.configurationCache);
+
 		/* Subscribe to registered Topic. */
 		this.notificationConsumer.subscribe(Collections.singletonList(configuration.getEmitTopic()));
 
@@ -160,6 +167,10 @@ public class ConfigurationBoundary implements Serializable {
 
 	@PreDestroy
 	public void shutdown() {
+		/* Shutdown CacheManager. */
+		this.configurationCacheManager.shutdown();
+
+		/* Shutdown KafkaWorker. */
 		this.kafkaWorker.shutdown();
 	}
 
@@ -183,7 +194,6 @@ public class ConfigurationBoundary implements Serializable {
 
 						configurationCache.put(putNotification.getRegionName(), putNotification.getKey(),
 								putNotification.getValue());
-						;
 
 						/* Fire PutNotification. */
 						// notificationEvent.select(new TypeLiteral<PutNotification>() {

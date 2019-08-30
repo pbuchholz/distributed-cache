@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         version="3.2"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/ejb-jar_3_2.xsd">
+    
+    
+    
+    <session>
+         <ejb-name>CacheManager</ejb-name>
+         <local-bean/>
+         <ejb-class>distributedcache.cache.CacheManager</ejb-class>
+         <session-type>Stateless</session-type>
+         <timer>
+            <schedule>
+                <second>0/18</second>
+                <minute>*</minute>
+                <hour>*</hour>
+            </schedule>
+            <timeout-method>
+                <method-name>invalidateCacheEntries</method-name>
+            </timeout-method>
+         </timer>
+    </session>    
+</ejb-jar>

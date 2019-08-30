@@ -14,6 +14,12 @@ public interface Notification {
 
 	NotificationType type();
 
+	/**
+	 * Type of notification which has been published.
+	 * 
+	 * @author Philipp Buchholz
+	 *
+	 */
 	public enum NotificationType {
 		PUT
 	}
