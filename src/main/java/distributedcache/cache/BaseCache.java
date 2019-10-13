@@ -48,7 +48,11 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 		CacheRegion<K, T> cacheRegion = this.findRegionByName(regionName) //
 				.get();
 
-		CacheEntry<K, T> cacheEntry = Objects.requireNonNull(cacheRegion.findInRegion(key));
+		CacheEntry<K, T> cacheEntry = cacheRegion.findInRegion(key);
+		
+		if (Objects.isNull(cacheEntry)) {
+			return null;
+		}
 
 		cacheEntry.setLastAccess(System.currentTimeMillis());
 		return cacheEntry.value();

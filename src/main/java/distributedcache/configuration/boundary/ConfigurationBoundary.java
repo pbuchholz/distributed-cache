@@ -155,6 +155,7 @@ public class ConfigurationBoundary implements Serializable {
 
 	@PostConstruct
 	public void startup() {
+
 		/* Initialize CacheManager for ConfigurationCache. */
 		this.configurationCacheManager.manageCache(this.configurationCache);
 
@@ -168,7 +169,7 @@ public class ConfigurationBoundary implements Serializable {
 	@PreDestroy
 	public void shutdown() {
 		/* Shutdown CacheManager. */
-		this.configurationCacheManager.shutdown();
+		this.configurationCacheManager.releaseCache();
 
 		/* Shutdown KafkaWorker. */
 		this.kafkaWorker.shutdown();
