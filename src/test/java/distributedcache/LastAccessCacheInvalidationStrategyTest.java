@@ -39,14 +39,30 @@ public class LastAccessCacheInvalidationStrategyTest {
 				.build();
 	}
 
+	/**
+	 * Builds a {@link ConfigurationValue} for testing purposes.
+	 * 
+	 * @return
+	 */
+	private ConfigurationValue buildConfigurationValue() {
+		return ConfigurationValue.builder() //
+				.name("active.consumer.count") //
+				.value("10") //
+				.build();
+	}
+
+	/**
+	 * Puts a new {@link ConfigurationValue} into the cache and then waits for 5
+	 * seconds. The putted {@link ConfigurationValue} should still be valid after
+	 * that time span.
+	 * 
+	 * @throws InterruptedException
+	 */
 	@Test
 	public void shouldNotInvalidateAfter5Seconds() throws InterruptedException {
 		ConfigurationKey configurationKey = new ConfigurationKey("active.consumer.count");
 
-		cache.put(ROOT_CONFIGURATION_REGION, configurationKey, ConfigurationValue.builder() //
-				.name("active.consumer.count") //
-				.value("10") //
-				.build());
+		cache.put(ROOT_CONFIGURATION_REGION, configurationKey, this.buildConfigurationValue());
 
 		/* Access CacheEntry. */
 		cache.get(ROOT_CONFIGURATION_REGION, configurationKey);
@@ -62,14 +78,18 @@ public class LastAccessCacheInvalidationStrategyTest {
 
 	}
 
+	/**
+	 * Puts a new {@link ConfigurationValue} into the cache and then waits for 15
+	 * seconds. The putted {@link ConfigurationValue} should have been invalidated
+	 * in the meantime.
+	 * 
+	 * @throws InterruptedException
+	 */
 	@Test
 	public void shouldInvalidateAfter10Seconds() throws InterruptedException {
 		ConfigurationKey configurationKey = new ConfigurationKey("active.consumer.count");
 
-		cache.put(ROOT_CONFIGURATION_REGION, configurationKey, ConfigurationValue.builder() //
-				.name("active.consumer.count") //
-				.value("10") //
-				.build());
+		cache.put(ROOT_CONFIGURATION_REGION, configurationKey, this.buildConfigurationValue());
 
 		/* After 15 seconds the cache entry is not valid any more. */
 		Thread.sleep(Duration.ofSeconds(15l).toMillis());

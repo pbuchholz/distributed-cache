@@ -10,8 +10,18 @@ import java.util.UUID;
  */
 public interface Notification {
 
+	/**
+	 * Returns the {@link UUID} which uniquely identifies a {@link Notification}.
+	 * 
+	 * @return {@link UUID} uniquely identifying the {@link Notification}.
+	 */
 	UUID identifier();
 
+	/**
+	 * Type of {@link Notification}.
+	 * 
+	 * @return
+	 */
 	NotificationType type();
 
 	/**
@@ -21,7 +31,9 @@ public interface Notification {
 	 *
 	 */
 	public enum NotificationType {
-		PUT
+		PUT, //
+		UPDATE, //
+		DELETE
 	}
 
 }
