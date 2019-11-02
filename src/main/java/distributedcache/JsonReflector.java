@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
@@ -58,12 +59,11 @@ public class JsonReflector {
 	}
 
 	public JsonObject buildJsonObject(Object target) throws ReflectiveOperationException {
-		return this.processObject(target, Json.createObjectBuilder()).build();
+		return this.processObject(target).build();
 	}
 
-	private JsonObjectBuilder processObject(Object target, JsonObjectBuilder jsonObjectBuilder)
-			throws ReflectiveOperationException {
-
+	private JsonObjectBuilder processObject(Object target) throws ReflectiveOperationException {
+		JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
 		for (Method method : this.filterMethods(target)) {
 			jsonObjectBuilder.addAll(this.processMethod(method.getReturnType(), //
 					this.fieldNameFromGetter(method), target, method));
@@ -86,34 +86,34 @@ public class JsonReflector {
 			/* Handling of Maps. */
 			jsonObjectBuilder.addAll(this.handleMap(Map.class.cast(result)));
 		} else if (returnType.isAssignableFrom(Collection.class)) {
-			jsonObjectBuilder.addAll(this.handleCollection(filteredMethodName, Collection.class.cast(result)));
+			jsonObjectBuilder.add(filteredMethodName,
+					this.handleCollection(filteredMethodName, Collection.class.cast(result)));
 		} else {
 			/* Go down in hierarchie. */
-			jsonObjectBuilder.addAll(this.processObject(result, jsonObjectBuilder));
+			jsonObjectBuilder.add(filteredMethodName, this.processObject(result));
 		}
 		return jsonObjectBuilder;
 	}
 
-	private <V> JsonObjectBuilder handleCollection(String filteredMethodName, Collection<V> collection) {
-		JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+	private <V> JsonArrayBuilder handleCollection(String filteredMethodName, Collection<V> collection) {
+		JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 		collection.forEach(v -> {
 			try {
-				jsonObjectBuilder.add(filteredMethodName, this.processObject(v, jsonObjectBuilder));
+				jsonArrayBuilder.add(this.processObject(v));
 			} catch (ReflectiveOperationException e) {
-				// TODO!
+				throw new RuntimeException(e);
 			}
 		});
-		return jsonObjectBuilder;
+		return jsonArrayBuilder;
 	}
 
 	private <K, V> JsonObjectBuilder handleMap(Map<K, V> map) {
 		JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
 		map.keySet().forEach(k -> {
 			try {
-				jsonObjectBuilder.add(String.valueOf(k), this.processObject(map.get(k), jsonObjectBuilder));
+				jsonObjectBuilder.add(String.valueOf(k), this.processObject(map.get(k)));
 			} catch (ReflectiveOperationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 		});
 		return jsonObjectBuilder;
