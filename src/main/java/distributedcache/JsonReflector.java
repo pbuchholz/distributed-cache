@@ -122,11 +122,7 @@ public class JsonReflector {
 	private boolean mustTerminateAt(Class<?> type) throws ClassNotFoundException {
 
 		if (type.isPrimitive()) {
-			/* Load complex type for primitive. */
-			type = Class.forName(type.getPackageName() //
-					.concat(".") //
-					.concat(type.getSimpleName().substring(0, 1).toUpperCase()) //
-					.concat(type.getSimpleName().substring(1)));
+			type = Reflections.loadComplexForPrimitive(type);
 		}
 
 		for (Class<?> t : this.terminatingTypes) {

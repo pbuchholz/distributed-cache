@@ -2,6 +2,7 @@ package distributedcache;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
 
 import javax.enterprise.inject.spi.Annotated;
 
@@ -14,6 +15,23 @@ public final class Reflections {
 
 	private Reflections() {
 
+	}
+
+	/**
+	 * Returns the complex type for the passed in primitive type.
+	 * 
+	 * @param type
+	 * @return
+	 * @throws ClassNotFoundException
+	 */
+	public static Class<?> loadComplexForPrimitive(Class<?> type) throws ClassNotFoundException {
+		assert Objects.nonNull(type);
+		assert type.isPrimitive() : "Given type must ne primitive";
+
+		return Class.forName(type.getPackageName() //
+				.concat(".") //
+				.concat(type.getSimpleName().substring(0, 1).toUpperCase()) //
+				.concat(type.getSimpleName().substring(1)));
 	}
 
 	/**
