@@ -12,8 +12,6 @@ import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonObjectBuilder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -30,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import distributedcache.ApplicationConfiguration;
+import distributedcache.JsonReflector;
 import distributedcache.cache.Cache;
 import distributedcache.cache.CacheEntry;
 import distributedcache.cache.CacheManager;
@@ -89,34 +88,15 @@ public class ConfigurationBoundary implements Serializable {
 	 * {@link CacheRegion}ØÏ and their associated {@link CacheEntry}s.
 	 * 
 	 * @return
+	 * @throws ReflectiveOperationException
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getConfigurationCache() {
-		JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-		configurationCache.getCacheRegions() //
-				.stream() //
-				.map(cr -> {
-					JsonObjectBuilder cacheEntriesObjectBuilder = Json.createObjectBuilder();
-					cr.cacheEntries().stream() //
-							.forEach(ce -> {
-								cacheEntriesObjectBuilder.add(ce.key().getConfigurationValueName(),
-										Json.createObjectBuilder() //
-												.add("name", ce.value().getName()) //
-												.add("value", ce.value().getValue()) //
-												.add("created", ce.getCreated()) //
-												.add("lastAccess", ce.getLastAccess()) //
-												.add("validationTimespan", ce.getValidationTimespan()) //
-												.add("neverAccessed", ce.neverAccessed()));
-
-							});
-
-					return Json.createObjectBuilder() //
-							.add("cacheRegion", Json.createObjectBuilder() //
-									.add("name", cr.getName()) //
-									.addAll(cacheEntriesObjectBuilder));
-				}).forEach(jsonObjectBuilder::addAll);
-		return jsonObjectBuilder.build().toString();
+	public String getConfigurationCache() throws ReflectiveOperationException {
+		JsonReflector jsonReflector = JsonReflector.builder() //
+				.traverseMethod("cacheEntries") //
+				.build();
+		return jsonReflector.buildJsonObject(this.configurationCache).toString();
 	}
 
 	/**
