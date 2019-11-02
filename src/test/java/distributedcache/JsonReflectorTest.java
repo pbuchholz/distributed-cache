@@ -40,6 +40,8 @@ public class JsonReflectorTest {
 	public void testBuildReflectively() throws ReflectiveOperationException {
 		JsonReflector jsonReflector = JsonReflector.builder() //
 				.traverseMethod("cacheEntries") //
+				.traverseMethod("value") //
+				.traverseMethod("key") //
 				.build();
 
 		JsonObject cacheRegionJsonObject = jsonReflector.buildJsonObject(this.buildCacheRegionForTesting());
