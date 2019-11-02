@@ -38,7 +38,7 @@ public class CacheRegion<K extends CacheKey<K>, T extends Serializable> {
 			return this;
 		}
 
-		public Builder<K, T> CacheEntry(CacheEntry<K, T> cacheEntry) {
+		public Builder<K, T> cacheEntry(CacheEntry<K, T> cacheEntry) {
 			uc.cacheEntries.put(cacheEntry.key(), cacheEntry);
 			return this;
 		}
@@ -72,7 +72,7 @@ public class CacheRegion<K extends CacheKey<K>, T extends Serializable> {
 	public CacheEntry<K, T> findInRegion(K key) {
 		return this.cacheEntries.get(key);
 	}
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

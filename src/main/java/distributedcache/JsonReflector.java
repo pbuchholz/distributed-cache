@@ -89,25 +89,53 @@ public class JsonReflector {
 			jsonObjectBuilder.addAll(this.handleCollection(filteredMethodName, Collection.class.cast(result)));
 		} else {
 			/* Go down in hierarchie. */
-			jsonObjectBuilder.addAll(this.processObject(target, jsonObjectBuilder));
+			jsonObjectBuilder.addAll(this.processObject(result, jsonObjectBuilder));
 		}
 		return jsonObjectBuilder;
 	}
 
 	private <V> JsonObjectBuilder handleCollection(String filteredMethodName, Collection<V> collection) {
 		JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-		collection.forEach(v -> jsonObjectBuilder.add(filteredMethodName, String.valueOf(v)));
+		collection.forEach(v -> {
+			try {
+				jsonObjectBuilder.add(filteredMethodName, this.processObject(v, jsonObjectBuilder));
+			} catch (ReflectiveOperationException e) {
+				// TODO!
+			}
+		});
 		return jsonObjectBuilder;
 	}
 
 	private <K, V> JsonObjectBuilder handleMap(Map<K, V> map) {
 		JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-		map.keySet().forEach(k -> jsonObjectBuilder.add(String.valueOf(k), String.valueOf(map.get(k))));
+		map.keySet().forEach(k -> {
+			try {
+				jsonObjectBuilder.add(String.valueOf(k), this.processObject(map.get(k), jsonObjectBuilder));
+			} catch (ReflectiveOperationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 		return jsonObjectBuilder;
 	}
 
-	private boolean mustTerminateAt(Class<?> type) {
-		return terminatingTypes.contains(type);
+	private boolean mustTerminateAt(Class<?> type) throws ClassNotFoundException {
+
+		if (type.isPrimitive()) {
+			/* Load complex type for primitive. */
+			type = Class.forName(type.getPackageName() //
+					.concat(".") //
+					.concat(type.getSimpleName().substring(0, 1).toUpperCase()) //
+					.concat(type.getSimpleName().substring(1)));
+		}
+
+		for (Class<?> t : this.terminatingTypes) {
+			if (t.isAssignableFrom(type)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private String fieldNameFromGetter(Method getter) {
