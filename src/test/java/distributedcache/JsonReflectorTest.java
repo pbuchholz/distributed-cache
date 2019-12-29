@@ -1,5 +1,9 @@
 package distributedcache;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 
 import org.junit.Test;
@@ -45,7 +49,14 @@ public class JsonReflectorTest {
 				.build();
 
 		JsonObject cacheRegionJsonObject = jsonReflector.buildJsonObject(this.buildCacheRegionForTesting());
-		System.out.println(cacheRegionJsonObject.toString());
+
+		assertNotNull("CacheRegion has not been marshalled correctly and is null.", cacheRegionJsonObject);
+		assertEquals("TestCacheRegion", cacheRegionJsonObject.getString("name"));
+
+		JsonArray cacheEntriesJsonArray = cacheRegionJsonObject.getJsonArray("cacheentries");
+		assertNotNull("CacheEntries has not been marshalled correctly and is null.", cacheEntriesJsonArray);
+		assertEquals("Wrong count of CacheEntries found.", 3, cacheEntriesJsonArray.size());
+
 	}
 
 }
