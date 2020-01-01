@@ -56,7 +56,6 @@ public class JsonReflectorTest {
 		JsonArray cacheEntriesJsonArray = cacheRegionJsonObject.getJsonArray("cacheentries");
 		assertNotNull("CacheEntries has not been marshalled correctly and is null.", cacheEntriesJsonArray);
 		assertEquals("Wrong count of CacheEntries found.", 3, cacheEntriesJsonArray.size());
-
 	}
 
 }
