@@ -5,9 +5,9 @@ package distributedcache;
  * 
  * @author Philipp Buchholz
  */
-public final class JsonReflectorFactory {
+public final class JsonCacheReflectorFactory {
 
-	private JsonReflectorFactory() {
+	private JsonCacheReflectorFactory() {
 
 	}
 

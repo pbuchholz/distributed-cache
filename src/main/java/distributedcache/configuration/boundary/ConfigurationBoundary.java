@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import distributedcache.ApplicationConfiguration;
-import distributedcache.JsonReflectorFactory;
+import distributedcache.JsonCacheReflectorFactory;
 import distributedcache.cache.Cache;
 import distributedcache.cache.CacheEntry;
 import distributedcache.cache.CacheManager;
@@ -93,7 +93,7 @@ public class ConfigurationBoundary implements Serializable {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getConfigurationCache() throws ReflectiveOperationException {
-		return JsonReflectorFactory //
+		return JsonCacheReflectorFactory //
 				.createCacheJsonReflector() //
 				.buildJsonObject(this.configurationCache) //
 				.toString();

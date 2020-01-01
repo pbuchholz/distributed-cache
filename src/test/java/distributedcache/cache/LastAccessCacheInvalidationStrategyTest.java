@@ -1,19 +1,16 @@
-package distributedcache;
+package distributedcache.cache;
 
+import static distributedcache.cache.BaseCacheTestBuilder.buildDefaultConfiguredBaseCacheWithRootRegion;
 import static distributedcache.configuration.ConfigurationCacheProvider.ROOT_CONFIGURATION_REGION;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.time.Duration;
+import java.util.NoSuchElementException;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import distributedcache.cache.BaseCache;
-import distributedcache.cache.Cache;
-import distributedcache.cache.CacheConfiguration;
-import distributedcache.cache.CacheInvalidationStrategy;
-import distributedcache.cache.LastAccessCacheInvalidationStrategy;
 import distributedcache.configuration.ConfigurationKey;
 import distributedcache.configuration.ConfigurationValue;
 
@@ -30,13 +27,7 @@ public class LastAccessCacheInvalidationStrategyTest {
 
 	@Before
 	public void prepareCache() {
-		CacheConfiguration cacheConfiguration = new CacheConfiguration();
-		cacheConfiguration.registerValidationTimespan(ConfigurationValue.class, Duration.ofSeconds(10));
-
-		this.cache = BaseCache.<ConfigurationKey, ConfigurationValue>builder() //
-				.cacheRegion(ROOT_CONFIGURATION_REGION) //
-				.cacheConfiguration(cacheConfiguration) //
-				.build();
+		this.cache = buildDefaultConfiguredBaseCacheWithRootRegion();
 	}
 
 	/**
@@ -85,7 +76,7 @@ public class LastAccessCacheInvalidationStrategyTest {
 	 * 
 	 * @throws InterruptedException
 	 */
-	@Test
+	@Test(expected = NoSuchElementException.class)
 	public void shouldInvalidateAfter10Seconds() throws InterruptedException {
 		ConfigurationKey configurationKey = new ConfigurationKey("active.consumer.count");
 

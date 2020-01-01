@@ -70,7 +70,14 @@ public class CacheRegion<K extends CacheKey<K>, T extends Serializable> {
 	}
 
 	public CacheEntry<K, T> findInRegion(K key) {
-		return this.cacheEntries.get(key);
+		/* First identify CacheKey using same check. */
+		CacheKey<K> cachedKey = this.cacheEntries.keySet().stream() //
+				.filter(k -> k.same(key)) //
+				.findFirst() //
+				.get();
+
+		/* Return CacheEntry from Cache. */
+		return this.cacheEntries.get(cachedKey);
 	}
 
 	@Override

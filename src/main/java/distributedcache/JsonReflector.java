@@ -14,6 +14,15 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
+/**
+ * Recursively inspects an object using reflection and builds a
+ * {@link JsonObject} matching that object.
+ * 
+ * Use the encapsulated {@link Builder} to create an instance of
+ * {@link JsonReflector}. The constructor is sealed.
+ * 
+ * @author Philipp Buchholz
+ */
 public class JsonReflector {
 
 	private final static String GETTER_PREFIX = "get";

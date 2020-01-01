@@ -49,7 +49,7 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 				.get();
 
 		CacheEntry<K, T> cacheEntry = cacheRegion.findInRegion(key);
-		
+
 		if (Objects.isNull(cacheEntry)) {
 			return null;
 		}
