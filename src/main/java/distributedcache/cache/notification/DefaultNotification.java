@@ -30,10 +30,6 @@ public class DefaultNotification<K> implements Notification<K> {
 		return this.notificationType;
 	}
 
-	public static <K> Builder<K> builder() {
-		return new Builder<K>();
-	}
-
 	public static class Builder<K> {
 		private DefaultNotification<K> notification;
 

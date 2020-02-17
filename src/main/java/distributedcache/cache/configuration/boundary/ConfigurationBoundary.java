@@ -95,7 +95,7 @@ public class ConfigurationBoundary implements Serializable {
 
 		this.configurationCache.put(regionName, configurationKey, configurationValue);
 
-		Notification<ConfigurationKey> notification = DefaultNotification.<ConfigurationKey>builder() //
+		Notification<ConfigurationKey> notification = DefaultNotification.Builder.<ConfigurationKey>put() //
 				.key(configurationKey) //
 				.value(configurationValue) //
 				.build();
