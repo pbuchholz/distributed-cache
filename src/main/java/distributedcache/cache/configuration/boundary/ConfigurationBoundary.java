@@ -23,10 +23,13 @@ import distributedcache.cache.CacheEntry;
 import distributedcache.cache.CacheManager;
 import distributedcache.cache.CacheRegion;
 import distributedcache.cache.configuration.ConfigurationCache;
+import distributedcache.cache.configuration.ConfigurationCacheProvider;
 import distributedcache.cache.configuration.ConfigurationKey;
 import distributedcache.cache.configuration.ConfigurationValue;
+import distributedcache.cache.notification.DefaultNotification;
 import distributedcache.cache.notification.Notification;
 import distributedcache.cache.notification.NotificationListener;
+import distributedcache.cache.notification.NotificationPublisher;
 import distributedcache.cache.notification.NotificationSubscriber;
 import distributedcache.cache.notification.kafka.KafkaSubscription;
 
@@ -51,14 +54,14 @@ public class ConfigurationBoundary implements Serializable {
 	@Inject
 	private CacheManager<ConfigurationKey, ConfigurationValue> configurationCacheManager;
 
-//	@Inject
-//	private ApplicationConfiguration configuration;
-
 	@Inject
 	private KafkaSubscription<Long, Notification<ConfigurationKey>> subscription;
 
 	@Inject
-	private NotificationSubscriber<KafkaSubscription<Long, Notification<ConfigurationKey>>, Notification<ConfigurationKey>> subscriber;
+	private NotificationSubscriber<KafkaSubscription<Long, Notification<ConfigurationKey>>, ConfigurationKey> subscriber;
+
+	@Inject
+	private NotificationPublisher<KafkaSubscription<Long, Notification<ConfigurationKey>>, ConfigurationKey> publisher;
 
 	/**
 	 * Returns a JSON representation of the currently available
@@ -78,7 +81,8 @@ public class ConfigurationBoundary implements Serializable {
 
 	/**
 	 * Adds the given {@link ConfigurationValue} to the {@link CacheRegion} with the
-	 * given name in the configuration cache.
+	 * given name in the configuration cache. This method also publishes an update
+	 * of the cache change.
 	 * 
 	 * @param regionName
 	 * @param configurationValue
@@ -86,18 +90,17 @@ public class ConfigurationBoundary implements Serializable {
 	@POST
 	@Path("{region}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void putCacheEntry(@PathParam("region") String regionName, ConfigurationValue configurationValue) {
+	public void putCacheEntryAndPublish(@PathParam("region") String regionName, ConfigurationValue configurationValue) {
 		ConfigurationKey configurationKey = new ConfigurationKey(configurationValue.getName());
 
 		this.configurationCache.put(regionName, configurationKey, configurationValue);
 
-		// Enable Subscription to publish.
-//		this.emitNotification(PutNotification.<ConfigurationKey, ConfigurationValue>builder() //
-//				.key(configurationKey)//
-//				.value(configurationValue) //
-//				.regionName(regionName) //
-//				.value(configurationValue) //
-//				.build());
+		Notification<ConfigurationKey> notification = DefaultNotification.<ConfigurationKey>builder() //
+				.key(configurationKey) //
+				.value(configurationValue) //
+				.build();
+
+		this.publisher.publish(this.subscription, notification);
 	}
 
 	@PostConstruct
@@ -107,14 +110,13 @@ public class ConfigurationBoundary implements Serializable {
 		this.configurationCacheManager.manageCache(this.configurationCache);
 
 		/* Subscribe to subscription. */
-		this.subscriber.subscribe(this.subscription, new NotificationListener<Notification<ConfigurationKey>>() {
+		this.subscriber.subscribe(this.subscription, new NotificationListener<ConfigurationKey>() {
 
 			@Override
-			public void onNotification(Notification<Notification<ConfigurationKey>> notification) {
-				// TODO
-//				for (String updateTopic : configuration.getUpdateTopics()) {
-//					notificationProducer.send(new ProducerRecord<Long, Notification>(updateTopic, notification));
-//				}
+			public void onNotification(Notification<ConfigurationKey> notification) {
+				// TODO we have to differentiate the different types of notifications here.
+				configurationCache.put(ConfigurationCacheProvider.ROOT_CONFIGURATION_REGION, notification.key(),
+						(ConfigurationValue) notification.value().get());
 
 			}
 		});

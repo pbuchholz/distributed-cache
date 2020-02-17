@@ -34,7 +34,7 @@ public class KafkaNotificationSubscriber<K, T>
 						consumerRecords.forEach(r -> listener.onNotification(r.value()));
 						notificationConsumer.commitSync();
 
-						// ack to out
+						// TODO ack
 
 					} catch (Exception e) {
 
