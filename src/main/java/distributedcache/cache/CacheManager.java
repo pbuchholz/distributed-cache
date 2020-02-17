@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 /**
  * Manages the lifecycle of a single {@link Cache} instance by providing the
- * following lifecylce services.
+ * following lifecycle services.
  * 
  * <ul>
  * <li>Starting a {@link Timer} using {@link TimerService} to provide cache

@@ -1,4 +1,4 @@
-package distributedcache.configuration;
+package distributedcache.cache.configuration;
 
 import java.time.Duration;
 

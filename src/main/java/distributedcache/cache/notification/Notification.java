@@ -1,5 +1,6 @@
-package distributedcache.notification;
+package distributedcache.cache.notification;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -8,14 +9,20 @@ import java.util.UUID;
  * 
  * @author Philipp Buchholz
  */
-public interface Notification {
+public interface Notification<K> {
 
 	/**
-	 * Returns the {@link UUID} which uniquely identifies a {@link Notification}.
-	 * 
-	 * @return {@link UUID} uniquely identifying the {@link Notification}.
+	 * Returns the key for which the {@link Notification} is send.
 	 */
-	UUID identifier();
+	K key();
+
+	/**
+	 * Returns the value belonging to the key notified. Could be empty because not
+	 * all {@link Notification}s require a value alongside the key.
+	 * 
+	 * @return
+	 */
+	Optional<Object> value();
 
 	/**
 	 * Type of {@link Notification}.

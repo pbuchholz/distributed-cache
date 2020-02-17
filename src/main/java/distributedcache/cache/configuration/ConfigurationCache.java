@@ -1,20 +1,20 @@
-package distributedcache.configuration.boundary;
+package distributedcache.cache.configuration;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import javax.inject.Qualifier;
+
 /**
- * Used to describe to which Kafka Consumer Group a Kafka Consumer should
- * subscribe to.
+ * Qualifier annotation to inject a ConfigurationCache.
  * 
  * @author Philipp Buchholz
  */
-@Target(ElementType.FIELD)
+@Target({ ElementType.FIELD, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ConsumerGroup {
-
-	String value();
+@Qualifier
+public @interface ConfigurationCache {
 
 }

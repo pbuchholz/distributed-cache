@@ -1,7 +1,7 @@
 package distributedcache.cache;
 
 import static distributedcache.cache.BaseCacheTestBuilder.buildDefaultConfiguredBaseCacheWithRootRegion;
-import static distributedcache.configuration.ConfigurationCacheProvider.ROOT_CONFIGURATION_REGION;
+import static distributedcache.cache.configuration.ConfigurationCacheProvider.ROOT_CONFIGURATION_REGION;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -11,8 +11,8 @@ import java.util.NoSuchElementException;
 import org.junit.Before;
 import org.junit.Test;
 
-import distributedcache.configuration.ConfigurationKey;
-import distributedcache.configuration.ConfigurationValue;
+import distributedcache.cache.configuration.ConfigurationKey;
+import distributedcache.cache.configuration.ConfigurationValue;
 
 /**
  * Defines tests for {@link LastAccessCacheInvalidationStrategy}.

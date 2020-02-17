@@ -1,8 +1,5 @@
 package distributedcache;
 
-import java.util.Arrays;
-import java.util.List;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -14,9 +11,8 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class ApplicationConfiguration {
 
-	private String emitTopic;
-
-	private String updateTopics;
+	/* Topic names for in, put and fail. */
+	private String in, out, fail;
 
 	private String bootstrapServers;
 
@@ -24,26 +20,37 @@ public class ApplicationConfiguration {
 
 	private int cacheInvalidationPeriod;
 
-	public String getEmitTopic() {
-		return this.emitTopic;
+	public String getIn() {
+		return this.in;
 	}
 
 	@Inject
 	@Value
-	@Property("kafka.cache.emit.topic")
-	public void setEmitTopic(String emitTopic) {
-		this.emitTopic = emitTopic;
+	@Property("kafka.cache.in.topic")
+	public void setIn(String in) {
+		this.in = in;
 	}
 
-	public List<String> getUpdateTopics() {
-		return Arrays.asList(this.updateTopics.split(","));
+	public String getOut() {
+		return this.out;
 	}
 
 	@Inject
 	@Value
-	@Property("kafka.cache.notifications.updatetopics")
-	public void setUpdateTopics(String updateTopics) {
-		this.updateTopics = updateTopics;
+	@Property("kafka.cache.out.topic")
+	public void setOut(String out) {
+		this.out = out;
+	}
+
+	public String getFail() {
+		return this.fail;
+	}
+
+	@Inject
+	@Value
+	@Property("kafka.cache.fail.topic")
+	public void setFail(String fail) {
+		this.fail = fail;
 	}
 
 	public String getBootstrapServers() {

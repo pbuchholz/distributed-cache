@@ -1,4 +1,4 @@
-package distributedcache.configuration.boundary;
+package distributedcache.cache.configuration.boundary;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package distributedcache.configuration.boundary;
+package distributedcache.cache.configuration.boundary;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

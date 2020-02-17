@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import distributedcache.cache.CacheEntry;
 import distributedcache.cache.CacheRegion;
-import distributedcache.configuration.ConfigurationKey;
-import distributedcache.configuration.ConfigurationValue;
+import distributedcache.cache.configuration.ConfigurationKey;
+import distributedcache.cache.configuration.ConfigurationValue;
 
 public class JsonReflectorTest {
 

@@ -1,4 +1,4 @@
-package distributedcache.configuration.boundary;
+package distributedcache.cache.configuration.boundary;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,14 +6,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Used to describe which KeyDeserializer should be used.
+ * Used to describe to which Kafka Consumer Group a Kafka Consumer should
+ * subscribe to.
  * 
  * @author Philipp Buchholz
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface KeyDeserializer {
+public @interface ConsumerGroup {
 
-	String value() default "org.apache.kafka.common.serialization.StringDeserializer";
+	String value();
 
 }

@@ -1,11 +1,11 @@
 package distributedcache.cache;
 
-import static distributedcache.configuration.ConfigurationCacheProvider.ROOT_CONFIGURATION_REGION;
+import static distributedcache.cache.configuration.ConfigurationCacheProvider.ROOT_CONFIGURATION_REGION;
 
 import java.io.Serializable;
 import java.time.Duration;
 
-import distributedcache.configuration.ConfigurationValue;
+import distributedcache.cache.configuration.ConfigurationValue;
 
 /**
  * 
