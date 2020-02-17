@@ -26,7 +26,18 @@ The distributed cache provides several HTTP based (REST) APIs:
 ## Configuration
 
 ### application.properties
-TODO
+The application.properties is used to configure an individual cache instance. 
+
+It has the following properties:
+* **kafka.bootstrap.servers:** Used to configure the bootstrap server of Kafka.
+* **kafka.cache.in.topic:** Used to configure the topic to listen for incomming updates. For example "cache-updates-${self-instance-identifier}". Also see (1).
+* **kafka.cache.out.topic:** Used to configure the topic to send updates to. For example "cache-updates-${pair-instance-identifier}". Also see (1).
+* **kafka.cache.fail.topic:** Name of topic to send failures to.
+* **cache.invalidation.timer.period:** Miliseconds after which the invalidation timer start the invalidation procedure for cache entries.
+
+**(1):** The idea is that each cache instance is finding a pair instance and collaborates with the respective topics to propagate updates trough the system automatically. This is to be implemented. For the pairing algorithm for example a graph could be used.
+
+All the properties are injected using CDI producers.
 
 ## Infrastructure
 
