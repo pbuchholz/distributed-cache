@@ -3,9 +3,8 @@ package distributedcache.cache.notification;
 /**
  * Subscribes to {@link Notification}s.
  * 
- * @param <K> The type of key of an Notification.
- * @param <V> The type of value of an Notification.
- * @param <T> The type of subscription supported.
+ * @param <S> The type of {@link Subscription} supported.
+ * @param <K> The type of {@link Notification} Key supported.
  * 
  * @author Philipp Buchholz
  */
