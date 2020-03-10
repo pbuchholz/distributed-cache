@@ -2,6 +2,7 @@ package distributedcache;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 import javax.enterprise.inject.spi.Annotated;
@@ -15,6 +16,17 @@ public final class Reflections {
 
 	private Reflections() {
 
+	}
+
+	/**
+	 * Returns <code>true</code> if the passed in {@link Method} is a Setter method
+	 * of a property.
+	 * 
+	 * @param method
+	 * @return
+	 */
+	public static boolean isSetter(Method method) {
+		return method.getName().startsWith("set");
 	}
 
 	/**

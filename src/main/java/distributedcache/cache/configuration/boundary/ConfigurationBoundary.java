@@ -21,7 +21,7 @@ import distributedcache.JsonCacheReflectorFactory;
 import distributedcache.cache.Cache;
 import distributedcache.cache.CacheEntry;
 import distributedcache.cache.CacheManager;
-import distributedcache.cache.CacheRegion;
+import distributedcache.cache.DefaultCacheRegion;
 import distributedcache.cache.configuration.ConfigurationCache;
 import distributedcache.cache.configuration.ConfigurationCacheProvider;
 import distributedcache.cache.configuration.ConfigurationKey;
@@ -65,7 +65,7 @@ public class ConfigurationBoundary implements Serializable {
 
 	/**
 	 * Returns a JSON representation of the currently available
-	 * {@link CacheRegion}ØÏ and their associated {@link CacheEntry}s.
+	 * {@link DefaultCacheRegion}ØÏ and their associated {@link CacheEntry}s.
 	 * 
 	 * @return
 	 * @throws ReflectiveOperationException
@@ -80,7 +80,7 @@ public class ConfigurationBoundary implements Serializable {
 	}
 
 	/**
-	 * Adds the given {@link ConfigurationValue} to the {@link CacheRegion} with the
+	 * Adds the given {@link ConfigurationValue} to the {@link DefaultCacheRegion} with the
 	 * given name in the configuration cache. This method also publishes an update
 	 * of the cache change.
 	 * 

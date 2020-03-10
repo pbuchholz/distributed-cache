@@ -4,13 +4,14 @@ import static distributedcache.cache.configuration.ConfigurationCacheProvider.RO
 
 import java.io.Serializable;
 import java.time.Duration;
+import java.util.stream.Stream;
 
 import distributedcache.cache.configuration.ConfigurationValue;
 
 /**
+ * Builds prepared instances of {@link BaseCache} for testing purposes.
  * 
- * @author philippbuchholz
- *
+ * @author Philipp Buchholz
  */
 public class BaseCacheTestBuilder {
 
@@ -28,6 +29,14 @@ public class BaseCacheTestBuilder {
 		return BaseCache.<K, V>builder() //
 				.cacheRegion(ROOT_CONFIGURATION_REGION) //
 				.cacheConfiguration(buildDefaultCacheConfiguration()) //
+				.build();
+	}
+
+	public static <K extends CacheKey<K>, V extends Serializable> BaseCache<K, V> buildDefaultConfiguredBaseCacheWithRegions(
+			String... regions) {
+		BaseCache.Builder<K, V> cacheBuilder = BaseCache.<K, V>builder();
+		Stream.of(regions).forEach(cacheBuilder::cacheRegion);
+		return cacheBuilder.cacheConfiguration(buildDefaultCacheConfiguration()) //
 				.build();
 	}
 

@@ -1,6 +1,7 @@
 package distributedcache.cache;
 
 import java.io.Serializable;
+import java.lang.reflect.Proxy;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
@@ -10,10 +11,10 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import distributedcache.ImmutableInvocationHandler;
+
 /**
  * Represents a basic cache segmented into {@link CacheRegion}s.
- * 
- * A BaseCache is always scoped the the application and qualified as default.
  * 
  * @author Philipp Buchholz
  */
@@ -64,6 +65,15 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 				.findFirst();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public CacheRegion<K, T> cacheRegionByName(String regionName) {
+		return (CacheRegion<K, T>) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), //
+				new Class[] { CacheRegion.class }, //
+				new ImmutableInvocationHandler(this.findRegionByName(regionName) //
+						.get()));
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -94,7 +104,7 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 		}
 
 		public Builder<K, T> cacheRegion(String regionName) {
-			baseCache.cacheRegions.add(CacheRegion.<K, T>builder() //
+			baseCache.cacheRegions.add(DefaultCacheRegion.<K, T>builder() //
 					.name(regionName) //
 					.build());
 			return this;
