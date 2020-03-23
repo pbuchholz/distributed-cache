@@ -2,87 +2,62 @@ package distributedcache.cache;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import distributedcache.Immutable;
 
-public class CacheRegion<K extends CacheKey<K>, T extends Serializable> {
-
-	private Map<K, CacheEntry<K, T>> cacheEntries = new ConcurrentHashMap<>();
-	private String name;
-
-	private CacheRegion() {
-		/* Builder only. */
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public static <K extends CacheKey<K>, T extends Serializable> Builder<K, T> builder() {
-		return new Builder<>();
-	}
-
-	public static class Builder<K extends CacheKey<K>, T extends Serializable> {
-
-		private CacheRegion<K, T> uc;
-
-		public Builder() {
-			this.uc = new CacheRegion<>();
-		}
-
-		public Builder<K, T> name(String name) {
-			this.uc.name = name;
-			return this;
-		}
-
-		public Builder<K, T> cacheEntry(CacheEntry<K, T> cacheEntry) {
-			uc.cacheEntries.put(cacheEntry.key(), cacheEntry);
-			return this;
-		}
-
-		public CacheRegion<K, T> build() {
-			return this.uc;
-		}
-
-	}
-
-	public void putIntoRegion(CacheEntry<K, T> cacheEntry) {
-		this.cacheEntries.put(cacheEntry.key(), cacheEntry);
-	}
-
-	public void removeFromRegion(K key) {
-		this.cacheEntries.remove(key);
-	}
+/**
+ * Represents a region in a cache.
+ * 
+ * @author Philipp Buchholz
+ *
+ * @param <K>
+ * @param <T>
+ */
+public interface CacheRegion<K extends CacheKey<K>, T extends Serializable> {
 
 	/**
-	 * Flushes the entries of the {@link CacheRegion} which means that all entries
-	 * will be removed from the {@link CacheRegion}.
+	 * Name of the {@link CacheRegion}.
+	 * 
+	 * @return
 	 */
-	public void flush() {
-		this.cacheEntries.clear();
-	}
+	String getName();
 
-	public Collection<CacheEntry<K, T>> cacheEntries() {
-		return this.cacheEntries.values();
-	}
+	/**
+	 * Puts a new {@link CacheEntry} into the {@link CacheRegion}.
+	 * 
+	 * @param cacheEntry
+	 */
+	void putIntoRegion(CacheEntry<K, T> cacheEntry);
 
-	public CacheEntry<K, T> findInRegion(K key) {
-		/* First identify CacheKey using same check. */
-		CacheKey<K> cachedKey = this.cacheEntries.keySet().stream() //
-				.filter(key::same) //
-				.findFirst() //
-				.get();
+	/**
+	 * Removes a {@link CacheEntry} from the {@link CacheRegion} by its key.
+	 * 
+	 * @param key
+	 */
+	void removeFromRegion(K key);
 
-		/* Return CacheEntry from Cache. */
-		return this.cacheEntries.get(cachedKey);
-	}
+	/**
+	 * Flushes the entries of the {@link DefaultCacheRegion} which means that all
+	 * entries will be removed from the {@link DefaultCacheRegion}.
+	 */
+	void flush();
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
-	}
+	/**
+	 * Returns the {@link CacheEntry}s currently available in the
+	 * {@link CacheRegion}.
+	 * 
+	 * @return
+	 */
+	@Immutable
+	Collection<CacheEntry<K, T>> cacheEntries();
+
+	/**
+	 * Finds a {@link DefaultCacheEntry} in the {@link CacheRegion} by its key.
+	 * 
+	 * @param key
+	 * @return
+	 */
+	@Immutable
+	CacheEntry<K, T> findInRegion(K key);
 
 }

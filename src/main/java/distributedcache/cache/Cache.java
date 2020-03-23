@@ -3,8 +3,10 @@ package distributedcache.cache;
 import java.io.Serializable;
 import java.util.Set;
 
+import distributedcache.Immutable;
+
 /**
- * Defines a cache which is segmented into {@link CacheRegion}s.
+ * Defines a cache which is segmented into {@link DefaultCacheRegion}s.
  * 
  * @author Philipp Buchholz
  */
@@ -35,10 +37,21 @@ public interface Cache<K extends CacheKey<K>, T extends Serializable> {
 	void flushRegion(String regionName);
 
 	/**
-	 * Returns a unmodifieable {@link Set} of the {@link CacheRegion}s available.
+	 * Returns the {@link DefaultCacheRegion} with the passed in name.
+	 * 
+	 * @param regionName
+	 * @return
+	 */
+	@Immutable
+	CacheRegion<K, T> cacheRegionByName(String regionName);
+
+	/**
+	 * Returns a unmodifieable {@link Set} of the {@link DefaultCacheRegion}s
+	 * available.
 	 * 
 	 * @return
 	 */
+	@Immutable
 	Set<CacheRegion<K, T>> getCacheRegions();
 
 }
