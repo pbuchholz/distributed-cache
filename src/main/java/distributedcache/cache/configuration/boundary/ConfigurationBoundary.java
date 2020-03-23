@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import distributedcache.JsonCacheReflectorFactory;
 import distributedcache.cache.Cache;
-import distributedcache.cache.CacheEntry;
+import distributedcache.cache.DefaultCacheEntry;
 import distributedcache.cache.CacheManager;
 import distributedcache.cache.DefaultCacheRegion;
 import distributedcache.cache.configuration.ConfigurationCache;
@@ -65,7 +65,7 @@ public class ConfigurationBoundary implements Serializable {
 
 	/**
 	 * Returns a JSON representation of the currently available
-	 * {@link DefaultCacheRegion}ØÏ and their associated {@link CacheEntry}s.
+	 * {@link DefaultCacheRegion}ØÏ and their associated {@link DefaultCacheEntry}s.
 	 * 
 	 * @return
 	 * @throws ReflectiveOperationException

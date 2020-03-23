@@ -3,6 +3,8 @@ package distributedcache.cache;
 import java.io.Serializable;
 import java.util.Collection;
 
+import distributedcache.Immutable;
+
 /**
  * Represents a region in a cache.
  * 
@@ -46,14 +48,16 @@ public interface CacheRegion<K extends CacheKey<K>, T extends Serializable> {
 	 * 
 	 * @return
 	 */
+	@Immutable
 	Collection<CacheEntry<K, T>> cacheEntries();
 
 	/**
-	 * Finds a {@link CacheEntry} in the {@link CacheRegion} by its key.
+	 * Finds a {@link DefaultCacheEntry} in the {@link CacheRegion} by its key.
 	 * 
 	 * @param key
 	 * @return
 	 */
+	@Immutable
 	CacheEntry<K, T> findInRegion(K key);
 
 }

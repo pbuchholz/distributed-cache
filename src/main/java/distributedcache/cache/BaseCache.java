@@ -2,7 +2,6 @@ package distributedcache.cache;
 
 import java.io.Serializable;
 import java.lang.reflect.Proxy;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -29,7 +28,7 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 	 */
 	@Override
 	public void put(String regionName, K key, T value) {
-		CacheEntry<K, T> cacheEntry = CacheEntry.<K, T>builder() //
+		CacheEntry<K, T> cacheEntry = DefaultCacheEntry.<K, T>builder() //
 				.key(key) //
 				.value(value) //
 				.created(System.currentTimeMillis()) //
@@ -89,7 +88,7 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 	 */
 	@Override
 	public Set<CacheRegion<K, T>> getCacheRegions() {
-		return Collections.unmodifiableSet(this.cacheRegions);
+		return this.cacheRegions;
 	}
 
 	public static <K extends CacheKey<K>, T extends Serializable> Builder<K, T> builder() {

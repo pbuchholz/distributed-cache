@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
+import distributedcache.ImmutableInvocationHandler.MutationNotAllowedException;
 import distributedcache.cache.configuration.ConfigurationKey;
 import distributedcache.cache.configuration.ConfigurationValue;
 
@@ -71,6 +72,29 @@ public class BaseCacheTest {
 		cache.flushRegion("ServerConfiguration1");
 		assertEquals("Wrong number of CacheEntries in CacheRegion <ServerConfiguration1> after flush.", 0,
 				cache.cacheRegionByName("ServerConfiguration1").cacheEntries().size());
+	}
+
+	/**
+	 * Tests if a {@link CacheRegion} got from a {@link BaseCache} is immutable and
+	 * cannot be changed.
+	 */
+	@Test(expected = MutationNotAllowedException.class)
+	public void testCacheRegionImmutability() {
+		Cache<ConfigurationKey, ConfigurationValue> cache = BaseCacheTestBuilder
+				.buildDefaultConfiguredBaseCacheWithRootRegion();
+		cache.put(ROOT_CONFIGURATION_REGION, new ConfigurationKey("TransactionTimeout"), ConfigurationValue.builder() //
+				.name("TransactionTimeout") //
+				.value("10") //
+				.build());
+
+		CacheRegion<ConfigurationKey, ConfigurationValue> rootCacheRegion = cache
+				.cacheRegionByName(ROOT_CONFIGURATION_REGION);
+
+		CacheEntry<ConfigurationKey, ConfigurationValue> entry = rootCacheRegion
+				.findInRegion(new ConfigurationKey("TransactionTimeout"));
+
+		/* Since the returned CacheEntry is immutable this is forbidden. */
+		entry.setCreated(0);
 	}
 
 }

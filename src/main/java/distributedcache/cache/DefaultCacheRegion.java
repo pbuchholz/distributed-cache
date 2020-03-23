@@ -61,8 +61,8 @@ public class DefaultCacheRegion<K extends CacheKey<K>, T extends Serializable> i
 	}
 
 	/**
-	 * Flushes the entries of the {@link DefaultCacheRegion} which means that all entries
-	 * will be removed from the {@link DefaultCacheRegion}.
+	 * Flushes the entries of the {@link DefaultCacheRegion} which means that all
+	 * entries will be removed from the {@link DefaultCacheRegion}.
 	 */
 	@Override
 	public void flush() {

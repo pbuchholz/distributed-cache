@@ -28,6 +28,11 @@ public class KafkaNotificationPublisher<K, T>
 		try {
 			Producer<K, Notification<T>> notificationProducer = subscription.getProducer();
 			notificationProducer.send(new ProducerRecord<>(subscription.outTopic().getTopicName(), notification)).get();
+
+			notificationProducer.send(new ProducerRecord<>(subscription.outTopic().getTopicName(), notification),
+					(metadata, exception) -> {
+						// Handle returned metadata and exception here
+					});
 		} catch (InterruptedException | ExecutionException e) {
 			throw new RuntimeException(e);
 		}

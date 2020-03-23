@@ -3,6 +3,8 @@ package distributedcache.cache;
 import java.io.Serializable;
 import java.util.Set;
 
+import distributedcache.Immutable;
+
 /**
  * Defines a cache which is segmented into {@link DefaultCacheRegion}s.
  * 
@@ -40,6 +42,7 @@ public interface Cache<K extends CacheKey<K>, T extends Serializable> {
 	 * @param regionName
 	 * @return
 	 */
+	@Immutable
 	CacheRegion<K, T> cacheRegionByName(String regionName);
 
 	/**
@@ -48,6 +51,7 @@ public interface Cache<K extends CacheKey<K>, T extends Serializable> {
 	 * 
 	 * @return
 	 */
+	@Immutable
 	Set<CacheRegion<K, T>> getCacheRegions();
 
 }
