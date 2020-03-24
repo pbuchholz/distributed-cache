@@ -3,6 +3,7 @@ package distributedcache.cache;
 import static distributedcache.cache.configuration.ConfigurationCacheProvider.ROOT_CONFIGURATION_REGION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
 
@@ -78,7 +79,7 @@ public class BaseCacheTest {
 	 * Tests if a {@link CacheRegion} got from a {@link BaseCache} is immutable and
 	 * cannot be changed.
 	 */
-	@Test(expected = MutationNotAllowedException.class)
+	@Test
 	public void testCacheRegionImmutability() {
 		Cache<ConfigurationKey, ConfigurationValue> cache = BaseCacheTestBuilder
 				.buildDefaultConfiguredBaseCacheWithRootRegion();
@@ -93,8 +94,13 @@ public class BaseCacheTest {
 		CacheEntry<ConfigurationKey, ConfigurationValue> entry = rootCacheRegion
 				.findInRegion(new ConfigurationKey("TransactionTimeout"));
 
-		/* Since the returned CacheEntry is immutable this is forbidden. */
-		entry.setCreated(0);
+		/* Try to manipulate CacheEntry from CacheRegion. */
+		assertThrows(MutationNotAllowedException.class, () -> entry.setCreated(System.currentTimeMillis()));
+		assertThrows(MutationNotAllowedException.class,
+				() -> entry.setKey(new ConfigurationKey("ServerRuntimeVersion")));
+		assertThrows(MutationNotAllowedException.class, () -> entry.setLastAccess(System.currentTimeMillis()));
+		assertThrows(MutationNotAllowedException.class, () -> entry.setValidationTimespan(100L));
+		assertThrows(MutationNotAllowedException.class, () -> entry.setValue(null));
 	}
 
 }

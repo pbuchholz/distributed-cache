@@ -7,8 +7,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import distributedcache.Immutable;
-
 /**
  * Represents an entry in the cache.
  * 
@@ -91,7 +89,6 @@ public class DefaultCacheEntry<K extends CacheKey<K>, T extends Serializable> im
 	}
 
 	@Override
-	@Immutable
 	public void setLastAccess(long lastAccess) {
 		this.lastAccess = lastAccess;
 	}
@@ -102,7 +99,6 @@ public class DefaultCacheEntry<K extends CacheKey<K>, T extends Serializable> im
 	}
 
 	@Override
-	@Immutable
 	public void setCreated(long created) {
 		this.created = created;
 	}
@@ -113,7 +109,6 @@ public class DefaultCacheEntry<K extends CacheKey<K>, T extends Serializable> im
 	}
 
 	@Override
-	@Immutable
 	public void setValidationTimespan(long validationTimespan) {
 		this.validationTimespan = validationTimespan;
 	}
@@ -133,13 +128,11 @@ public class DefaultCacheEntry<K extends CacheKey<K>, T extends Serializable> im
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
 
-	@Immutable
 	@Override
 	public void setKey(K key) {
 		this.key = key;
 	}
 
-	@Immutable
 	@Override
 	public void setValue(T value) {
 		this.value = value;
