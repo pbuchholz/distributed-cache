@@ -1,5 +1,7 @@
 package distributedcache;
 
+import java.util.Optional;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -12,77 +14,66 @@ import javax.inject.Inject;
 public class ApplicationConfiguration {
 
 	/* Topic names for in, put and fail. */
-	private String in, out, fail;
+	private Optional<String> in, out, fail;
 
-	private String bootstrapServers;
+	private Optional<String> bootstrapServers;
 
-	private String consumerGroup;
+	private Optional<String> consumerGroup;
 
-	private int cacheInvalidationPeriod;
+	private Optional<Integer> cacheInvalidationPeriod;
 
 	public String getIn() {
-		return this.in;
+		return this.in.get();
 	}
 
 	@Inject
-	@Value
-	@Property("kafka.cache.in.topic")
-	public void setIn(String in) {
+	public void setIn(@Value @Property("kafka.cache.in.topic") Optional<String> in) {
 		this.in = in;
 	}
 
 	public String getOut() {
-		return this.out;
+		return this.out.get();
 	}
 
 	@Inject
-	@Value
-	@Property("kafka.cache.out.topic")
-	public void setOut(String out) {
+	public void setOut(@Value @Property("kafka.cache.out.topic") Optional<String> out) {
 		this.out = out;
 	}
 
 	public String getFail() {
-		return this.fail;
+		return this.fail.get();
 	}
 
 	@Inject
-	@Value
-	@Property("kafka.cache.fail.topic")
-	public void setFail(String fail) {
+	public void setFail(@Value @Property("kafka.cache.fail.topic") Optional<String> fail) {
 		this.fail = fail;
 	}
 
 	public String getBootstrapServers() {
-		return bootstrapServers;
+		return bootstrapServers.get();
 	}
 
 	@Inject
-	@Value
-	@Property("kafka.bootstrap.servers")
-	public void setBootstrapServers(String bootstrapServers) {
+	public void setBootstrapServers(@Value @Property("kafka.bootstrap.servers") Optional<String> bootstrapServers) {
 		this.bootstrapServers = bootstrapServers;
 	}
 
 	public String getConsumerGroup() {
-		return consumerGroup;
+		return consumerGroup.get();
 	}
 
 	@Inject
-	@Value
-	@Property("kafka.consumer.group")
-	public void setConsumerGroup(String consumerGroup) {
+	public void setConsumerGroup(@Value @Property("kafka.consumer.group") Optional<String> consumerGroup) {
 		this.consumerGroup = consumerGroup;
 	}
 
 	public int getCacheInvalidationPeriod() {
-		return cacheInvalidationPeriod;
+		return cacheInvalidationPeriod.get();
 	}
 
 	@Inject
-	@Value
-	@Property("cache.invalidation.timer.period")
-	public void setCacheInvalidationPeriod(int cacheInvalidationPeriod) {
+	public void setCacheInvalidationPeriod(@Value @Property(value = "cache.invalidation.timer.period", //
+			type = Integer.class) Optional<Integer> cacheInvalidationPeriod) {
 		this.cacheInvalidationPeriod = cacheInvalidationPeriod;
 	}
 

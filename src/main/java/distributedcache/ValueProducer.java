@@ -1,10 +1,12 @@
 package distributedcache;
 
-import static distributedcache.Reflections.fromAnnotated;
+import static distributedcache.Reflections.valueFromAnnotated;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -34,15 +36,25 @@ public class ValueProducer {
 		}
 	}
 
-	@Produces
+	@SuppressWarnings("unchecked")
 	@Value
-	public String produceValue(InjectionPoint injectionPoint) {
+	@Produces
+	public <T> Optional<T> produceValue(InjectionPoint injectionPoint) {
 		/* Preconditions */
 		assert null != injectionPoint;
 		assert null != this.properties;
 		assert injectionPoint.getAnnotated().isAnnotationPresent(Property.class);
 
-		return this.properties.getProperty(this.readPropertyName(injectionPoint));
+		Class<?> propertyType = this.readPropertyType(injectionPoint);
+		String propertyName = this.readPropertyName(injectionPoint);
+		String propertyValue = this.properties.getProperty(propertyName);
+
+		if (Objects.isNull(propertyValue)) {
+			throw new IllegalArgumentException(
+					String.format("Property %s has not been configured correctly.", propertyName));
+		}
+
+		return (Optional<T>) Optional.of(propertyType.cast(propertyValue));
 	}
 
 	/**
@@ -53,7 +65,23 @@ public class ValueProducer {
 	 */
 	private String readPropertyName(InjectionPoint injectionPoint) {
 		try {
-			return fromAnnotated(injectionPoint.getAnnotated(), Property.class,
+			return valueFromAnnotated(injectionPoint.getAnnotated(), Property.class,
+					injectionPoint.getAnnotated().getAnnotation(Property.class));
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+				| SecurityException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * Reads thte type of the property which should be injected.
+	 * 
+	 * @param injectionPoint
+	 * @return
+	 */
+	private Class<?> readPropertyType(InjectionPoint injectionPoint) {
+		try {
+			return Reflections.typeFromAnnotated(injectionPoint.getAnnotated(),
 					injectionPoint.getAnnotated().getAnnotation(Property.class));
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
 				| SecurityException e) {

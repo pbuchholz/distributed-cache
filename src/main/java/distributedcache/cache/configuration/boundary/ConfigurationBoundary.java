@@ -19,8 +19,8 @@ import org.slf4j.LoggerFactory;
 
 import distributedcache.JsonCacheReflectorFactory;
 import distributedcache.cache.Cache;
-import distributedcache.cache.DefaultCacheEntry;
 import distributedcache.cache.CacheManager;
+import distributedcache.cache.DefaultCacheEntry;
 import distributedcache.cache.DefaultCacheRegion;
 import distributedcache.cache.configuration.ConfigurationCache;
 import distributedcache.cache.configuration.ConfigurationCacheProvider;
@@ -54,6 +54,11 @@ public class ConfigurationBoundary implements Serializable {
 	@Inject
 	private CacheManager<ConfigurationKey, ConfigurationValue> configurationCacheManager;
 
+	/**
+	 * Shouldnt we be able to abstract this to Subscription to be independend from
+	 * Kafka in the Boundary?
+	 *
+	 */
 	@Inject
 	private KafkaSubscription<Long, Notification<ConfigurationKey>> subscription;
 
@@ -80,9 +85,9 @@ public class ConfigurationBoundary implements Serializable {
 	}
 
 	/**
-	 * Adds the given {@link ConfigurationValue} to the {@link DefaultCacheRegion} with the
-	 * given name in the configuration cache. This method also publishes an update
-	 * of the cache change.
+	 * Adds the given {@link ConfigurationValue} to the {@link DefaultCacheRegion}
+	 * with the given name in the configuration cache. This method also publishes an
+	 * update of the cache change.
 	 * 
 	 * @param regionName
 	 * @param configurationValue

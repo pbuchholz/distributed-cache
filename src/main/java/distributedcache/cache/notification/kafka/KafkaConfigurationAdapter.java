@@ -1,6 +1,6 @@
 package distributedcache.cache.notification.kafka;
 
-import static distributedcache.Reflections.fromAnnotated;
+import static distributedcache.Reflections.valueFromAnnotated;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
@@ -30,12 +30,24 @@ public class KafkaConfigurationAdapter {
 	@Inject
 	private ApplicationConfiguration applicationConfiguration;
 
+	/**
+	 * Creates the {@link Properties} needed to setup a KafkaConsumer.
+	 * 
+	 * @param injectionPoint
+	 * @return
+	 */
 	public Properties createKafkaConsumerProperties(InjectionPoint injectionPoint) {
 		return this.createBasePropertiesBuilder(injectionPoint) //
 				.put(ConsumerConfig.GROUP_ID_CONFIG, applicationConfiguration.getConsumerGroup()) //
 				.build();
 	}
 
+	/**
+	 * Creates the {@link Properties} needed to setup a KafkaProducer.
+	 * 
+	 * @param injectionPoint
+	 * @return
+	 */
 	public Properties createKafkaProducerProperties(InjectionPoint injectionPoint) {
 		return this.createBasePropertiesBuilder(injectionPoint).build();
 	}
@@ -52,8 +64,8 @@ public class KafkaConfigurationAdapter {
 			return PropertiesBuilder.builder() //
 					.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, applicationConfiguration.getBootstrapServers()) //
 					.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-							fromAnnotated(annotated, KeySerializer.class, annotated.getAnnotation(KeySerializer.class))) //
-					.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, fromAnnotated(annotated, ValueSerializer.class,
+							valueFromAnnotated(annotated, KeySerializer.class, annotated.getAnnotation(KeySerializer.class))) //
+					.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueFromAnnotated(annotated, ValueSerializer.class,
 							annotated.getAnnotation(ValueSerializer.class)));
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
 				| SecurityException e) {

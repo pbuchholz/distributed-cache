@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.enterprise.inject.spi.Annotated;
+import javax.inject.Qualifier;
 
 /**
  * Contains several methods to work with reflection.
@@ -94,13 +95,40 @@ public final class Reflections {
 	 * @throws NoSuchMethodException
 	 * @throws SecurityException
 	 */
-	public static <A extends Annotation> String fromAnnotated(Annotated annotated, Class<A> annotationType,
+	public static <A extends Annotation> String valueFromAnnotated(Annotated annotated, Class<A> annotationType,
 			Annotation annotationInstance) throws IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException {
-		return (String) annotated //
+		return fromAnnotated(annotated, annotationType, annotationInstance, "value");
+	}
+
+	/**
+	 * Reads the type from a {@link Property} {@link Qualifier}.
+	 * 
+	 * @param <A>
+	 * @param annotated
+	 * @param annotationType
+	 * @param annotationInstance
+	 * @return
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 */
+	public static Class<?> typeFromAnnotated(Annotated annotated, Annotation annotationInstance)
+			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
+			SecurityException {
+		return fromAnnotated(annotated, Property.class, annotationInstance, "type");
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T, A extends Annotation> T fromAnnotated(Annotated annotated, Class<A> annotationType,
+			Annotation annotationInstance, String methodName) throws IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException {
+		return (T) annotated //
 				.getAnnotation(annotationType) //
 				.getClass() //
-				.getMethod("value") //
+				.getMethod(methodName) //
 				.invoke(annotationInstance);
 	}
 

@@ -7,6 +7,7 @@ import javax.ejb.Schedule;
 import javax.ejb.Timer;
 import javax.ejb.TimerService;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 /**
@@ -21,6 +22,7 @@ import javax.inject.Inject;
  * 
  * @author Philipp Buchholz
  */
+@Default
 @Dependent
 public class CacheManager<K extends CacheKey<K>, T extends Serializable> {
 

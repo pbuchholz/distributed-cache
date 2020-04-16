@@ -10,10 +10,22 @@ import java.lang.annotation.Target;
  * 
  * @author Philipp Buchholz
  */
-@Target({ ElementType.FIELD, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER })
 public @interface Property {
 
+	/**
+	 * The name of the property which should be injected.
+	 * 
+	 * @return
+	 */
 	String value();
+
+	/**
+	 * Type information to perform correct casts at runtime.
+	 * 
+	 * @return
+	 */
+	Class<?> type() default String.class;
 
 }

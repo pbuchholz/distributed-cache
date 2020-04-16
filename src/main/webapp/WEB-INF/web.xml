@@ -9,7 +9,7 @@
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
-			<param-value>distributedcache.configuration.boundary.ResourceConfiguration</param-value>
+			<param-value>distributedcache.cache.configuration.boundary.ResourceConfiguration</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
