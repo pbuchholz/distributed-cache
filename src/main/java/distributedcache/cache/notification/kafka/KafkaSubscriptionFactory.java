@@ -26,14 +26,14 @@ public class KafkaSubscriptionFactory<K> {
 
 	@Inject
 	@KeySerializer
-	@ValueSerializer("distributedcache.configuration.boundary.NotificationSerializer")
+	@ValueSerializer("distributedcache.cache.configuration.boundary.NotificationSerializer")
 	private Producer<Long, Notification<K>> notificationProducer;
 
 	@Inject
 	@Consume
 	@ConsumerGroup("cache.notifications")
 	@KeyDeserializer
-	@ValueDeserializer("distributedcache.configuration.boundary.NotificationDeserializer")
+	@ValueDeserializer("distributedcache.cache.configuration.boundary.NotificationDeserializer")
 	private Consumer<Long, Notification<K>> notificationConsumer;
 
 	@Inject
