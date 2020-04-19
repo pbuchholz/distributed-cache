@@ -1,5 +1,8 @@
 package distributedcache;
 
+import static distributedcache.Reflections.constructWithValueOf;
+import static distributedcache.Reflections.definesValueOf;
+import static distributedcache.Reflections.typeFromAnnotated;
 import static distributedcache.Reflections.valueFromAnnotated;
 
 import java.io.IOException;
@@ -39,7 +42,8 @@ public class ValueProducer {
 	@SuppressWarnings("unchecked")
 	@Value
 	@Produces
-	public <T> Optional<T> produceValue(InjectionPoint injectionPoint) {
+	public <T> Optional<T> produceValue(InjectionPoint injectionPoint) throws NoSuchMethodException, SecurityException,
+			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		/* Preconditions */
 		assert null != injectionPoint;
 		assert null != this.properties;
@@ -54,7 +58,17 @@ public class ValueProducer {
 					String.format("Property %s has not been configured correctly.", propertyName));
 		}
 
-		return (Optional<T>) Optional.of(propertyType.cast(propertyValue));
+		/* Cast needed? */
+		if (propertyType.isAssignableFrom(propertyValue.getClass())) {
+			return (Optional<T>) Optional.of(propertyValue);
+		}
+
+		if (definesValueOf(propertyType)) {
+			/* valueOf construction. */
+			return (Optional<T>) Optional.of(constructWithValueOf(propertyType, propertyValue));
+		} else {
+			return (Optional<T>) Optional.of(propertyType.cast(propertyValue));
+		}
 	}
 
 	/**
@@ -81,7 +95,7 @@ public class ValueProducer {
 	 */
 	private Class<?> readPropertyType(InjectionPoint injectionPoint) {
 		try {
-			return Reflections.typeFromAnnotated(injectionPoint.getAnnotated(),
+			return typeFromAnnotated(injectionPoint.getAnnotated(),
 					injectionPoint.getAnnotated().getAnnotation(Property.class));
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
 				| SecurityException e) {

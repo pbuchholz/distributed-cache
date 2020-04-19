@@ -179,9 +179,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="20" language="java" name="distributedcache.cache.LastAccessCacheInvalidationStrategy" 
+  <class id="20" language="java" name="distributedcache.cache.invalidation.LastAccessCacheInvalidationStrategy" 
     project="distributedcache" 
-    file="/distributedcache/src/main/java/distributedcache/cache/LastAccessCacheInvalidationStrategy.java" 
+    file="/distributedcache/src/main/java/distributedcache/cache/invalidation/LastAccessCacheInvalidationStrategy.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="101" width="317" x="4282" y="502"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -228,9 +228,10 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="25" language="java" name="distributedcache.cache.CacheInvalidationStrategy" project="distributedcache" 
-    file="/distributedcache/src/main/java/distributedcache/cache/CacheInvalidationStrategy.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
+  <interface id="25" language="java" name="distributedcache.cache.invalidation.CacheInvalidationStrategy" 
+    project="distributedcache" 
+    file="/distributedcache/src/main/java/distributedcache/cache/invalidation/CacheInvalidationStrategy.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
     <position height="83" width="239" x="4360" y="859"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -639,346 +640,321 @@
     <end type="TARGET" refId="47" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="68">    
-    <end type="SOURCE" refId="14" navigable="false">      
-      <attribute id="69" name="managedCache">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="70" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="26" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="71">    
+  <nesting id="68">    
     <end type="SOURCE" refId="22"/>    
     <end type="TARGET" refId="17"/>  
   </nesting>  
-  <realization id="72">    
+  <realization id="69">    
     <end type="SOURCE" refId="20"/>    
     <end type="TARGET" refId="25"/>  
   </realization>  
-  <association id="73">    
+  <association id="70">    
     <end type="SOURCE" refId="41" navigable="false">      
-      <attribute id="74" name="subscription">        
+      <attribute id="71" name="subscription">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="75" minimum="0" maximum="1">        
+      <multiplicity id="72" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="58" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="76">    
+  <nesting id="73">    
     <end type="SOURCE" refId="55"/>    
     <end type="TARGET" refId="50"/>  
   </nesting>  
-  <nesting id="77">    
+  <nesting id="74">    
     <end type="SOURCE" refId="23"/>    
     <end type="TARGET" refId="24"/>  
   </nesting>  
-  <association id="78">    
+  <association id="75">    
     <end type="SOURCE" refId="27" navigable="false">      
-      <attribute id="79" name="configurationValue">        
+      <attribute id="76" name="configurationValue">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="80" minimum="0" maximum="1">        
+      <multiplicity id="77" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="29" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="81">    
+  <nesting id="78">    
     <end type="SOURCE" refId="13"/>    
     <end type="TARGET" refId="16"/>  
   </nesting>  
-  <realization id="82">    
+  <realization id="79">    
     <end type="SOURCE" refId="23"/>    
     <end type="TARGET" refId="26"/>  
   </realization>  
-  <association id="83">    
+  <association id="80">    
     <end type="SOURCE" refId="57" navigable="false">      
-      <attribute id="84" name="applicationConfiguration">        
+      <attribute id="81" name="applicationConfiguration">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="85" minimum="0" maximum="1">        
+      <multiplicity id="82" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="86">    
+  <realization id="83">    
     <end type="SOURCE" refId="58"/>    
     <end type="TARGET" refId="42"/>  
   </realization>  
-  <association id="87">    
+  <association id="84">    
     <end type="SOURCE" refId="23" navigable="false">      
-      <attribute id="88" name="cacheRegions">        
+      <attribute id="85" name="cacheRegions">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="89" minimum="0" maximum="2147483647">        
+      <multiplicity id="86" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="18" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="90">    
+  <nesting id="87">    
     <end type="SOURCE" refId="29"/>    
     <end type="TARGET" refId="27"/>  
   </nesting>  
-  <realization id="91">    
+  <realization id="88">    
     <end type="SOURCE" refId="30"/>    
     <end type="TARGET" refId="15"/>  
   </realization>  
-  <association id="92">    
-    <bendpoint x="4874" y="502"/>    
-    <end type="SOURCE" refId="41" navigable="false">      
-      <attribute id="93" name="configurationCache">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="94" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="26" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="95">    
+  <nesting id="89">    
     <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="3"/>  
   </nesting>  
-  <association id="96">    
+  <association id="90">    
     <end type="SOURCE" refId="59" navigable="false">      
-      <attribute id="97" name="kafkaSubscription">        
+      <attribute id="91" name="kafkaSubscription">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="98" minimum="0" maximum="1">        
+      <multiplicity id="92" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="58" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="99">    
+  <association id="93">    
     <end type="SOURCE" refId="51" navigable="false">      
-      <attribute id="100" name="configurationAdapter">        
+      <attribute id="94" name="configurationAdapter">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="101" minimum="0" maximum="1">        
+      <multiplicity id="95" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="54" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="102">    
+  <association id="96">    
     <end type="SOURCE" refId="13" navigable="false">      
-      <attribute id="103" name="key">        
+      <attribute id="97" name="key">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="104" minimum="0" maximum="1">        
+      <multiplicity id="98" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="15" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="105">    
+  <association id="99">    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="106" name="jsonReflector">        
+      <attribute id="100" name="jsonReflector">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="107" minimum="0" maximum="1">        
+      <multiplicity id="101" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="108">    
+  <nesting id="102">    
     <end type="SOURCE" refId="49"/>    
     <end type="TARGET" refId="45"/>  
   </nesting>  
-  <association id="109">    
+  <association id="103">    
     <end type="SOURCE" refId="24" navigable="false">      
-      <attribute id="110" name="baseCache">        
+      <attribute id="104" name="baseCache">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="111" minimum="0" maximum="1">        
+      <multiplicity id="105" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="23" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="112">    
+  <nesting id="106">    
     <end type="SOURCE" refId="44"/>    
     <end type="TARGET" refId="48"/>  
   </nesting>  
-  <association id="113">    
+  <association id="107">    
     <end type="SOURCE" refId="22" navigable="false">      
-      <attribute id="114" name="cacheEntries">        
+      <attribute id="108" name="cacheEntries">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="115" minimum="0" maximum="2147483647">        
+      <multiplicity id="109" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="19" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="116">    
+  <association id="110">    
     <bendpoint x="7263" y="859"/>    
     <end type="SOURCE" refId="44" navigable="false">      
-      <attribute id="117" name="notificationType">        
+      <attribute id="111" name="notificationType">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="118" minimum="0" maximum="1">        
+      <multiplicity id="112" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="45" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="119">    
+  <association id="113">    
     <end type="SOURCE" refId="23" navigable="false">      
-      <attribute id="120" name="cacheConfiguration">        
+      <attribute id="114" name="cacheConfiguration">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="121" minimum="0" maximum="1">        
+      <multiplicity id="115" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="21" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="122">    
+  <realization id="116">    
     <end type="SOURCE" refId="53"/>    
     <end type="TARGET" refId="43"/>  
   </realization>  
-  <association id="123">    
+  <association id="117">    
     <end type="SOURCE" refId="58" navigable="false">      
-      <attribute id="124" name="failTopic">        
+      <attribute id="118" name="failTopic">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="125" minimum="0" maximum="1">        
+      <multiplicity id="119" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="55" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="126">    
+  <association id="120">    
     <end type="SOURCE" refId="58" navigable="false">      
-      <attribute id="127" name="outTopic">        
+      <attribute id="121" name="outTopic">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="128" minimum="0" maximum="1">        
+      <multiplicity id="122" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="55" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="129">    
+  <realization id="123">    
     <end type="SOURCE" refId="52"/>    
     <end type="TARGET" refId="47"/>  
   </realization>  
-  <association id="130">    
+  <association id="124">    
     <end type="SOURCE" refId="17" navigable="false">      
-      <attribute id="131" name="uc">        
+      <attribute id="125" name="uc">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="132" minimum="0" maximum="1">        
+      <multiplicity id="126" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="22" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="133">    
+  <association id="127">    
     <end type="SOURCE" refId="41" navigable="false">      
-      <attribute id="134" name="subscriber">        
+      <attribute id="128" name="subscriber">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="135" minimum="0" maximum="1">        
+      <multiplicity id="129" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="43" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="136">    
+  <nesting id="130">    
     <end type="SOURCE" refId="58"/>    
     <end type="TARGET" refId="59"/>  
   </nesting>  
-  <association id="137">    
+  <association id="131">    
     <end type="SOURCE" refId="54" navigable="false">      
-      <attribute id="138" name="applicationConfiguration">        
+      <attribute id="132" name="applicationConfiguration">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="139" minimum="0" maximum="1">        
+      <multiplicity id="133" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="140">    
+  <realization id="134">    
     <end type="SOURCE" refId="44"/>    
     <end type="TARGET" refId="49"/>  
   </realization>  
-  <association id="141">    
+  <association id="135">    
     <end type="SOURCE" refId="50" navigable="false">      
-      <attribute id="142" name="topic">        
+      <attribute id="136" name="topic">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="143" minimum="0" maximum="1">        
+      <multiplicity id="137" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="55" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="144">    
+  <association id="138">    
     <end type="SOURCE" refId="48" navigable="false">      
-      <attribute id="145" name="notification">        
+      <attribute id="139" name="notification">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="146" minimum="0" maximum="1">        
+      <multiplicity id="140" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="44" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="147">    
+  <association id="141">    
     <end type="SOURCE" refId="56" navigable="false">      
-      <attribute id="148" name="configurationAdapter">        
+      <attribute id="142" name="configurationAdapter">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="149" minimum="0" maximum="1">        
+      <multiplicity id="143" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="54" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="150">    
+  <realization id="144">    
     <end type="SOURCE" refId="22"/>    
     <end type="TARGET" refId="18"/>  
   </realization>  
-  <association id="151">    
+  <association id="145">    
     <end type="SOURCE" refId="58" navigable="false">      
-      <attribute id="152" name="inTopic">        
+      <attribute id="146" name="inTopic">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="153" minimum="0" maximum="1">        
+      <multiplicity id="147" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    

@@ -132,4 +132,41 @@ public final class Reflections {
 				.invoke(annotationInstance);
 	}
 
+	/**
+	 * Returns <code>true</code> if the passed in type defines a valueOf method.
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public static boolean definesValueOf(Class<?> type) {
+		return Stream.of(type.getDeclaredMethods()) //
+				.filter(m -> "valueOf".equals(m.getName())) //
+				.count() > 0;
+	}
+
+	/**
+	 * Constructs a new instance of T using the static valueOf factory method. To
+	 * work the type to be constructed must defined a static valueOf method.
+	 * 
+	 * @param <T>
+	 * @param <P>
+	 * @param type
+	 * @param parameter
+	 * @return
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T, P> T constructWithValueOf(Class<T> type, P parameter) throws NoSuchMethodException,
+			SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		if (!definesValueOf(type)) {
+			throw new IllegalArgumentException("Passed in type cannot be constructed with valueOf factory method.");
+		}
+		Method valueOfMethod = type.getDeclaredMethod("valueOf", parameter.getClass());
+		return (T) valueOfMethod.invoke(null, parameter);
+	}
+
 }

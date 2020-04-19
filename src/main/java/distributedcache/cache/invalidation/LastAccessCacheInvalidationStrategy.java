@@ -1,12 +1,10 @@
-package distributedcache.cache;
+package distributedcache.cache.invalidation;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Default;
+import distributedcache.cache.Cache;
+import distributedcache.cache.CacheKey;
 
-@Default
-@Dependent
 public class LastAccessCacheInvalidationStrategy<K extends CacheKey<K>, T extends Serializable>
 		implements CacheInvalidationStrategy<K, T> {
 

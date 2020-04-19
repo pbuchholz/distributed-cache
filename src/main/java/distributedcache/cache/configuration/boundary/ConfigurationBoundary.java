@@ -3,8 +3,10 @@ package distributedcache.cache.configuration.boundary;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.enterprise.context.ApplicationScoped;
+import javax.annotation.Resource;
+import javax.ejb.Stateless;
+import javax.ejb.Timer;
+import javax.ejb.TimerService;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -19,13 +21,14 @@ import org.slf4j.LoggerFactory;
 
 import distributedcache.JsonCacheReflectorFactory;
 import distributedcache.cache.Cache;
-import distributedcache.cache.CacheManager;
 import distributedcache.cache.DefaultCacheEntry;
 import distributedcache.cache.DefaultCacheRegion;
 import distributedcache.cache.configuration.ConfigurationCache;
 import distributedcache.cache.configuration.ConfigurationCacheProvider;
 import distributedcache.cache.configuration.ConfigurationKey;
 import distributedcache.cache.configuration.ConfigurationValue;
+import distributedcache.cache.invalidation.CacheInvalidationStrategy;
+import distributedcache.cache.invalidation.LastAccessCacheInvalidationStrategy;
 import distributedcache.cache.notification.DefaultNotification;
 import distributedcache.cache.notification.Notification;
 import distributedcache.cache.notification.NotificationListener;
@@ -39,8 +42,8 @@ import distributedcache.cache.notification.kafka.KafkaSubscription;
  * 
  * @author Philipp Buchholz
  */
+@Stateless
 @Path("configuration")
-@ApplicationScoped
 public class ConfigurationBoundary implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -51,8 +54,12 @@ public class ConfigurationBoundary implements Serializable {
 	@ConfigurationCache
 	private Cache<ConfigurationKey, ConfigurationValue> configurationCache;
 
-	@Inject
-	private CacheManager<ConfigurationKey, ConfigurationValue> configurationCacheManager;
+	@Resource
+	private TimerService timerService;
+
+	private Timer cacheInvalidationTimer;
+
+	private CacheInvalidationStrategy<ConfigurationKey, ConfigurationValue> cacheInvalidationStrategy = new LastAccessCacheInvalidationStrategy<>();
 
 	/**
 	 * Shouldnt we be able to abstract this to Subscription to be independend from
@@ -70,7 +77,7 @@ public class ConfigurationBoundary implements Serializable {
 
 	/**
 	 * Returns a JSON representation of the currently available
-	 * {@link DefaultCacheRegion}ØÏ and their associated {@link DefaultCacheEntry}s.
+	 * {@link DefaultCacheRegion} and their associated {@link DefaultCacheEntry}s.
 	 * 
 	 * @return
 	 * @throws ReflectiveOperationException
@@ -111,9 +118,6 @@ public class ConfigurationBoundary implements Serializable {
 	@PostConstruct
 	public void startup() {
 
-		/* Initialize CacheManager for ConfigurationCache. */
-		this.configurationCacheManager.manageCache(this.configurationCache);
-
 		/* Subscribe to subscription. */
 		this.subscriber.subscribe(this.subscription, new NotificationListener<ConfigurationKey>() {
 
@@ -127,10 +131,14 @@ public class ConfigurationBoundary implements Serializable {
 		});
 	}
 
-	@PreDestroy
-	public void shutdown() {
-		/* Shutdown CacheManager. */
-		this.configurationCacheManager.releaseCache();
+	// @Schedule
+	public void invalidation() {
+		/* Invalidate cache according to strategy. */
+		cacheInvalidationStrategy.invalidate(this.configurationCache);
+	}
+
+	public void releaseCache() {
+		this.cacheInvalidationTimer.cancel();
 	}
 
 }

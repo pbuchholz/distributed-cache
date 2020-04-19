@@ -1,6 +1,9 @@
-package distributedcache.cache;
+package distributedcache.cache.invalidation;
 
 import java.io.Serializable;
+
+import distributedcache.cache.Cache;
+import distributedcache.cache.CacheKey;
 
 /**
  * Encapsulates the logic to invalidate a cache according to defined semantics.
