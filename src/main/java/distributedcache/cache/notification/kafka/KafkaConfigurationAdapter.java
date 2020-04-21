@@ -15,7 +15,9 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 
 import distributedcache.ApplicationConfiguration;
 import distributedcache.PropertiesBuilder;
+import distributedcache.cache.configuration.boundary.KeyDeserializer;
 import distributedcache.cache.configuration.boundary.KeySerializer;
+import distributedcache.cache.configuration.boundary.ValueDeserializer;
 import distributedcache.cache.configuration.boundary.ValueSerializer;
 
 /**
@@ -37,9 +39,26 @@ public class KafkaConfigurationAdapter {
 	 * @return
 	 */
 	public Properties createKafkaConsumerProperties(InjectionPoint injectionPoint) {
-		return this.createBasePropertiesBuilder(injectionPoint) //
-				.put(ConsumerConfig.GROUP_ID_CONFIG, applicationConfiguration.getConsumerGroup()) //
-				.build();
+
+		Annotated annotated = injectionPoint.getAnnotated();
+
+		assert annotated.isAnnotationPresent(KeyDeserializer.class);
+		assert annotated.isAnnotationPresent(ValueDeserializer.class);
+
+		try {
+			return this.createBasePropertiesBuilder(injectionPoint) //
+					.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
+							valueFromAnnotated(annotated, KeyDeserializer.class,
+									annotated.getAnnotation(KeyDeserializer.class))) //
+					.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
+							valueFromAnnotated(annotated, ValueDeserializer.class,
+									annotated.getAnnotation(ValueDeserializer.class))) //
+					.put(ConsumerConfig.GROUP_ID_CONFIG, applicationConfiguration.getConsumerGroup()) //
+					.build();
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+				| SecurityException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -49,11 +68,6 @@ public class KafkaConfigurationAdapter {
 	 * @return
 	 */
 	public Properties createKafkaProducerProperties(InjectionPoint injectionPoint) {
-		return this.createBasePropertiesBuilder(injectionPoint).build();
-	}
-
-	private PropertiesBuilder createBasePropertiesBuilder(InjectionPoint injectionPoint) {
-		assert null != injectionPoint;
 
 		Annotated annotated = injectionPoint.getAnnotated();
 
@@ -61,17 +75,24 @@ public class KafkaConfigurationAdapter {
 		assert annotated.isAnnotationPresent(ValueSerializer.class);
 
 		try {
-			return PropertiesBuilder.builder() //
-					.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, applicationConfiguration.getBootstrapServers()) //
+			return this.createBasePropertiesBuilder(injectionPoint) //
 					.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-							valueFromAnnotated(annotated, KeySerializer.class, annotated.getAnnotation(KeySerializer.class))) //
-					.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueFromAnnotated(annotated, ValueSerializer.class,
-							annotated.getAnnotation(ValueSerializer.class)));
+							valueFromAnnotated(annotated, KeySerializer.class,
+									annotated.getAnnotation(KeySerializer.class))) //
+					.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+							valueFromAnnotated(annotated, ValueSerializer.class,
+									annotated.getAnnotation(ValueSerializer.class))) //
+					.build();
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
 				| SecurityException e) {
 			throw new RuntimeException(e);
 		}
+	}
 
+	private PropertiesBuilder createBasePropertiesBuilder(InjectionPoint injectionPoint) {
+		assert null != injectionPoint;
+		return PropertiesBuilder.builder() //
+				.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, applicationConfiguration.getBootstrapServers());
 	}
 
 }

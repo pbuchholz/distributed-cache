@@ -73,7 +73,7 @@ public final class Reflections {
 	 */
 	public static Class<?> loadComplexForPrimitive(Class<?> type) throws ClassNotFoundException {
 		assert Objects.nonNull(type);
-		assert type.isPrimitive() : "Given type must ne primitive";
+		assert type.isPrimitive() : "Given type must be primitive";
 
 		return Class.forName(type.getPackageName() //
 				.concat(".") //
