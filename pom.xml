@@ -16,7 +16,7 @@
 		<mockito.version>1.10.19</mockito.version>
 		<kafka.clients.version>2.2.1</kafka.clients.version>
 		<apache.commons.version>3.9</apache.commons.version>
-		<cargo.version>1.7.6</cargo.version>
+		<cargo.version>1.7.11</cargo.version>
 		<logback.version>1.2.3</logback.version>
 		<slf4j.version>1.7.28</slf4j.version>
 	</properties>
@@ -64,17 +64,42 @@
 			<artifactId>logback-core</artifactId>
 			<version>${logback.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
 
+		<!-- Deployment -->
+		<dependency>
+			<groupId>org.codehaus.cargo</groupId>
+			<artifactId>simple-war</artifactId>
+			<version>${cargo.version}</version>
+			<type>war</type>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<configuration>
+					<container>
+						<containerId>payara</containerId>
+					</container>
+					<configuration>
+						<type>existing</type>
+						<home>/Users/philippbuchholz/development/payara5/glassfish</home>
+						<properties>
+							<payara.username>admin</payara.username>
+							<payara.password></payara.password>
+							<payara.hostname>localhost</payara.hostname>
+						</properties>
+					</configuration>
+					
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -83,17 +108,6 @@
 					<source>1.10</source>
 					<target>1.10</target>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.cargo</groupId>
-				<artifactId>cargo-maven2-plugin</artifactId>
-				<dependencies>
-					<dependency>
-						<groupId>org.glassfish.main.deployment</groupId>
-						<artifactId>deployment-client</artifactId>
-						<version>5.0</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
