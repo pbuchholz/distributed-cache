@@ -149,9 +149,12 @@ public class JsonReflector {
 				.toLowerCase();
 	}
 
+	// TODO Idea PArameterPriviater  for methods with parameters.
+	
 	private List<Method> filterMethods(Object target) {
 		return Stream.of(target.getClass().getMethods()) //
-				.filter(m -> m.getName().startsWith(GETTER_PREFIX) //
+				/* A simple getter does not have parameters. */
+				.filter(m -> (m.getName().startsWith(GETTER_PREFIX) && m.getParameterCount() == 0) //
 						|| this.methodNamesToTraverse.contains(m.getName())) //
 				.collect(Collectors.toList());
 

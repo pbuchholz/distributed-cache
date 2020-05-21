@@ -1,4 +1,3 @@
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -90,14 +89,14 @@
 					</container>
 					<configuration>
 						<type>existing</type>
-						<home>/Users/philippbuchholz/development/payara5/glassfish</home>
+						<home>/Users/philippbuchholz/development/tools/payara5/payara5/glassfish/</home>
 						<properties>
 							<payara.username>admin</payara.username>
 							<payara.password></payara.password>
 							<payara.hostname>localhost</payara.hostname>
 						</properties>
 					</configuration>
-					
+
 				</configuration>
 			</plugin>
 			<plugin>
