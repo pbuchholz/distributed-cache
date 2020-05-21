@@ -91,10 +91,10 @@ public class JsonReflector {
 		if (mustTerminateAt(returnType)) {
 			/* Termination types. */
 			jsonObjectBuilder.add(filteredMethodName, String.valueOf(result));
-		} else if (returnType.isAssignableFrom(Map.class)) {
+		} else if (Map.class.isAssignableFrom(returnType)) {
 			/* Handling of Maps. */
 			jsonObjectBuilder.addAll(this.handleMap(Map.class.cast(result)));
-		} else if (returnType.isAssignableFrom(Collection.class)) {
+		} else if (Collection.class.isAssignableFrom(returnType)) {
 			jsonObjectBuilder.add(filteredMethodName,
 					this.handleCollection(filteredMethodName, Collection.class.cast(result)));
 		} else {
