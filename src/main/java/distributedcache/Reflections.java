@@ -78,7 +78,7 @@ public final class Reflections {
 		return Class.forName(type.getPackageName() //
 				.concat(".") //
 				.concat(type.getSimpleName().substring(0, 1).toUpperCase()) //
-				.concat(type.getSimpleName().substring(1)));
+				.concat(type.getSimpleName().equals("int") ? "nteger" : type.getSimpleName().substring(1)));
 	}
 
 	/**

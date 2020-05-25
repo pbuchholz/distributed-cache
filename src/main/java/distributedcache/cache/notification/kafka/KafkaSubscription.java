@@ -34,6 +34,10 @@ public class KafkaSubscription<K, V> implements Subscription {
 	public static <K, V> Builder<K, V> builder() {
 		return new Builder<K, V>();
 	}
+	
+	public boolean isConfiguredForPublishing() {
+		return this.outTopic.isPresent();
+	}
 
 	public static class Builder<K, V> {
 		private KafkaSubscription<K, V> kafkaSubscription;

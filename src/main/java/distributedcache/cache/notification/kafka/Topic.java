@@ -45,5 +45,9 @@ public final class Topic {
 	public String getTopicName() {
 		return this.name;
 	}
+	
+	public boolean isPresent() {
+		return !"".equals(name);
+	}
 
 }

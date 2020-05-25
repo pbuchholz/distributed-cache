@@ -1,5 +1,8 @@
 package distributedcache.cache.notification;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Optional;
 
 /**
@@ -12,7 +15,7 @@ import java.util.Optional;
 public class DefaultNotification<K> implements Notification<K> {
 
 	private K key;
-	private Optional<Object> value;
+	private transient Optional<Object> value;
 	private NotificationType notificationType;
 
 	@Override
@@ -28,6 +31,18 @@ public class DefaultNotification<K> implements Notification<K> {
 	@Override
 	public NotificationType type() {
 		return this.notificationType;
+	}
+
+	private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+		objectOutputStream.defaultWriteObject();
+		if(value.isPresent()) {
+			objectOutputStream.writeObject(value.get());
+		}
+	}
+
+	private void readObject(ObjectInputStream objectInputStream) throws ClassNotFoundException, IOException {
+		objectInputStream.defaultReadObject();
+		
 	}
 
 	public static class Builder<K> {

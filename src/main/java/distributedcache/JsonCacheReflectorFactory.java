@@ -1,7 +1,7 @@
 package distributedcache;
 
 /**
- * Factory which creates instances of {@link JsonReflector}.
+ * Factory which creates instances of {@link JsonReflector} for cache instances.
  * 
  * @author Philipp Buchholz
  */

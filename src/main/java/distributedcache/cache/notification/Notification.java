@@ -1,5 +1,6 @@
 package distributedcache.cache.notification;
 
+import java.io.Serializable;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -9,7 +10,7 @@ import java.util.UUID;
  * 
  * @author Philipp Buchholz
  */
-public interface Notification<K> {
+public interface Notification<K> extends Serializable {
 
 	/**
 	 * Returns the key for which the {@link Notification} is send.

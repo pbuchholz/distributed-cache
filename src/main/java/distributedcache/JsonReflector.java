@@ -35,6 +35,8 @@ public class JsonReflector {
 			Boolean.class, //
 			Class.class);
 
+	private List<String> methodNamesNotToTraverse;
+
 	private List<String> methodNamesToTraverse;
 
 	public static Builder builder() {
@@ -45,15 +47,33 @@ public class JsonReflector {
 
 	}
 
+	/**
+	 * Returns a plain default instance of {@link JsonReflector} without having
+	 * configured any traverse methods.
+	 * 
+	 * @return
+	 */
+	public static JsonReflector defaultInstance() {
+		return JsonReflector.builder() //
+				.build();
+
+	}
+
 	public static class Builder {
 		private JsonReflector jsonReflector = new JsonReflector();
 
 		private Builder() {
 			jsonReflector.methodNamesToTraverse = new ArrayList<>();
+			jsonReflector.methodNamesNotToTraverse = new ArrayList<>();
 		}
 
 		public Builder terminatingType(Class<?> terminatingType) {
 			jsonReflector.terminatingTypes.add(terminatingType);
+			return this;
+		}
+
+		public Builder notTraverseMethod(String methodNameNotToTraverse) {
+			jsonReflector.methodNamesNotToTraverse.add(methodNameNotToTraverse);
 			return this;
 		}
 
@@ -149,12 +169,14 @@ public class JsonReflector {
 				.toLowerCase();
 	}
 
-	// TODO Idea PArameterPriviater  for methods with parameters.
-	
+	// TODO Idea PArameterPriviater for methods with parameters.
+
 	private List<Method> filterMethods(Object target) {
 		return Stream.of(target.getClass().getMethods()) //
 				/* A simple getter does not have parameters. */
-				.filter(m -> (m.getName().startsWith(GETTER_PREFIX) && m.getParameterCount() == 0) //
+				.filter(m -> (m.getName().startsWith(GETTER_PREFIX) //
+						&& m.getParameterCount() == 0 //
+						&& !this.methodNamesNotToTraverse.contains(m.getName())) //
 						|| this.methodNamesToTraverse.contains(m.getName())) //
 				.collect(Collectors.toList());
 
