@@ -1,6 +1,7 @@
 package distributedcache.cache.notification.kafka;
 
 import java.time.Duration;
+import java.util.Arrays;
 
 import javax.annotation.Resource;
 import javax.enterprise.concurrent.ManagedExecutorService;
@@ -27,6 +28,7 @@ public class KafkaNotificationSubscriber<K, T>
 			@Override
 			public void run() {
 				Consumer<K, Notification<T>> notificationConsumer = subscription.getConsumer();
+				notificationConsumer.subscribe(Arrays.asList(subscription.inTopic().getTopicName()));
 				while (true) {
 					try {
 						ConsumerRecords<K, Notification<T>> consumerRecords = notificationConsumer
@@ -37,9 +39,10 @@ public class KafkaNotificationSubscriber<K, T>
 						// TODO ack
 
 					} catch (Exception e) {
-
+						e.printStackTrace();
 						// Produce to fail
 
+						
 					}
 				}
 			}

@@ -35,14 +35,18 @@ public class DefaultNotification<K> implements Notification<K> {
 
 	private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
 		objectOutputStream.defaultWriteObject();
-		if(value.isPresent()) {
+		if (value.isPresent()) {
 			objectOutputStream.writeObject(value.get());
 		}
 	}
 
 	private void readObject(ObjectInputStream objectInputStream) throws ClassNotFoundException, IOException {
 		objectInputStream.defaultReadObject();
-		
+		Object value = objectInputStream.readObject();
+		if (value != null) {
+			this.value = Optional.of(value);
+		}
+
 	}
 
 	public static class Builder<K> {

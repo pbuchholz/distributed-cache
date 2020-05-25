@@ -25,21 +25,21 @@ public class KafkaNotificationPublisher<K, T>
 
 	@Override
 	public void publish(KafkaSubscription<K, Notification<T>> subscription, Notification<T> notification) {
-		try {
+//		try {
 			/* Dont publish in case its an in only configuration. */
 			if (!subscription.outTopic().isPresent()) {
 				return;
 			}
 
 			Producer<K, Notification<T>> notificationProducer = subscription.getProducer();
-			notificationProducer.send(new ProducerRecord<>(subscription.outTopic().getTopicName(), notification)).get();
+			//notificationProducer.send(new ProducerRecord<>(subscription.outTopic().getTopicName(), notification)).get();
 
 			notificationProducer.send(new ProducerRecord<>(subscription.outTopic().getTopicName(), notification),
 					(metadata, exception) -> {
 						// Handle returned metadata and exception here
 					});
-		} catch (InterruptedException | ExecutionException e) {
-			throw new RuntimeException(e);
-		}
+//		} catch (InterruptedException | ExecutionException e) {
+//			throw new RuntimeException(e);
+//		}
 	}
 }
