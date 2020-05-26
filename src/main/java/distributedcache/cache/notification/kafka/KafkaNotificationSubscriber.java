@@ -14,6 +14,15 @@ import distributedcache.cache.notification.Notification;
 import distributedcache.cache.notification.NotificationListener;
 import distributedcache.cache.notification.NotificationSubscriber;
 
+/**
+ * Implementation of {@link NotificationSubscriber} which listens for
+ * {@link Notification}s on Apache Kafka.
+ * 
+ * @author Philipp Buchholz
+ *
+ * @param <K>
+ * @param <T>
+ */
 @Dependent
 public class KafkaNotificationSubscriber<K, T>
 		implements NotificationSubscriber<KafkaSubscription<K, Notification<T>>, T> {
@@ -39,10 +48,7 @@ public class KafkaNotificationSubscriber<K, T>
 						// TODO ack
 
 					} catch (Exception e) {
-						e.printStackTrace();
-						// Produce to fail
-
-						
+						throw new RuntimeException(e);
 					}
 				}
 			}

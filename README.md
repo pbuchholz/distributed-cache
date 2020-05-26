@@ -20,10 +20,12 @@ TODO
 ## APIs provided
 The distributed cache provides several HTTP based (REST) APIs:
 
-* GET context-root/{region-name}/: Returns the available CacheEntries from the cache region designated as path variable.
-* **POST context-root/{region-name}/**: Use application/json as content-type and transfer the JSON representation of the CacheEntry which should be put into the cache instance in case. Created a new CacheEntry leads to emitting a Notification about the new CacheEntry to the other distributed cache instances.
+* **GET context-root/configuration/{region-name}/**: Returns the available CacheEntries from the cache region designated as path variable.
+* **POST context-root/configuration/{region-name}/**: Use application/json as content-type and transfer the JSON representation of the CacheEntry which should be put into the cache instance in case. Created a new CacheEntry leads to emitting a Notification about the new CacheEntry to the other distributed cache instances.
 
 An example of such a request send against localhost could be: <code>curl -d '{"cache-key":"1", "value":"cache-value"}' -H 'content-type:application/json'  http://localhost:8080/distributedcache/configuration/root.configuration/</code>
+
+* **GET context-root/application-configuration/**: Returns the configuration the application is currently running with as JSON.
 
 ## Configuration
 

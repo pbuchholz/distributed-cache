@@ -20,6 +20,53 @@
 		<slf4j.version>1.7.28</slf4j.version>
 	</properties>
 
+	<profiles>
+		<profile>
+			<id>dev-lo-ins1</id>
+			<properties>
+				<kafka.bootstrap.servers>localhost:9092</kafka.bootstrap.servers>
+				<kafka.consumer.group>cache-instance-1</kafka.consumer.group>
+				<kafka.cache.in.topic>notif-ins1</kafka.cache.in.topic>
+				<kafka.cache.out.topic>notif-ins2</kafka.cache.out.topic>
+				<kafka.cache.fail.topic>notif-fails</kafka.cache.fail.topic>
+				<cache.invalidation.timer.period>500</cache.invalidation.timer.period>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev-lo-ins2</id>
+			<properties>
+				<kafka.bootstrap.servers>localhost:9092</kafka.bootstrap.servers>
+				<kafka.consumer.group>cache-instance-2</kafka.consumer.group>
+				<kafka.cache.in.topic>notif-ins2</kafka.cache.in.topic>
+				<kafka.cache.out.topic>notif-ins3</kafka.cache.out.topic>
+				<kafka.cache.fail.topic>notif-fails</kafka.cache.fail.topic>
+				<cache.invalidation.timer.period>500</cache.invalidation.timer.period>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev-lo-ins3</id>
+			<properties>
+				<kafka.bootstrap.servers>localhost:9092</kafka.bootstrap.servers>
+				<kafka.consumer.group>cache-instance-3</kafka.consumer.group>
+				<kafka.cache.in.topic>notif-ins3</kafka.cache.in.topic>
+				<kafka.cache.out.topic>notif-ins4</kafka.cache.out.topic>
+				<kafka.cache.fail.topic>notif-fails</kafka.cache.fail.topic>
+				<cache.invalidation.timer.period>500</cache.invalidation.timer.period>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev-lo-ins4</id>
+			<properties>
+				<kafka.bootstrap.servers>localhost:9092</kafka.bootstrap.servers>
+				<kafka.consumer.group>cache-instance-4</kafka.consumer.group>
+				<kafka.cache.in.topic>notif-ins4</kafka.cache.in.topic>
+				<kafka.cache.out.topic></kafka.cache.out.topic>
+				<kafka.cache.fail.topic>notif-fails</kafka.cache.fail.topic>
+				<cache.invalidation.timer.period>500</cache.invalidation.timer.period>
+			</properties>
+		</profile>
+	</profiles>
+
 	<dependencies>
 		<dependency>
 			<groupId>javax</groupId>
@@ -79,6 +126,13 @@
 	</dependencies>
 
 	<build>
+		<finalName>distributed-cache-${project.activeProfiles[0].id}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.cargo</groupId>

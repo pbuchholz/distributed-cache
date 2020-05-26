@@ -37,7 +37,7 @@ public class KafkaNotificationPublisher<K, T>
 
 			Future<RecordMetadata> sendFuture = notificationProducer
 					.send(new ProducerRecord<>(subscription.outTopic().getTopicName(), notification));
-			
+
 			/* Wait till result is received. */
 			sendFuture.get();
 			if (!sendFuture.isDone()) {
