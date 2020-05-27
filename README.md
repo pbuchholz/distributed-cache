@@ -27,6 +27,8 @@ An example of such a request send against localhost could be: <code>curl -d '{"c
 
 * **GET context-root/application-configuration/**: Returns the configuration the application is currently running with as JSON.
 
+* ** DELETE context-root/configuration/{region-name}/{cache-key}/**: Deletes the CacheEntry found using the passed in key in the CacheRegion identified with the passed in region name.
+
 ## Configuration
 
 ### application.properties
@@ -34,14 +36,17 @@ The application.properties is used to configure an individual cache instance.
 
 It has the following properties:
 * **kafka.bootstrap.servers:** Used to configure the bootstrap server of Kafka.
-* **kafka.cache.in.topic:** Used to configure the topic to listen for incomming updates. For example "cache-updates-${self-instance-identifier}". Also see (1).
-* **kafka.cache.out.topic:** Used to configure the topic to send updates to. For example "cache-updates-${pair-instance-identifier}". Also see (1).
+* **kafka.cache.in.topic:** Used to configure the topic to listen for incomming updates. 
+* **kafka.cache.out.topic:** Used to configure the topic to send updates to. 
 * **kafka.cache.fail.topic:** Name of topic to send failures to.
 * **cache.invalidation.timer.period:** Miliseconds after which the invalidation timer start the invalidation procedure for cache entries.
 
-**(1):** The idea is that each cache instance is finding a pair instance and collaborates with the respective topics to propagate updates trough the system automatically. This is to be implemented. For the pairing algorithm for example a graph could be used.
+All the properties are set using maven resource filtering while building the project. So its possible to build several war files configured for different instances of the distributed cache. Currently four instance (dev-lo-ins1, dev-lo-ins2, dev-lo-ins3 and dev-lo-ins4) can be build and deployed.
 
 All the properties are injected using CDI producers.
+
+## Deployment
+The maven cargo plugin is configured to be able to deploy through maven. Use the goals (deploy, redeploy etc.) from the maven cargo plugin. Currently they are not bound to build steps and must be called manually.
 
 ## Infrastructure
 
