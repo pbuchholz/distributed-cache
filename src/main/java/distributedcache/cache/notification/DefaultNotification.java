@@ -14,9 +14,12 @@ import java.util.Optional;
  */
 public class DefaultNotification<K> implements Notification<K> {
 
+	private static final long serialVersionUID = 1L;
+
 	private K key;
 	private transient Optional<Object> value;
 	private NotificationType notificationType;
+	private String affectedCacheRegion;
 
 	@Override
 	public K key() {
@@ -31,6 +34,11 @@ public class DefaultNotification<K> implements Notification<K> {
 	@Override
 	public NotificationType type() {
 		return this.notificationType;
+	}
+
+	@Override
+	public String affectedCacheRegion() {
+		return this.affectedCacheRegion;
 	}
 
 	private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
@@ -84,6 +92,11 @@ public class DefaultNotification<K> implements Notification<K> {
 
 		public Builder<K> value(Object value) {
 			this.notification.value = Optional.of(value);
+			return this;
+		}
+
+		public Builder<K> affectedCacheRegion(String affectedCacheRegion) {
+			this.notification.affectedCacheRegion = affectedCacheRegion;
 			return this;
 		}
 

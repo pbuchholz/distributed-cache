@@ -26,6 +26,13 @@ public interface Notification<K> extends Serializable {
 	Optional<Object> value();
 
 	/**
+	 * Returns the name of the CacehRegion where the event happened.
+	 * 
+	 * @return
+	 */
+	String affectedCacheRegion();
+
+	/**
 	 * Type of {@link Notification}.
 	 * 
 	 * @return
