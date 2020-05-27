@@ -27,7 +27,7 @@ An example of such a request send against localhost could be: <code>curl -d '{"c
 
 * **GET context-root/application-configuration/**: Returns the configuration the application is currently running with as JSON.
 
-* ** DELETE context-root/configuration/{region-name}/{cache-key}/**: Deletes the CacheEntry found using the passed in key in the CacheRegion identified with the passed in region name.
+* **DELETE context-root/configuration/{region-name}/{cache-key}/**: Deletes the CacheEntry found using the passed in key in the CacheRegion identified with the passed in region name.
 
 ## Configuration
 
