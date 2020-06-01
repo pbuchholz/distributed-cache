@@ -4,24 +4,17 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ejb.Stateless;
-import javax.ejb.Timer;
-import javax.ejb.TimerService;
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import distributedcache.JsonCacheReflectorFactory;
 import distributedcache.cache.Cache;
@@ -46,22 +39,20 @@ import distributedcache.cache.notification.kafka.KafkaSubscription;
  * 
  * @author Philipp Buchholz
  */
-@Stateless
-@Path("configuration")
+@RestController
+@RequestMapping(path = "configuration")
 public class ConfigurationBoundary implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationBoundary.class);
 
-	@Inject
+	@Autowired
 	@ConfigurationCache
 	private Cache<ConfigurationKey, ConfigurationValue> configurationCache;
 
-	@Resource
-	private TimerService timerService;
-
-	private Timer cacheInvalidationTimer;
+//	@Autowired
+//	private Timer cacheInvalidationTimer;
 
 	private CacheInvalidationStrategy<ConfigurationKey, ConfigurationValue> cacheInvalidationStrategy = new LastAccessCacheInvalidationStrategy<>();
 
@@ -70,13 +61,13 @@ public class ConfigurationBoundary implements Serializable {
 	 * Kafka in the Boundary?
 	 *
 	 */
-	@Inject
+	@Autowired
 	private KafkaSubscription<Long, Notification<ConfigurationKey>> subscription;
 
-	@Inject
+	@Autowired
 	private NotificationSubscriber<KafkaSubscription<Long, Notification<ConfigurationKey>>, ConfigurationKey> subscriber;
 
-	@Inject
+	@Autowired
 	private NotificationPublisher<KafkaSubscription<Long, Notification<ConfigurationKey>>, ConfigurationKey> publisher;
 
 	/**
@@ -86,8 +77,7 @@ public class ConfigurationBoundary implements Serializable {
 	 * @return
 	 * @throws ReflectiveOperationException
 	 */
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
 	public String getConfigurationCache() throws ReflectiveOperationException {
 		return JsonCacheReflectorFactory //
 				.createCacheJsonReflector() //
@@ -103,9 +93,10 @@ public class ConfigurationBoundary implements Serializable {
 	 * @param regionName
 	 * @param configurationValue
 	 */
-	@POST
-	@Path("{region}")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@RequestMapping( //
+			path = "{region}", //
+			method = RequestMethod.POST, //
+			consumes = "application/json")
 	public void putCacheEntryAndPublish(@PathParam("region") String regionName, ConfigurationValue configurationValue) {
 		ConfigurationKey configurationKey = new ConfigurationKey(configurationValue.getName());
 
@@ -127,8 +118,10 @@ public class ConfigurationBoundary implements Serializable {
 	 * @param region
 	 * @param key
 	 */
-	@DELETE
-	@Path("{region}/{key}")
+	@RequestMapping( //
+			method = RequestMethod.DELETE, //
+			path = "{region}/{key}" //
+	)
 	public void deleteCacheEntry(@PathParam("region") String region, @PathParam("key") String key) {
 		assert Objects.nonNull(region);
 		assert Objects.nonNull(key);
@@ -188,14 +181,15 @@ public class ConfigurationBoundary implements Serializable {
 		});
 	}
 
-	// @Schedule
+	// TODO Must be scheduled using the configured invalidation period from ApplicationConfiguration.
+	@Scheduled(fixedRate = 200)
 	public void invalidation() {
 		/* Invalidate cache according to strategy. */
 		cacheInvalidationStrategy.invalidate(this.configurationCache);
 	}
 
-	public void releaseCache() {
-		this.cacheInvalidationTimer.cancel();
-	}
+//	public void releaseCache() {
+//		this.cacheInvalidationTimer.cancel();
+//	}
 
 }

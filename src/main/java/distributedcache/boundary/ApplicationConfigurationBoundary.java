@@ -1,11 +1,9 @@
 package distributedcache.boundary;
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import distributedcache.ApplicationConfiguration;
 import distributedcache.JsonReflector;
@@ -16,15 +14,17 @@ import distributedcache.JsonReflector;
  * 
  * @author Philipp Buchholz
  */
-@Stateless
-@Path("application-configuration")
+@RestController
+@RequestMapping(path = "application-configuration")
 public class ApplicationConfigurationBoundary {
 
-	@Inject
+	@Autowired
 	private ApplicationConfiguration applicationConfiguration;
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping( //
+			method = RequestMethod.GET, //
+			produces = "application/json" //
+	)
 	public String getApplicationConfiguration() throws ReflectiveOperationException {
 		return JsonReflector.builder() //
 				.notTraverseMethod("getMetadata") //

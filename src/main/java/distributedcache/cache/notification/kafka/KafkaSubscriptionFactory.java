@@ -1,11 +1,12 @@
 package distributedcache.cache.notification.kafka;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
+import javax.ws.rs.Produces;
 
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.producer.Producer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import distributedcache.ApplicationConfiguration;
 import distributedcache.cache.configuration.boundary.Consume;
@@ -21,15 +22,15 @@ import distributedcache.cache.notification.Notification;
  * 
  * @author Philipp Buchholz
  */
-@Dependent
+@Component
 public class KafkaSubscriptionFactory<K> {
 
-	@Inject
+	@Autowired
 	@KeySerializer
 	@ValueSerializer("distributedcache.cache.configuration.boundary.NotificationSerializer")
 	private Producer<Long, Notification<K>> notificationProducer;
 
-	@Inject
+	@Autowired
 	@Consume
 	@ConsumerGroup("cache.notifications")
 	@KeyDeserializer
@@ -45,13 +46,13 @@ public class KafkaSubscriptionFactory<K> {
 				.consumer(notificationConsumer) //
 				.producer(notificationProducer) //
 				.inTopic(Topic.builder() //
-						.name(applicationConfiguration.getIn()) //
+						.name(applicationConfiguration.getKafka().getInTopic()) //
 						.build()) //
 				.outTopic(Topic.builder() //
-						.name(applicationConfiguration.getOut()) //
+						.name(applicationConfiguration.getKafka().getOutTopic()) //
 						.build()) //
 				.failTopic(Topic.builder() //
-						.name(applicationConfiguration.getFail()) //
+						.name(applicationConfiguration.getKafka().getFailTopic()) //
 						.build()) //
 				.build();
 	}

@@ -2,19 +2,21 @@ package distributedcache.cache.configuration;
 
 import java.time.Duration;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import distributedcache.cache.BaseCache;
 import distributedcache.cache.Cache;
 import distributedcache.cache.CacheConfiguration;
 
-@ApplicationScoped
+@Component
+@Scope("application")
 public class ConfigurationCacheProvider {
 
 	public final static String ROOT_CONFIGURATION_REGION = "root.configuration";
 
-	@Produces
+	@Bean
 	@ConfigurationCache
 	public Cache<ConfigurationKey, ConfigurationValue> provideConfigurationCache() {
 

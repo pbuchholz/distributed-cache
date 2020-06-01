@@ -1,80 +1,101 @@
 package distributedcache;
 
-import java.util.Optional;
+import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.SchedulingTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
  * Represents the configuration of the Application.
  * 
  * @author Philipp Buchholz
  */
-@ApplicationScoped
+@Configuration
+@ConfigurationProperties("cache")
 public class ApplicationConfiguration {
 
-	/* Topic names for in, put and fail. */
-	private Optional<String> in, out, fail;
+	public final static class Kafka {
 
-	private Optional<String> bootstrapServers;
+		private String inTopic;
 
-	private Optional<String> consumerGroup;
+		private String outTopic;
 
-	private Optional<Integer> cacheInvalidationPeriod;
+		private String failTopic;
 
-	public String getIn() {
-		return this.in.get();
+		private String consumerGroup;
+
+		private List<String> bootStrapServers;
+
+		public String getInTopic() {
+			return inTopic;
+		}
+
+		public void setInTopic(String inTopic) {
+			this.inTopic = inTopic;
+		}
+
+		public String getOutTopic() {
+			return outTopic;
+		}
+
+		public void setOutTopic(String outTopic) {
+			this.outTopic = outTopic;
+		}
+
+		public String getFailTopic() {
+			return failTopic;
+		}
+
+		public void setFailTopic(String failTopic) {
+			this.failTopic = failTopic;
+		}
+
+		public String getConsumerGroup() {
+			return consumerGroup;
+		}
+
+		public void setConsumerGroup(String consumerGroup) {
+			this.consumerGroup = consumerGroup;
+		}
+
+		public List<String> getBootStrapServers() {
+			return bootStrapServers;
+		}
+
+		public void setBootStrapServers(List<String> bootStrapServers) {
+			this.bootStrapServers = bootStrapServers;
+		}
+
 	}
 
-	@Inject
-	public void setIn(@Value @Property("kafka.cache.in.topic") Optional<String> in) {
-		this.in = in;
+	private Kafka kafka = new Kafka();
+
+	private int invalidationTimerPeriod;
+
+	public Kafka getKafka() {
+		return this.kafka;
 	}
 
-	public String getOut() {
-		return this.out.get();
+	public void setKafka(Kafka kafka) {
+		this.kafka = kafka;
 	}
 
-	@Inject
-	public void setOut(@Value @Property("kafka.cache.out.topic") Optional<String> out) {
-		this.out = out;
+	public int getInvalidationTimerPeriod() {
+		return invalidationTimerPeriod;
 	}
 
-	public String getFail() {
-		return this.fail.get();
+	public void setInvalidationTimerPeriod(int invalidationTimerPeriod) {
+		this.invalidationTimerPeriod = invalidationTimerPeriod;
 	}
 
-	@Inject
-	public void setFail(@Value @Property("kafka.cache.fail.topic") Optional<String> fail) {
-		this.fail = fail;
-	}
-
-	public String getBootstrapServers() {
-		return bootstrapServers.get();
-	}
-
-	@Inject
-	public void setBootstrapServers(@Value @Property("kafka.bootstrap.servers") Optional<String> bootstrapServers) {
-		this.bootstrapServers = bootstrapServers;
-	}
-
-	public String getConsumerGroup() {
-		return consumerGroup.get();
-	}
-
-	@Inject
-	public void setConsumerGroup(@Value @Property("kafka.consumer.group") Optional<String> consumerGroup) {
-		this.consumerGroup = consumerGroup;
-	}
-
-	public int getCacheInvalidationPeriod() {
-		return cacheInvalidationPeriod.get();
-	}
-
-	@Inject
-	public void setCacheInvalidationPeriod(@Value @Property(value = "cache.invalidation.timer.period", //
-			type = Integer.class) Optional<Integer> cacheInvalidationPeriod) {
-		this.cacheInvalidationPeriod = cacheInvalidationPeriod;
+	@Bean
+	public SchedulingTaskExecutor createSchedulingTaskExecutor() {
+		ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+		threadPoolTaskExecutor.setThreadNamePrefix("distributed-cache");
+		return threadPoolTaskExecutor;
 	}
 
 }

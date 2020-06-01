@@ -1,25 +1,27 @@
 package distributedcache.cache.notification.kafka;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
+import org.springframework.beans.factory.InjectionPoint;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Factory which creates {@link Producer} instances.
  * 
  * @author Philipp Buchholz
  */
-@Dependent
+@Component
+@Scope("application")
 public class KafkaProducerFactory {
 
 	@Inject
 	private KafkaConfigurationAdapter configurationAdapter;
 
-	@Produces
+	@Bean
 	public <K, V> Producer<K, V> createProducer(InjectionPoint injectionPoint) {
 		/* Preconditions. */
 		assert null != injectionPoint;
