@@ -14,7 +14,6 @@
 		<version>2.2.6.RELEASE</version>
 	</parent>
 
-
 	<properties>
 		<java.ee.version>8.0.1</java.ee.version>
 		<javax.json.version>1.1</javax.json.version>
@@ -30,14 +29,7 @@
 	<profiles>
 		<profile>
 			<id>dev-lo-ins1</id>
-			<properties>
-				<kafka.bootstrap.servers>localhost:9092</kafka.bootstrap.servers>
-				<kafka.consumer.group>cache-instance-1</kafka.consumer.group>
-				<kafka.cache.in.topic>notif-ins1</kafka.cache.in.topic>
-				<kafka.cache.out.topic>notif-ins2</kafka.cache.out.topic>
-				<kafka.cache.fail.topic>notif-fails</kafka.cache.fail.topic>
-				<cache.invalidation.timer.period>500</cache.invalidation.timer.period>
-			</properties>
+				
 		</profile>
 		<profile>
 			<id>dev-lo-ins2</id>
@@ -123,7 +115,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>distributed-cache-${project.activeProfiles[0].id}</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
