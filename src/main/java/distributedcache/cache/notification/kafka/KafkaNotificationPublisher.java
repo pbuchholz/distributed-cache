@@ -25,6 +25,7 @@ public class KafkaNotificationPublisher<K, T>
 		implements NotificationPublisher<KafkaSubscription<K, Notification<T>>, T> {
 
 	@Override
+
 	public void publish(KafkaSubscription<K, Notification<T>> subscription, Notification<T> notification) {
 		try {
 			/* Dont publish in case its an in only configuration. */

@@ -6,7 +6,7 @@
 	<artifactId>distributedcache</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>distributedcache</name>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -132,23 +132,8 @@
 		</resources>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.cargo</groupId>
-				<artifactId>cargo-maven2-plugin</artifactId>
-				<configuration>
-					<container>
-						<containerId>payara</containerId>
-					</container>
-					<configuration>
-						<type>existing</type>
-						<home>/Users/philippbuchholz/development/tools/payara5/payara5/glassfish/</home>
-						<properties>
-							<payara.username>admin</payara.username>
-							<payara.password></payara.password>
-							<payara.hostname>localhost</payara.hostname>
-						</properties>
-					</configuration>
-
-				</configuration>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
