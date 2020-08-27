@@ -51,7 +51,7 @@ The maven cargo plugin is configured to be able to deploy through maven. Use the
 ## Infrastructure
 
 ### Docker
-To ease running the services on Apache Kafka a rundimentary Dockerfile and startup script to run Apache Kafka and Apache Zookeeper in a single Docker container is provided in /docker_kafka. The standalone_start.sh shell script has to be copied to the bin folder of an Apache Kafka installation. The Apache Kafka installation must be downloaded manually and will be copied into the image via docker build.
+To ease running the services on Apache Kafka a rundimentary Dockerfile and startup script to run Apache Kafka and Apache Zookeeper in a single Docker container is provided in /docker_kafka. The standalone_start.sh shell script has to be copied to the bin folder of an Apache Kafka installation. The docker image is based on debian and will download Apache Kafka using wget.
 
-Run docker **build -t docker_kafka .** in the folder of the Dockerfile and also include the Apache Kafka installation in this folder.
+Run docker **build -t kafka/allinone:v1.** in the folder of the Dockerfile. This will results to an image containing Apache Kafka and Apache Zookeeper as standalone runnable installation.
 
