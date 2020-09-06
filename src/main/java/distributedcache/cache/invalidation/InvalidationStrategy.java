@@ -13,7 +13,7 @@ import distributedcache.cache.CacheKey;
  * @param <K>
  * @param <T>
  */
-public interface CacheInvalidationStrategy<K extends CacheKey<K>, T extends Serializable> {
+public interface InvalidationStrategy<K extends CacheKey<K>, T extends Serializable> {
 
 	/**
 	 * Invalidates the passed in {@link Cache} based on the implemented strategy.

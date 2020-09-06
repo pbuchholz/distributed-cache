@@ -60,6 +60,16 @@ public class DefaultCacheEntry<K extends CacheKey<K>, T extends Serializable> im
 
 	}
 
+	public static <K extends CacheKey<K>, T extends Serializable> CacheEntry<K, T> buildForNow(K key, T value,
+			long validationTimespan) {
+		return DefaultCacheEntry.<K, T>builder() //
+				.key(key) //
+				.value(value) //
+				.created(System.currentTimeMillis()) //
+				.validationTimespan(validationTimespan) //
+				.build();
+	}
+
 	private K key;
 	private T value;
 

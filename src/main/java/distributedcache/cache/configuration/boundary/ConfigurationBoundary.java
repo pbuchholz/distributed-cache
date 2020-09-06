@@ -19,13 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import distributedcache.JsonCacheReflectorFactory;
 import distributedcache.cache.Cache;
-import distributedcache.cache.CacheRegion;
 import distributedcache.cache.DefaultCacheEntry;
-import distributedcache.cache.DefaultCacheRegion;
 import distributedcache.cache.configuration.ConfigurationCache;
 import distributedcache.cache.configuration.ConfigurationKey;
 import distributedcache.cache.configuration.ConfigurationValue;
-import distributedcache.cache.invalidation.CacheInvalidationStrategy;
+import distributedcache.cache.invalidation.InvalidationStrategy;
 import distributedcache.cache.invalidation.LastAccessCacheInvalidationStrategy;
 import distributedcache.cache.notification.DefaultNotification;
 import distributedcache.cache.notification.Notification;
@@ -55,7 +53,7 @@ public class ConfigurationBoundary implements Serializable {
 //	@Autowired
 //	private Timer cacheInvalidationTimer;
 
-	private CacheInvalidationStrategy<ConfigurationKey, ConfigurationValue> cacheInvalidationStrategy = new LastAccessCacheInvalidationStrategy<>();
+	private InvalidationStrategy<ConfigurationKey, ConfigurationValue> cacheInvalidationStrategy = new LastAccessCacheInvalidationStrategy<>();
 
 	/**
 	 * Shouldnt we be able to abstract this to Subscription to be independend from
@@ -142,18 +140,15 @@ public class ConfigurationBoundary implements Serializable {
 		assert Objects.nonNull(region);
 		assert Objects.nonNull(key);
 
-		CacheRegion<ConfigurationKey, ConfigurationValue> cacheRegion = this.configurationCache
-				.cacheRegionByName(region);
+		ConfigurationKey configurationKey = new ConfigurationKey(key);
+		ConfigurationValue configurationValue = configurationCache.get(region, configurationKey);
 
-		if (Objects.isNull(cacheRegion)) {
-			Response.status(Status.NOT_FOUND.getStatusCode(), String.format(
-					"CacheRegion %s could not be found in ConfigurationCache. ConfigurationKey could not be deleted.",
-					region));
+		if (Objects.isNull(configurationValue)) {
+			Response.status(Status.NOT_FOUND.getStatusCode(),
+					String.format("ConfigurationValue for Key %s could not be found in ConfigurationCache.", key));
 		}
 
-		ConfigurationKey configurationKey = new ConfigurationKey(key);
-		ConfigurationValue configurationValue = cacheRegion.findInRegion(configurationKey).value();
-		cacheRegion.removeFromRegion(configurationKey);
+		configurationCache.removeFromRegion(region, configurationKey);
 
 		Notification<ConfigurationKey> notification = DefaultNotification.Builder.<ConfigurationKey>put() //
 				.key(configurationKey) //
@@ -182,13 +177,7 @@ public class ConfigurationBoundary implements Serializable {
 							(ConfigurationValue) notification.value().get());
 					break;
 				case DELETE:
-					CacheRegion<ConfigurationKey, ?> cacheRegion = configurationCache
-							.cacheRegionByName(notification.affectedCacheRegion());
-					if (Objects.isNull(cacheRegion)) {
-						throw new RuntimeException(String.format("CacheRegion %s is null. Cannot process notification.",
-								notification.affectedCacheRegion()));
-					}
-					cacheRegion.removeFromRegion(notification.key());
+					configurationCache.removeFromRegion(notification.affectedCacheRegion(), notification.key());
 				}
 
 				/* Publish notification further to peer. */
@@ -197,6 +186,7 @@ public class ConfigurationBoundary implements Serializable {
 		});
 	}
 
+	// TODO Put this into a CacheManager
 	// TODO Must be scheduled using the configured invalidation period from
 	// ApplicationConfiguration.
 	@Scheduled(fixedRate = 200)

@@ -20,9 +20,13 @@ public class ConfigurationCacheProvider {
 	@ConfigurationCache
 	public Cache<ConfigurationKey, ConfigurationValue> provideConfigurationCache() {
 
+		CacheConfiguration defaultCacheConfiguration = this.createDefaultCacheConfiguration();
+
 		Cache<ConfigurationKey, ConfigurationValue> cache = BaseCache.<ConfigurationKey, ConfigurationValue>builder() //
-				.cacheRegion(ROOT_CONFIGURATION_REGION) //
-				.cacheConfiguration(createDefaultCacheConfiguration()) //
+				.cacheRegion(ROOT_CONFIGURATION_REGION, BaseCache.<ConfigurationKey, ConfigurationValue>builder() //
+						.cacheConfiguration(defaultCacheConfiguration) //
+						.build()) //
+				.cacheConfiguration(defaultCacheConfiguration) //
 				.build();
 
 		return cache;

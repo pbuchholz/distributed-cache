@@ -23,7 +23,7 @@ import distributedcache.cache.configuration.ConfigurationValue;
 public class LastAccessCacheInvalidationStrategyTest {
 
 	private Cache<ConfigurationKey, ConfigurationValue> cache;
-	private CacheInvalidationStrategy<ConfigurationKey, ConfigurationValue> invalidationStrategy //
+	private InvalidationStrategy<ConfigurationKey, ConfigurationValue> invalidationStrategy //
 			= new LastAccessCacheInvalidationStrategy<>();
 
 	@Before
