@@ -6,7 +6,7 @@ import distributedcache.cache.Cache;
 import distributedcache.cache.CacheKey;
 
 public class LastAccessCacheInvalidationStrategy<K extends CacheKey<K>, T extends Serializable>
-		implements CacheInvalidationStrategy<K, T> {
+		implements InvalidationStrategy<K, T> {
 
 	/**
 	 * Invalidation rules:
@@ -19,20 +19,21 @@ public class LastAccessCacheInvalidationStrategy<K extends CacheKey<K>, T extend
 	 */
 	@Override
 	public void invalidate(Cache<K, T> cache) {
-		cache.getCacheRegions().forEach((cr) -> {
-			cr.cacheEntries().forEach((ce) -> {
-
-				/* PreConditions. */
-				assert 0 != ce.getCreated();
-
-				if ((ce.neverAccessed() && (ce.getCreated() + ce.getValidationTimespan()) > System.currentTimeMillis()) //
-						|| (ce.getLastAccess() + ce.getValidationTimespan() > System.currentTimeMillis())) {
-					return;
-				}
-
-				cr.removeFromRegion(ce.key());
-			});
-		});
+		// TODO
+//		cache.getCacheRegions().forEach((cr) -> {
+//			cr.cacheEntries().forEach((ce) -> {
+//
+//				/* PreConditions. */
+//				assert 0 != ce.getCreated();
+//
+//				if ((ce.neverAccessed() && (ce.getCreated() + ce.getValidationTimespan()) > System.currentTimeMillis()) //
+//						|| (ce.getLastAccess() + ce.getValidationTimespan() > System.currentTimeMillis())) {
+//					return;
+//				}
+//
+//				cr.removeFromRegion(ce.key());
+//			});
+//		});
 
 	}
 

@@ -6,7 +6,13 @@
 	<artifactId>distributedcache</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>distributedcache</name>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.6.RELEASE</version>
+	</parent>
 
 	<properties>
 		<java.ee.version>8.0.1</java.ee.version>
@@ -18,19 +24,13 @@
 		<cargo.version>1.7.11</cargo.version>
 		<logback.version>1.2.3</logback.version>
 		<slf4j.version>1.7.28</slf4j.version>
+		<utilities.properties.builder.version>0.0.1-SNAPSHOT</utilities.properties.builder.version>
 	</properties>
 
 	<profiles>
 		<profile>
 			<id>dev-lo-ins1</id>
-			<properties>
-				<kafka.bootstrap.servers>localhost:9092</kafka.bootstrap.servers>
-				<kafka.consumer.group>cache-instance-1</kafka.consumer.group>
-				<kafka.cache.in.topic>notif-ins1</kafka.cache.in.topic>
-				<kafka.cache.out.topic>notif-ins2</kafka.cache.out.topic>
-				<kafka.cache.fail.topic>notif-fails</kafka.cache.fail.topic>
-				<cache.invalidation.timer.period>500</cache.invalidation.timer.period>
-			</properties>
+
 		</profile>
 		<profile>
 			<id>dev-lo-ins2</id>
@@ -69,15 +69,23 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>${java.ee.version}</version>
-			<scope>provided</scope>
+			<groupId>utilities</groupId>
+			<artifactId>properties-builder</artifactId>
+			<version>${utilities.properties.builder.version}</version>
+		</dependency>
+
+		<!-- Spring dependencies. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jersey</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -89,12 +97,10 @@
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
 			<artifactId>kafka-clients</artifactId>
-			<version>${kafka.clients.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>${apache.commons.version}</version>
 		</dependency>
 
 		<!-- Testing -->
@@ -108,25 +114,14 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
-			<version>${logback.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-
-		<!-- Deployment -->
-		<dependency>
-			<groupId>org.codehaus.cargo</groupId>
-			<artifactId>simple-war</artifactId>
-			<version>${cargo.version}</version>
-			<type>war</type>
 		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>distributed-cache-${project.activeProfiles[0].id}</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -135,28 +130,12 @@
 		</resources>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.cargo</groupId>
-				<artifactId>cargo-maven2-plugin</artifactId>
-				<configuration>
-					<container>
-						<containerId>payara</containerId>
-					</container>
-					<configuration>
-						<type>existing</type>
-						<home>/Users/philippbuchholz/development/tools/payara5/payara5/glassfish/</home>
-						<properties>
-							<payara.username>admin</payara.username>
-							<payara.password></payara.password>
-							<payara.hostname>localhost</payara.hostname>
-						</properties>
-					</configuration>
-
-				</configuration>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
 				<configuration>
 					<source>1.10</source>
 					<target>1.10</target>

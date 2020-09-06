@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.Properties;
 import java.util.UUID;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.springframework.beans.factory.InjectionPoint;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import distributedcache.cache.configuration.boundary.Consume;
 
@@ -20,7 +20,7 @@ import distributedcache.cache.configuration.boundary.Consume;
  * 
  * @author Philipp Buchholz
  */
-@Dependent
+@Component
 public class KafkaConsumerFactory implements Serializable {
 
 	private static final long serialVersionUID = -671821616766899185L;
@@ -29,7 +29,7 @@ public class KafkaConsumerFactory implements Serializable {
 	private KafkaConfigurationAdapter configurationAdapter;
 
 	@Consume
-	@Produces
+	@Bean
 	public <K, V> Consumer<K, V> createConsumer(InjectionPoint injectionPoint) {
 		/* Preconditions. */
 		assert null != injectionPoint;

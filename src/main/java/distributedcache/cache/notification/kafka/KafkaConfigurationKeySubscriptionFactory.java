@@ -1,13 +1,13 @@
 package distributedcache.cache.notification.kafka;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
-
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.producer.Producer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import distributedcache.ApplicationConfiguration;
+import distributedcache.cache.configuration.ConfigurationKey;
 import distributedcache.cache.configuration.boundary.Consume;
 import distributedcache.cache.configuration.boundary.ConsumerGroup;
 import distributedcache.cache.configuration.boundary.KeyDeserializer;
@@ -21,37 +21,37 @@ import distributedcache.cache.notification.Notification;
  * 
  * @author Philipp Buchholz
  */
-@Dependent
-public class KafkaSubscriptionFactory<K> {
+@Component
+public class KafkaConfigurationKeySubscriptionFactory {
 
-	@Inject
+	@Autowired
 	@KeySerializer
 	@ValueSerializer("distributedcache.cache.configuration.boundary.NotificationSerializer")
-	private Producer<Long, Notification<K>> notificationProducer;
-
-	@Inject
+	private Producer<Long, Notification<ConfigurationKey>> notificationProducer;
+	
+	@Autowired
 	@Consume
 	@ConsumerGroup("cache.notifications")
 	@KeyDeserializer
 	@ValueDeserializer("distributedcache.cache.configuration.boundary.NotificationDeserializer")
-	private Consumer<Long, Notification<K>> notificationConsumer;
+	private Consumer<Long, Notification<ConfigurationKey>> notificationConsumer;
 
-	@Inject
+	@Autowired
 	private ApplicationConfiguration applicationConfiguration;
 
-	@Produces
-	public KafkaSubscription<Long, Notification<K>> createKafkaSubscription() {
-		return KafkaSubscription.<Long, Notification<K>>builder() //
+	@Bean
+	public KafkaSubscription<Long, Notification<ConfigurationKey>> createKafkaSubscription() {
+		return KafkaSubscription.<Long, Notification<ConfigurationKey>>builder() //
 				.consumer(notificationConsumer) //
 				.producer(notificationProducer) //
 				.inTopic(Topic.builder() //
-						.name(applicationConfiguration.getIn()) //
+						.name(applicationConfiguration.getKafka().getInTopic()) //
 						.build()) //
 				.outTopic(Topic.builder() //
-						.name(applicationConfiguration.getOut()) //
+						.name(applicationConfiguration.getKafka().getOutTopic()) //
 						.build()) //
 				.failTopic(Topic.builder() //
-						.name(applicationConfiguration.getFail()) //
+						.name(applicationConfiguration.getKafka().getFailTopic()) //
 						.build()) //
 				.build();
 	}

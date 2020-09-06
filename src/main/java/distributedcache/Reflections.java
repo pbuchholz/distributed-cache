@@ -1,6 +1,7 @@
 package distributedcache;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -8,8 +9,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.enterprise.inject.spi.Annotated;
-import javax.inject.Qualifier;
+import com.fasterxml.jackson.databind.introspect.Annotated;
 
 /**
  * Contains several methods to work with reflection.
@@ -95,37 +95,17 @@ public final class Reflections {
 	 * @throws NoSuchMethodException
 	 * @throws SecurityException
 	 */
-	public static <A extends Annotation> String valueFromAnnotated(Annotated annotated, Class<A> annotationType,
-			Annotation annotationInstance) throws IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoSuchMethodException, SecurityException {
-		return fromAnnotated(annotated, annotationType, annotationInstance, "value");
-	}
-
-	/**
-	 * Reads the type from a {@link Property} {@link Qualifier}.
-	 * 
-	 * @param <A>
-	 * @param annotated
-	 * @param annotationType
-	 * @param annotationInstance
-	 * @return
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
-	 * @throws SecurityException
-	 */
-	public static Class<?> typeFromAnnotated(Annotated annotated, Annotation annotationInstance)
-			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-			SecurityException {
-		return fromAnnotated(annotated, Property.class, annotationInstance, "type");
+	public static <A extends Annotation> String valueFromAnnotatedElement(AnnotatedElement annotatedElement,
+			Class<A> annotationType, Annotation annotationInstance) throws IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		return fromAnnotatedElement(annotatedElement, annotationType, annotationInstance, "value");
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T, A extends Annotation> T fromAnnotated(Annotated annotated, Class<A> annotationType,
-			Annotation annotationInstance, String methodName) throws IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoSuchMethodException, SecurityException {
-		return (T) annotated //
+	public static <T, A extends Annotation> T fromAnnotatedElement(AnnotatedElement annotatedElement,
+			Class<A> annotationType, Annotation annotationInstance, String methodName) throws IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		return (T) annotatedElement //
 				.getAnnotation(annotationType) //
 				.getClass() //
 				.getMethod(methodName) //

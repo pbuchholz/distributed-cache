@@ -3,11 +3,10 @@ package distributedcache.cache.notification.kafka;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import javax.enterprise.context.Dependent;
-
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.springframework.stereotype.Component;
 
 import distributedcache.cache.notification.Notification;
 import distributedcache.cache.notification.NotificationPublisher;
@@ -21,7 +20,7 @@ import distributedcache.cache.notification.NotificationPublisher;
  * @param <K>
  * @param <T>
  */
-@Dependent
+@Component
 public class KafkaNotificationPublisher<K, T>
 		implements NotificationPublisher<KafkaSubscription<K, Notification<T>>, T> {
 

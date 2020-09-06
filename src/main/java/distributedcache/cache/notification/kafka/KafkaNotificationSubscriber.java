@@ -3,12 +3,11 @@ package distributedcache.cache.notification.kafka;
 import java.time.Duration;
 import java.util.Arrays;
 
-import javax.annotation.Resource;
-import javax.enterprise.concurrent.ManagedExecutorService;
-import javax.enterprise.context.Dependent;
-
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.SchedulingTaskExecutor;
+import org.springframework.stereotype.Component;
 
 import distributedcache.cache.notification.Notification;
 import distributedcache.cache.notification.NotificationListener;
@@ -23,16 +22,17 @@ import distributedcache.cache.notification.NotificationSubscriber;
  * @param <K>
  * @param <T>
  */
-@Dependent
+@Component
 public class KafkaNotificationSubscriber<K, T>
 		implements NotificationSubscriber<KafkaSubscription<K, Notification<T>>, T> {
 
-	@Resource
-	private ManagedExecutorService managedExecutorService;
+	@Autowired
+	private SchedulingTaskExecutor schedulingTaskExecutor;
 
 	@Override
 	public void subscribe(KafkaSubscription<K, Notification<T>> subscription, NotificationListener<T> listener) {
-		managedExecutorService.submit(new Runnable() {
+
+		schedulingTaskExecutor.submit(new Runnable() {
 
 			@Override
 			public void run() {
