@@ -13,11 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import distributedcache.ApplicationConfiguration;
-import distributedcache.PropertiesBuilder;
 import distributedcache.cache.configuration.boundary.KeyDeserializer;
 import distributedcache.cache.configuration.boundary.KeySerializer;
 import distributedcache.cache.configuration.boundary.ValueDeserializer;
 import distributedcache.cache.configuration.boundary.ValueSerializer;
+import properties.PropertiesBuilder;
 
 /**
  * Adapts an {@link ApplicationConfiguration} to read properties for the

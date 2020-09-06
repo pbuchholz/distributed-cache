@@ -9,8 +9,8 @@ import distributedcache.ApplicationConfiguration;
 import distributedcache.JsonReflector;
 
 /**
- * Stateless bean exposed as REST endpoint to allow retrieval of the current
- * application configuration.
+ * REST endpoint which provides information about the configuration of the
+ * Application itself.
  * 
  * @author Philipp Buchholz
  */

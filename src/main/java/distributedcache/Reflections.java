@@ -9,8 +9,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.inject.Qualifier;
-
 import com.fasterxml.jackson.databind.introspect.Annotated;
 
 /**
@@ -101,26 +99,6 @@ public final class Reflections {
 			Class<A> annotationType, Annotation annotationInstance) throws IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		return fromAnnotatedElement(annotatedElement, annotationType, annotationInstance, "value");
-	}
-
-	/**
-	 * Reads the type from a {@link Property} {@link Qualifier}.
-	 * 
-	 * @param <A>
-	 * @param annotated
-	 * @param annotationType
-	 * @param annotationInstance
-	 * @return
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
-	 * @throws SecurityException
-	 */
-	public static Class<?> typeFromAnnotated(AnnotatedElement annotatedElement, Annotation annotationInstance)
-			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-			SecurityException {
-		return fromAnnotatedElement(annotatedElement, Property.class, annotationInstance, "type");
 	}
 
 	@SuppressWarnings("unchecked")

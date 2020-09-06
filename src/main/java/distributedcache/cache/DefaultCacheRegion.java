@@ -8,9 +8,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import distributedcache.cache.invalidation.CacheInvalidationStrategy;
+
 public class DefaultCacheRegion<K extends CacheKey<K>, T extends Serializable> implements CacheRegion<K, T> {
 
 	private Map<K, CacheEntry<K, T>> cacheEntries = new ConcurrentHashMap<>();
+	private CacheInvalidationStrategy<K, T> invalidationStrategy;
 	private String name;
 
 	private DefaultCacheRegion() {
@@ -28,24 +31,24 @@ public class DefaultCacheRegion<K extends CacheKey<K>, T extends Serializable> i
 
 	public static class Builder<K extends CacheKey<K>, T extends Serializable> {
 
-		private DefaultCacheRegion<K, T> uc;
+		private DefaultCacheRegion<K, T> cacheRegion;
 
 		public Builder() {
-			this.uc = new DefaultCacheRegion<>();
+			this.cacheRegion = new DefaultCacheRegion<>();
 		}
 
 		public Builder<K, T> name(String name) {
-			this.uc.name = name;
+			this.cacheRegion.name = name;
 			return this;
 		}
 
 		public Builder<K, T> cacheEntry(CacheEntry<K, T> cacheEntry) {
-			uc.cacheEntries.put(cacheEntry.key(), cacheEntry);
+			cacheRegion.cacheEntries.put(cacheEntry.key(), cacheEntry);
 			return this;
 		}
 
 		public CacheRegion<K, T> build() {
-			return this.uc;
+			return this.cacheRegion;
 		}
 
 	}

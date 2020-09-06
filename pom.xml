@@ -24,12 +24,13 @@
 		<cargo.version>1.7.11</cargo.version>
 		<logback.version>1.2.3</logback.version>
 		<slf4j.version>1.7.28</slf4j.version>
+		<utilities.properties.builder.version>0.0.1-SNAPSHOT</utilities.properties.builder.version>
 	</properties>
 
 	<profiles>
 		<profile>
 			<id>dev-lo-ins1</id>
-				
+
 		</profile>
 		<profile>
 			<id>dev-lo-ins2</id>
@@ -67,6 +68,12 @@
 	</profiles>
 
 	<dependencies>
+		<dependency>
+			<groupId>utilities</groupId>
+			<artifactId>properties-builder</artifactId>
+			<version>${utilities.properties.builder.version}</version>
+		</dependency>
+
 		<!-- Spring dependencies. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

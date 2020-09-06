@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import javax.annotation.PostConstruct;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -12,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +41,7 @@ import distributedcache.cache.notification.kafka.KafkaSubscription;
  * @author Philipp Buchholz
  */
 @RestController
-@RequestMapping(path = "configuration")
+@RequestMapping(path = "/configuration")
 public class ConfigurationBoundary implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -79,10 +80,15 @@ public class ConfigurationBoundary implements Serializable {
 	 */
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
 	public String getConfigurationCache() throws ReflectiveOperationException {
-		return JsonCacheReflectorFactory //
+		LOGGER.debug("Entering getConfigurationCache.");
+
+		String configurationCache = JsonCacheReflectorFactory //
 				.createCacheJsonReflector() //
 				.buildJsonObject(this.configurationCache) //
 				.toString();
+		LOGGER.debug("Exit getConfigurationCache with {}.", configurationCache);
+
+		return configurationCache;
 	}
 
 	/**
@@ -97,8 +103,14 @@ public class ConfigurationBoundary implements Serializable {
 			path = "{region}", //
 			method = RequestMethod.POST, //
 			consumes = "application/json")
-	public void putCacheEntryAndPublish(@PathParam("region") String regionName, ConfigurationValue configurationValue) {
+	public void putCacheEntryAndPublish(@PathVariable("region") String regionName,
+			@RequestBody ConfigurationValue configurationValue) {
+		LOGGER.debug("Enter putCacheEntryAndPublish with region={}, configurationValue={}.", regionName,
+				configurationValue);
+
 		ConfigurationKey configurationKey = new ConfigurationKey(configurationValue.getName());
+
+		LOGGER.trace("putCacheEntryAndPublish -> ConfigurationKey={}.", configurationKey);
 
 		this.configurationCache.put(regionName, configurationKey, configurationValue);
 
@@ -108,7 +120,11 @@ public class ConfigurationBoundary implements Serializable {
 				.affectedCacheRegion(regionName) //
 				.build();
 
+		LOGGER.trace("putCacheEntryAndPublish -> Notification={}.", notification);
+
 		this.publisher.publish(subscription, notification);
+
+		LOGGER.debug("Exit putCacheEntryAndPublish.");
 	}
 
 	/**
@@ -122,7 +138,7 @@ public class ConfigurationBoundary implements Serializable {
 			method = RequestMethod.DELETE, //
 			path = "{region}/{key}" //
 	)
-	public void deleteCacheEntry(@PathParam("region") String region, @PathParam("key") String key) {
+	public void deleteCacheEntry(@PathVariable("region") String region, @PathVariable("key") String key) {
 		assert Objects.nonNull(region);
 		assert Objects.nonNull(key);
 
@@ -181,7 +197,8 @@ public class ConfigurationBoundary implements Serializable {
 		});
 	}
 
-	// TODO Must be scheduled using the configured invalidation period from ApplicationConfiguration.
+	// TODO Must be scheduled using the configured invalidation period from
+	// ApplicationConfiguration.
 	@Scheduled(fixedRate = 200)
 	public void invalidation() {
 		/* Invalidate cache according to strategy. */

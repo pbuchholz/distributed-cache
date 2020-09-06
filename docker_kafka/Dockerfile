@@ -19,3 +19,4 @@ ADD ./standalone-start.sh /usr/lib/kafka/bin
 CMD ["/usr/lib/kafka/bin/standalone-start.sh"]
 
 EXPOSE 4141
+EXPOSE 9092/tcp

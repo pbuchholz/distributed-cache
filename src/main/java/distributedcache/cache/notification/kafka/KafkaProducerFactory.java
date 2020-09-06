@@ -1,10 +1,9 @@
 package distributedcache.cache.notification.kafka;
 
-import javax.inject.Inject;
-
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.springframework.beans.factory.InjectionPoint;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Scope("application")
 public class KafkaProducerFactory {
 
-	@Inject
+	@Autowired
 	private KafkaConfigurationAdapter configurationAdapter;
 
 	@Bean

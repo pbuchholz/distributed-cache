@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="distributedcache.PropertiesBuilder" project="distributedcache" 
-    file="/distributedcache/src/main/java/distributedcache/PropertiesBuilder.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="1" language="java" name="properties.PropertiesBuilder" project="properties-builder" 
+    file="/properties-builder/src/main/java/properties/PropertiesBuilder.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="155" width="166" x="931" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -76,16 +76,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="distributedcache.ValueProducer" project="distributedcache" 
-    file="/distributedcache/src/main/java/distributedcache/ValueProducer.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="173" width="243" x="1137" y="37"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="10" language="java" name="distributedcache.ImmutableInvocationHandler" project="distributedcache" 
+  <class id="9" language="java" name="distributedcache.ImmutableInvocationHandler" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/ImmutableInvocationHandler.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="137" width="293" x="6921" y="37"/>    
@@ -95,7 +86,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="distributedcache.Reflections" project="distributedcache" 
+  <class id="10" language="java" name="distributedcache.Reflections" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/Reflections.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="191" width="355" x="3096" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -104,16 +95,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <annotation id="12" language="java" name="distributedcache.Value" project="distributedcache" 
-    file="/distributedcache/src/main/java/distributedcache/Value.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="83" width="124" x="3491" y="37"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </annotation>  
-  <class id="13" language="java" name="distributedcache.cache.DefaultCacheEntry" project="distributedcache" 
+  <class id="11" language="java" name="distributedcache.cache.DefaultCacheEntry" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/DefaultCacheEntry.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="425" width="203" x="7733" y="37"/>    
@@ -123,16 +105,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="distributedcache.cache.CacheManager" project="distributedcache" 
-    file="/distributedcache/src/main/java/distributedcache/cache/CacheManager.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="173" width="205" x="4639" y="502"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <interface id="15" language="java" name="distributedcache.cache.CacheKey" project="distributedcache" 
+  <interface id="12" language="java" name="distributedcache.cache.CacheKey" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/CacheKey.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="83" width="119" x="7976" y="502"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -141,7 +114,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="16" language="java" name="distributedcache.cache.DefaultCacheEntry.Builder" project="distributedcache" 
+  <class id="13" language="java" name="distributedcache.cache.DefaultCacheEntry.Builder" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/DefaultCacheEntry.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="191" width="233" x="7682" y="502"/>    
@@ -151,7 +124,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="17" language="java" name="distributedcache.cache.DefaultCacheRegion.Builder" project="distributedcache" 
+  <class id="14" language="java" name="distributedcache.cache.DefaultCacheRegion.Builder" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/DefaultCacheRegion.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="137" width="263" x="3033" y="859"/>    
@@ -161,7 +134,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="18" language="java" name="distributedcache.cache.CacheRegion" project="distributedcache" 
+  <interface id="15" language="java" name="distributedcache.cache.CacheRegion" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/CacheRegion.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="173" width="269" x="3336" y="859"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -170,7 +143,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="19" language="java" name="distributedcache.cache.CacheEntry" project="distributedcache" 
+  <interface id="16" language="java" name="distributedcache.cache.CacheEntry" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/CacheEntry.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="263" width="203" x="7682" y="859"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -179,7 +152,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="20" language="java" name="distributedcache.cache.invalidation.LastAccessCacheInvalidationStrategy" 
+  <class id="17" language="java" name="distributedcache.cache.invalidation.LastAccessCacheInvalidationStrategy" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/invalidation/LastAccessCacheInvalidationStrategy.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -190,7 +163,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="21" language="java" name="distributedcache.cache.CacheConfiguration" project="distributedcache" 
+  <class id="18" language="java" name="distributedcache.cache.CacheConfiguration" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/CacheConfiguration.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="191" width="318" x="3645" y="859"/>    
@@ -200,7 +173,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="22" language="java" name="distributedcache.cache.DefaultCacheRegion" project="distributedcache" 
+  <class id="19" language="java" name="distributedcache.cache.DefaultCacheRegion" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/DefaultCacheRegion.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="245" width="269" x="3336" y="502"/>    
@@ -210,7 +183,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="23" language="java" name="distributedcache.cache.BaseCache" project="distributedcache" 
+  <class id="20" language="java" name="distributedcache.cache.BaseCache" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/BaseCache.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="227" width="337" x="3905" y="502"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -219,7 +192,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="24" language="java" name="distributedcache.cache.BaseCache.Builder" project="distributedcache" 
+  <class id="21" language="java" name="distributedcache.cache.BaseCache.Builder" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/BaseCache.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="137" width="317" x="4003" y="859"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -228,7 +201,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="25" language="java" name="distributedcache.cache.invalidation.CacheInvalidationStrategy" 
+  <interface id="22" language="java" name="distributedcache.cache.invalidation.CacheInvalidationStrategy" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/invalidation/CacheInvalidationStrategy.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -239,7 +212,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="26" language="java" name="distributedcache.cache.Cache" project="distributedcache" 
+  <interface id="23" language="java" name="distributedcache.cache.Cache" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/Cache.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="155" width="291" x="4639" y="859"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -248,7 +221,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="27" language="java" name="distributedcache.cache.configuration.ConfigurationValue.Builder" 
+  <class id="24" language="java" name="distributedcache.cache.configuration.ConfigurationValue.Builder" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/ConfigurationValue.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -259,7 +232,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="28" language="java" name="distributedcache.cache.configuration.ConfigurationCacheProvider" 
+  <class id="25" language="java" name="distributedcache.cache.configuration.ConfigurationCacheProvider" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/ConfigurationCacheProvider.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -270,7 +243,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="29" language="java" name="distributedcache.cache.configuration.ConfigurationValue" 
+  <class id="26" language="java" name="distributedcache.cache.configuration.ConfigurationValue" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/ConfigurationValue.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -281,7 +254,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="30" language="java" name="distributedcache.cache.configuration.ConfigurationKey" project="distributedcache" 
+  <class id="27" language="java" name="distributedcache.cache.configuration.ConfigurationKey" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/ConfigurationKey.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="209" width="219" x="7976" y="37"/>    
@@ -291,7 +264,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <annotation id="31" language="java" name="distributedcache.cache.configuration.ConfigurationCache" 
+  <annotation id="28" language="java" name="distributedcache.cache.configuration.ConfigurationCache" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/ConfigurationCache.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -302,7 +275,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </annotation>  
-  <class id="32" language="java" name="distributedcache.cache.configuration.boundary.NotificationDeserializer" 
+  <class id="29" language="java" name="distributedcache.cache.configuration.boundary.NotificationDeserializer" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/boundary/NotificationDeserializer.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -313,7 +286,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="33" language="java" name="distributedcache.cache.configuration.boundary.NotificationSerializer" 
+  <class id="30" language="java" name="distributedcache.cache.configuration.boundary.NotificationSerializer" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/boundary/NotificationSerializer.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -324,7 +297,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <annotation id="34" language="java" name="distributedcache.cache.configuration.boundary.Consume" 
+  <annotation id="31" language="java" name="distributedcache.cache.configuration.boundary.Consume" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/boundary/Consume.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -335,7 +308,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </annotation>  
-  <annotation id="35" language="java" name="distributedcache.cache.configuration.boundary.ValueSerializer" 
+  <annotation id="32" language="java" name="distributedcache.cache.configuration.boundary.ValueSerializer" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/boundary/ValueSerializer.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -346,7 +319,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </annotation>  
-  <annotation id="36" language="java" name="distributedcache.cache.configuration.boundary.ConsumerGroup" 
+  <annotation id="33" language="java" name="distributedcache.cache.configuration.boundary.ConsumerGroup" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/boundary/ConsumerGroup.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -357,7 +330,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </annotation>  
-  <annotation id="37" language="java" name="distributedcache.cache.configuration.boundary.KeySerializer" 
+  <annotation id="34" language="java" name="distributedcache.cache.configuration.boundary.KeySerializer" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/boundary/KeySerializer.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -368,7 +341,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </annotation>  
-  <class id="38" language="java" name="distributedcache.cache.configuration.boundary.ResourceConfiguration" 
+  <class id="35" language="java" name="distributedcache.cache.configuration.boundary.ResourceConfiguration" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/boundary/ResourceConfiguration.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -379,7 +352,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <annotation id="39" language="java" name="distributedcache.cache.configuration.boundary.KeyDeserializer" 
+  <annotation id="36" language="java" name="distributedcache.cache.configuration.boundary.KeyDeserializer" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/boundary/KeyDeserializer.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -390,7 +363,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </annotation>  
-  <annotation id="40" language="java" name="distributedcache.cache.configuration.boundary.ValueDeserializer" 
+  <annotation id="37" language="java" name="distributedcache.cache.configuration.boundary.ValueDeserializer" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/boundary/ValueDeserializer.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -401,7 +374,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </annotation>  
-  <class id="41" language="java" name="distributedcache.cache.configuration.boundary.ConfigurationBoundary" 
+  <class id="38" language="java" name="distributedcache.cache.configuration.boundary.ConfigurationBoundary" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/configuration/boundary/ConfigurationBoundary.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -412,7 +385,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="42" language="java" name="distributedcache.cache.notification.Subscription" project="distributedcache" 
+  <interface id="39" language="java" name="distributedcache.cache.notification.Subscription" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/Subscription.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="119" width="163" x="5490" y="859"/>    
@@ -422,7 +395,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="43" language="java" name="distributedcache.cache.notification.NotificationSubscriber" 
+  <interface id="40" language="java" name="distributedcache.cache.notification.NotificationSubscriber" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/NotificationSubscriber.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -433,7 +406,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="44" language="java" name="distributedcache.cache.notification.DefaultNotification" 
+  <class id="41" language="java" name="distributedcache.cache.notification.DefaultNotification" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/DefaultNotification.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -444,7 +417,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <enumeration id="45" language="java" name="distributedcache.cache.notification.Notification.NotificationType" 
+  <enumeration id="42" language="java" name="distributedcache.cache.notification.Notification.NotificationType" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/Notification.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -455,7 +428,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </enumeration>  
-  <interface id="46" language="java" name="distributedcache.cache.notification.NotificationListener" 
+  <interface id="43" language="java" name="distributedcache.cache.notification.NotificationListener" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/NotificationListener.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -466,7 +439,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="47" language="java" name="distributedcache.cache.notification.NotificationPublisher" 
+  <interface id="44" language="java" name="distributedcache.cache.notification.NotificationPublisher" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/NotificationPublisher.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -477,7 +450,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="48" language="java" name="distributedcache.cache.notification.DefaultNotification.Builder" 
+  <class id="45" language="java" name="distributedcache.cache.notification.DefaultNotification.Builder" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/DefaultNotification.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -488,7 +461,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="49" language="java" name="distributedcache.cache.notification.Notification" project="distributedcache" 
+  <interface id="46" language="java" name="distributedcache.cache.notification.Notification" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/Notification.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="119" width="163" x="7070" y="859"/>    
@@ -498,7 +471,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="50" language="java" name="distributedcache.cache.notification.kafka.Topic.Builder" 
+  <class id="47" language="java" name="distributedcache.cache.notification.kafka.Topic.Builder" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/kafka/Topic.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -509,7 +482,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="51" language="java" name="distributedcache.cache.notification.kafka.KafkaConsumerFactory" 
+  <class id="48" language="java" name="distributedcache.cache.notification.kafka.KafkaConsumerFactory" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/kafka/KafkaConsumerFactory.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -520,7 +493,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="52" language="java" name="distributedcache.cache.notification.kafka.KafkaNotificationPublisher" 
+  <class id="49" language="java" name="distributedcache.cache.notification.kafka.KafkaNotificationPublisher" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/kafka/KafkaNotificationPublisher.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -531,7 +504,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="53" language="java" name="distributedcache.cache.notification.kafka.KafkaNotificationSubscriber" 
+  <class id="50" language="java" name="distributedcache.cache.notification.kafka.KafkaNotificationSubscriber" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/kafka/KafkaNotificationSubscriber.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -542,7 +515,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="54" language="java" name="distributedcache.cache.notification.kafka.KafkaConfigurationAdapter" 
+  <class id="51" language="java" name="distributedcache.cache.notification.kafka.KafkaConfigurationAdapter" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/kafka/KafkaConfigurationAdapter.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -553,7 +526,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="55" language="java" name="distributedcache.cache.notification.kafka.Topic" project="distributedcache" 
+  <class id="52" language="java" name="distributedcache.cache.notification.kafka.Topic" project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/kafka/Topic.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="137" width="190" x="4970" y="859"/>    
@@ -563,7 +536,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="56" language="java" name="distributedcache.cache.notification.kafka.KafkaProducerFactory" 
+  <class id="53" language="java" name="distributedcache.cache.notification.kafka.KafkaProducerFactory" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/kafka/KafkaProducerFactory.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -574,9 +547,10 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="57" language="java" name="distributedcache.cache.notification.kafka.KafkaSubscriptionFactory" 
-    project="distributedcache" 
-    file="/distributedcache/src/main/java/distributedcache/cache/notification/kafka/KafkaSubscriptionFactory.java" 
+  <class id="54" language="java" 
+    name="distributedcache.cache.notification.kafka.KafkaConfigurationKeySubscriptionFactory" project="distributedcache" 
+    
+    file="/distributedcache/src/main/java/distributedcache/cache/notification/kafka/KafkaConfigurationKeySubscriptionFactory.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="137" width="390" x="5661" y="502"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -585,7 +559,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="58" language="java" name="distributedcache.cache.notification.kafka.KafkaSubscription" 
+  <class id="55" language="java" name="distributedcache.cache.notification.kafka.KafkaSubscription" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/kafka/KafkaSubscription.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -596,7 +570,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="59" language="java" name="distributedcache.cache.notification.kafka.KafkaSubscription.Builder" 
+  <class id="56" language="java" name="distributedcache.cache.notification.kafka.KafkaSubscription.Builder" 
     project="distributedcache" 
     file="/distributedcache/src/main/java/distributedcache/cache/notification/kafka/KafkaSubscription.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -607,360 +581,360 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <nesting id="60">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="5"/>  
-  </nesting>  
-  <realization id="61">    
-    <bendpoint x="7945" y="502"/>    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="19"/>  
-  </realization>  
-  <association id="62">    
-    <end type="SOURCE" refId="16" navigable="false">      
-      <attribute id="63" name="cacheEntry">        
+  <association id="57">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="58" name="publisher">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="64" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="19" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="65">    
-    <end type="SOURCE" refId="41" navigable="false">      
-      <attribute id="66" name="publisher">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="67" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="47" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="68">    
-    <end type="SOURCE" refId="22"/>    
-    <end type="TARGET" refId="17"/>  
-  </nesting>  
-  <realization id="69">    
-    <end type="SOURCE" refId="20"/>    
-    <end type="TARGET" refId="25"/>  
-  </realization>  
-  <association id="70">    
-    <end type="SOURCE" refId="41" navigable="false">      
-      <attribute id="71" name="subscription">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="72" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="58" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="73">    
-    <end type="SOURCE" refId="55"/>    
-    <end type="TARGET" refId="50"/>  
-  </nesting>  
-  <nesting id="74">    
-    <end type="SOURCE" refId="23"/>    
-    <end type="TARGET" refId="24"/>  
-  </nesting>  
-  <association id="75">    
-    <end type="SOURCE" refId="27" navigable="false">      
-      <attribute id="76" name="configurationValue">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="77" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="29" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="78">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="16"/>  
-  </nesting>  
-  <realization id="79">    
-    <end type="SOURCE" refId="23"/>    
-    <end type="TARGET" refId="26"/>  
-  </realization>  
-  <association id="80">    
-    <end type="SOURCE" refId="57" navigable="false">      
-      <attribute id="81" name="applicationConfiguration">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="82" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="83">    
-    <end type="SOURCE" refId="58"/>    
-    <end type="TARGET" refId="42"/>  
-  </realization>  
-  <association id="84">    
-    <end type="SOURCE" refId="23" navigable="false">      
-      <attribute id="85" name="cacheRegions">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="86" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="18" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="87">    
-    <end type="SOURCE" refId="29"/>    
-    <end type="TARGET" refId="27"/>  
-  </nesting>  
-  <realization id="88">    
-    <end type="SOURCE" refId="30"/>    
-    <end type="TARGET" refId="15"/>  
-  </realization>  
-  <nesting id="89">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="3"/>  
-  </nesting>  
-  <association id="90">    
-    <end type="SOURCE" refId="59" navigable="false">      
-      <attribute id="91" name="kafkaSubscription">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="92" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="58" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="93">    
-    <end type="SOURCE" refId="51" navigable="false">      
-      <attribute id="94" name="configurationAdapter">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="95" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="54" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="96">    
-    <end type="SOURCE" refId="13" navigable="false">      
-      <attribute id="97" name="key">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="98" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="15" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="99">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="100" name="jsonReflector">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="101" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="102">    
-    <end type="SOURCE" refId="49"/>    
-    <end type="TARGET" refId="45"/>  
-  </nesting>  
-  <association id="103">    
-    <end type="SOURCE" refId="24" navigable="false">      
-      <attribute id="104" name="baseCache">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="105" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="106">    
-    <end type="SOURCE" refId="44"/>    
-    <end type="TARGET" refId="48"/>  
-  </nesting>  
-  <association id="107">    
-    <end type="SOURCE" refId="22" navigable="false">      
-      <attribute id="108" name="cacheEntries">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="109" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="19" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="110">    
-    <bendpoint x="7263" y="859"/>    
-    <end type="SOURCE" refId="44" navigable="false">      
-      <attribute id="111" name="notificationType">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="112" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="45" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="113">    
-    <end type="SOURCE" refId="23" navigable="false">      
-      <attribute id="114" name="cacheConfiguration">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="115" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="21" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="116">    
-    <end type="SOURCE" refId="53"/>    
-    <end type="TARGET" refId="43"/>  
-  </realization>  
-  <association id="117">    
-    <end type="SOURCE" refId="58" navigable="false">      
-      <attribute id="118" name="failTopic">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="119" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="55" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="120">    
-    <end type="SOURCE" refId="58" navigable="false">      
-      <attribute id="121" name="outTopic">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="122" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="55" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="123">    
-    <end type="SOURCE" refId="52"/>    
-    <end type="TARGET" refId="47"/>  
-  </realization>  
-  <association id="124">    
-    <end type="SOURCE" refId="17" navigable="false">      
-      <attribute id="125" name="uc">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="126" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="22" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="127">    
-    <end type="SOURCE" refId="41" navigable="false">      
-      <attribute id="128" name="subscriber">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="129" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="43" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="130">    
-    <end type="SOURCE" refId="58"/>    
-    <end type="TARGET" refId="59"/>  
-  </nesting>  
-  <association id="131">    
-    <end type="SOURCE" refId="54" navigable="false">      
-      <attribute id="132" name="applicationConfiguration">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="133" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="134">    
-    <end type="SOURCE" refId="44"/>    
-    <end type="TARGET" refId="49"/>  
-  </realization>  
-  <association id="135">    
-    <end type="SOURCE" refId="50" navigable="false">      
-      <attribute id="136" name="topic">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="137" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="55" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="138">    
-    <end type="SOURCE" refId="48" navigable="false">      
-      <attribute id="139" name="notification">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="140" minimum="0" maximum="1">        
+      <multiplicity id="59" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="44" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="141">    
-    <end type="SOURCE" refId="56" navigable="false">      
-      <attribute id="142" name="configurationAdapter">        
+  <association id="60">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="61" name="cacheRegion">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="143" minimum="0" maximum="1">        
+      <multiplicity id="62" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="54" navigable="true"/>    
+    <end type="TARGET" refId="19" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="144">    
-    <end type="SOURCE" refId="22"/>    
-    <end type="TARGET" refId="18"/>  
+  <realization id="63">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="22"/>  
   </realization>  
-  <association id="145">    
-    <end type="SOURCE" refId="58" navigable="false">      
-      <attribute id="146" name="inTopic">        
+  <nesting id="64">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="14"/>  
+  </nesting>  
+  <association id="65">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="66" name="cacheEntries">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="147" minimum="0" maximum="1">        
+      <multiplicity id="67" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="68">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="13"/>  
+  </nesting>  
+  <realization id="69">    
+    <end type="SOURCE" refId="41"/>    
+    <end type="TARGET" refId="46"/>  
+  </realization>  
+  <realization id="70">    
+    <end type="SOURCE" refId="27"/>    
+    <end type="TARGET" refId="12"/>  
+  </realization>  
+  <association id="71">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="72" name="cacheRegions">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="73" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="74">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="75" name="cacheEntry">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="76" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="77">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="78" name="configurationValue">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="79" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="26" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="80">    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="81" name="kafkaSubscription">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="82" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="55" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <association id="83">    
+    <bendpoint x="7263" y="859"/>    
+    <end type="SOURCE" refId="41" navigable="false">      
+      <attribute id="84" name="notificationType">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="85" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="42" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="86">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="21"/>  
+  </nesting>  
+  <nesting id="87">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="24"/>  
+  </nesting>  
+  <association id="88">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="89" name="subscriber">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="90" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="40" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="91">    
+    <end type="SOURCE" refId="48" navigable="false">      
+      <attribute id="92" name="configurationAdapter">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="93" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="51" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="94">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <association id="95">    
+    <end type="SOURCE" refId="45" navigable="false">      
+      <attribute id="96" name="notification">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="97" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="41" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="98">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="99" name="cacheConfiguration">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="100" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="101">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="5"/>  
+  </nesting>  
+  <realization id="102">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="15"/>  
+  </realization>  
+  <association id="103">    
+    <end type="SOURCE" refId="55" navigable="false">      
+      <attribute id="104" name="outTopic">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="105" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="52" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="106">    
+    <end type="SOURCE" refId="55" navigable="false">      
+      <attribute id="107" name="failTopic">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="108" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="52" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="109">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="110" name="jsonReflector">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="111" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="112">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="113" name="subscription">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="114" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="55" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="115">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="3"/>  
+  </nesting>  
+  <nesting id="116">    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="47"/>  
+  </nesting>  
+  <realization id="117">    
+    <bendpoint x="7945" y="502"/>    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="16"/>  
+  </realization>  
+  <association id="118">    
+    <end type="SOURCE" refId="55" navigable="false">      
+      <attribute id="119" name="inTopic">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="120" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="52" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="121">    
+    <end type="SOURCE" refId="54" navigable="false">      
+      <attribute id="122" name="applicationConfiguration">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="123" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="124">    
+    <end type="SOURCE" refId="41"/>    
+    <end type="TARGET" refId="45"/>  
+  </nesting>  
+  <association id="125">    
+    <end type="SOURCE" refId="47" navigable="false">      
+      <attribute id="126" name="topic">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="127" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="52" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="128">    
+    <end type="SOURCE" refId="46"/>    
+    <end type="TARGET" refId="42"/>  
+  </nesting>  
+  <association id="129">    
+    <end type="SOURCE" refId="53" navigable="false">      
+      <attribute id="130" name="configurationAdapter">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="131" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="51" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="132">    
+    <end type="SOURCE" refId="55"/>    
+    <end type="TARGET" refId="56"/>  
+  </nesting>  
+  <association id="133">    
+    <end type="SOURCE" refId="51" navigable="false">      
+      <attribute id="134" name="applicationConfiguration">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="135" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="136">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="137" name="key">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="138" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="139">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="140" name="baseCache">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="141" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="142">    
+    <end type="SOURCE" refId="49"/>    
+    <end type="TARGET" refId="44"/>  
+  </realization>  
+  <realization id="143">    
+    <end type="SOURCE" refId="55"/>    
+    <end type="TARGET" refId="39"/>  
+  </realization>  
+  <realization id="144">    
+    <end type="SOURCE" refId="50"/>    
+    <end type="TARGET" refId="40"/>  
+  </realization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

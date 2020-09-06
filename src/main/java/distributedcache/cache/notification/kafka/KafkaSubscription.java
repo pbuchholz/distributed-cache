@@ -2,7 +2,6 @@ package distributedcache.cache.notification.kafka;
 
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.producer.Producer;
-import org.springframework.stereotype.Component;
 
 import distributedcache.cache.notification.Subscription;
 
@@ -14,7 +13,6 @@ import distributedcache.cache.notification.Subscription;
  * @param <K> The type of key.
  * @param <V> The type of value.
  */
-@Component
 public class KafkaSubscription<K, V> implements Subscription {
 
 	private Consumer<K, V> consumer;
