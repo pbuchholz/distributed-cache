@@ -192,7 +192,7 @@ public class ConfigurationBoundary implements Serializable {
 	@Scheduled(fixedRate = 200)
 	public void invalidation() {
 		/* Invalidate cache according to strategy. */
-		cacheInvalidationStrategy.invalidate(this.configurationCache);
+		cacheInvalidationStrategy.isInvalid(this.configurationCache);
 	}
 
 //	public void releaseCache() {
