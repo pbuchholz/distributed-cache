@@ -23,7 +23,7 @@ public class ReflectionsTest {
 		List<Method> immutableMethods = Reflections.immutableMethods(BaseCache.class);
 
 		assertNotNull("List of immutable methods is null.", immutableMethods);
-		assertEquals("Wrong number of immutable Methods read.", 2, immutableMethods.size());
+		assertEquals("Wrong number of immutable Methods read.", 3, immutableMethods.size());
 		assertTrue("Method [cacheRegionByName] is immutable.", //
 				immutableMethods.stream() //
 						.filter(m -> m.getName().equals("cacheRegionByName")) //
@@ -32,6 +32,11 @@ public class ReflectionsTest {
 		assertTrue("Method [getCacheRegions] is immutable", //
 				immutableMethods.stream() //
 						.filter(m -> m.getName().equals("getCacheRegions")) //
+						.findFirst() //
+						.isPresent());
+		assertTrue("Method [getAll] is immutable", //
+				immutableMethods.stream() //
+						.filter(m -> m.getName().equals("getAll")) //
 						.findFirst() //
 						.isPresent());
 
