@@ -52,7 +52,7 @@ public interface Cache<K extends CacheKey<K>, T extends Serializable> {
 	 * @param regionName
 	 * @param key
 	 */
-	void removeFromRegion(String regionName, K key);
+	void remove(String regionName, K key);
 
 	/**
 	 * Removes an entry from the cache directly.

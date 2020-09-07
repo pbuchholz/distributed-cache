@@ -61,16 +61,21 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 	@Override
 	public T get(K key) {
 		/* First identify CacheKey using same check. */
-		CacheKey<K> cachedKey = this.cacheEntries.keySet().stream() //
-				.filter(key::same) //
-				.findFirst() //
-				.get();
+		CacheKey<K> cachedKey = this.findCacheKey(key);
 
 		/* Return CacheEntry from Cache. */
 		CacheEntry<K, T> cacheEntry = Objects.requireNonNull(this.cacheEntries.get(cachedKey));
 		cacheEntry.setLastAccess(System.currentTimeMillis());
 		return cacheEntry.value();
 
+	}
+
+	private CacheKey<K> findCacheKey(K key) {
+		/* First identify CacheKey using same check. */
+		return this.cacheEntries.keySet().stream() //
+				.filter(key::same) //
+				.findFirst() //
+				.get();
 	}
 
 	private Optional<Cache<K, T>> findRegionByName(String regionName) {
@@ -151,7 +156,7 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 			return this;
 		}
 
-		public BaseCache<K, T> build() {
+		public Cache<K, T> build() {
 			return this.baseCache;
 		}
 
@@ -160,6 +165,19 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+	}
+
+	@Override
+	public void remove(String regionName, K key) {
+		this.findRegionByName(regionName) //
+				.get() //
+				.remove(key);
+	}
+
+	@Override
+	public void remove(K key) {
+		CacheKey<K> cacheKey = this.findCacheKey(key);
+		this.cacheEntries.remove(cacheKey);
 	}
 
 }

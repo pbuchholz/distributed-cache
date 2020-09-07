@@ -8,48 +8,44 @@ import javax.json.JsonObject;
 
 import org.junit.Test;
 
-import distributedcache.cache.DefaultCacheEntry;
-import distributedcache.cache.CacheRegion;
-import distributedcache.cache.DefaultCacheRegion;
+import distributedcache.cache.BaseCache;
+import distributedcache.cache.Cache;
 import distributedcache.cache.configuration.ConfigurationKey;
 import distributedcache.cache.configuration.ConfigurationValue;
 
 public class JsonReflectorTest {
 
-	public CacheRegion<ConfigurationKey, ConfigurationValue> buildCacheRegionForTesting() {
-		return DefaultCacheRegion.<ConfigurationKey, ConfigurationValue>builder() //
-				.name("TestCacheRegion") //
-				.cacheEntry(DefaultCacheEntry.<ConfigurationKey, ConfigurationValue>builder() //
-						.key(new ConfigurationKey("configuration-key-1")).value(ConfigurationValue.builder() //
-								.name("configuration-key-1") //
-								.value("configuration-value-1") //
-								.build()) //
-						.build()) //
-				.cacheEntry(DefaultCacheEntry.<ConfigurationKey, ConfigurationValue>builder() //
-						.key(new ConfigurationKey("configuration-key-2")).value(ConfigurationValue.builder() //
-								.name("configuration-key-2") //
-								.value("configuration-value-2") //
-								.build()) //
-						.build()) //
-				.cacheEntry(DefaultCacheEntry.<ConfigurationKey, ConfigurationValue>builder() //
-						.key(new ConfigurationKey("configuration-key-3")).value(ConfigurationValue.builder() //
-								.name("configuration-key-3") //
-								.value("configuration-value-3") //
+	/**
+	 * Builds a {@link Cache} instance used for testing.
+	 * 
+	 * @return
+	 */
+	public Cache<ConfigurationKey, ConfigurationValue> buildCacheForTesting() {
+		Cache<ConfigurationKey, ConfigurationValue> cache = BaseCache.<ConfigurationKey, ConfigurationValue>builder() //
+				.cacheRegion("root", BaseCache.<ConfigurationKey, ConfigurationValue>builder() //
+						.cacheRegion("sub", BaseCache.<ConfigurationKey, ConfigurationValue>builder() //
 								.build()) //
 						.build()) //
 				.build();
 
+		cache.put("root", new ConfigurationKey("hostname"),
+				ConfigurationValue.builder().name("hostname").value("localhost").build());
+		cache.put("root", new ConfigurationKey("post"),
+				ConfigurationValue.builder().name("post").value("8080").build());
+
+		cache.put("sub", new ConfigurationKey("invalidationtimespan"),
+				ConfigurationValue.builder().name("invalidationtimespan").value("800").build());
+
+		return cache;
 	}
 
 	@Test
 	public void testBuildReflectively() throws ReflectiveOperationException {
 		JsonReflector jsonReflector = JsonReflector.builder() //
-				.traverseMethod("cacheEntries") //
-				.traverseMethod("value") //
-				.traverseMethod("key") //
+				.traverseMethod("getCacheRegions") //
 				.build();
 
-		JsonObject cacheRegionJsonObject = jsonReflector.buildJsonObject(this.buildCacheRegionForTesting());
+		JsonObject cacheRegionJsonObject = jsonReflector.buildJsonObject(this.buildCacheForTesting());
 
 		assertNotNull("CacheRegion has not been marshalled correctly and is null.", cacheRegionJsonObject);
 		assertEquals("TestCacheRegion", cacheRegionJsonObject.getString("name"));

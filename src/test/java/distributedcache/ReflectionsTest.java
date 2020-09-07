@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import distributedcache.cache.DefaultCacheRegion;
+import distributedcache.cache.BaseCache;
 
 /**
  * Contains tests for {@link Reflections}.
@@ -20,18 +20,18 @@ public class ReflectionsTest {
 
 	@Test
 	public void testFindImmutableMethods() throws NoSuchMethodException, SecurityException {
-		List<Method> immutableMethods = Reflections.immutableMethods(DefaultCacheRegion.class);
+		List<Method> immutableMethods = Reflections.immutableMethods(BaseCache.class);
 
 		assertNotNull("List of immutable methods is null.", immutableMethods);
 		assertEquals("Wrong number of immutable Methods read.", 2, immutableMethods.size());
-		assertTrue("cacheEntries is not listed as immutable method.", //
+		assertTrue("Method [cacheRegionByName] is immutable.", //
 				immutableMethods.stream() //
-						.filter(m -> m.getName().equals("cacheEntries")) //
+						.filter(m -> m.getName().equals("cacheRegionByName")) //
 						.findFirst() //
 						.isPresent());
-		assertTrue("findInRegion is not listed as immutable method.", //
+		assertTrue("Method [getCacheRegions] is immutable", //
 				immutableMethods.stream() //
-						.filter(m -> m.getName().equals("findInRegion")) //
+						.filter(m -> m.getName().equals("getCacheRegions")) //
 						.findFirst() //
 						.isPresent());
 
