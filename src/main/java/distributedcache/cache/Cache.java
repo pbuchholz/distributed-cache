@@ -1,17 +1,19 @@
 package distributedcache.cache;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
 import distributedcache.Immutable;
+import distributedcache.cache.invalidation.Invalidateable;
 
 /**
  * Defines a cache which is segmented into {@link DefaultCacheRegion}s.
  * 
  * @author Philipp Buchholz
  */
-public interface Cache<K extends CacheKey<K>, T extends Serializable> {
+public interface Cache<K extends CacheKey<K>, T extends Serializable> extends Invalidateable {
 
 	/**
 	 * Puts a value into the named region of the cache.
@@ -45,6 +47,14 @@ public interface Cache<K extends CacheKey<K>, T extends Serializable> {
 	 * @return
 	 */
 	T get(K key);
+
+	/**
+	 * Returns a List with all the currently cached values.
+	 * 
+	 * @return
+	 */
+	@Immutable
+	Collection<T> getAll();
 
 	/**
 	 * Removes an entry from the cache in a defined region.

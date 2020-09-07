@@ -4,9 +4,9 @@ import static distributedcache.cache.configuration.ConfigurationCacheProvider.RO
 
 import java.io.Serializable;
 import java.time.Duration;
-import java.util.stream.Stream;
 
 import distributedcache.cache.configuration.ConfigurationValue;
+import distributedcache.cache.invalidation.InvalidationStrategy;
 
 /**
  * Builds prepared instances of {@link BaseCache} for testing purposes.
@@ -25,18 +25,18 @@ public class BaseCacheTestBuilder {
 		return cacheConfiguration;
 	}
 
-	public static <K extends CacheKey<K>, V extends Serializable> BaseCache<K, V> buildDefaultConfiguredBaseCacheWithRootRegion() {
+	public static <K extends CacheKey<K>, V extends Serializable> Cache<K, V> buildDefaultConfiguredBaseCacheWithRootRegion() {
 		return BaseCache.<K, V>builder() //
-				.cacheRegion(ROOT_CONFIGURATION_REGION) //
+				.cacheRegion(ROOT_CONFIGURATION_REGION, BaseCache.<K, V>builder() //
+						.cacheRegion("sub", BaseCache.<K, V>builder() //
+								.invalidationStrategy(new InvalidationStrategy.None<>()) //
+								.cacheConfiguration(buildDefaultCacheConfiguration())//
+								.build()) //
+						.invalidationStrategy(new InvalidationStrategy.None<>()) //
+						.cacheConfiguration(buildDefaultCacheConfiguration()) //
+						.build()) //
+				.invalidationStrategy(new InvalidationStrategy.None<>()) //
 				.cacheConfiguration(buildDefaultCacheConfiguration()) //
-				.build();
-	}
-
-	public static <K extends CacheKey<K>, V extends Serializable> BaseCache<K, V> buildDefaultConfiguredBaseCacheWithRegions(
-			String... regions) {
-		BaseCache.Builder<K, V> cacheBuilder = BaseCache.<K, V>builder();
-		Stream.of(regions).forEach(cacheBuilder::cacheRegion);
-		return cacheBuilder.cacheConfiguration(buildDefaultCacheConfiguration()) //
 				.build();
 	}
 
