@@ -19,7 +19,7 @@ public interface InvalidationStrategy<K extends CacheKey<K>, T extends Serializa
 	public final class None<K extends CacheKey<K>, T extends Serializable> implements InvalidationStrategy<K, T> {
 
 		@Override
-		public boolean invalidate(CacheEntry<K, T> cacheEntry) {
+		public boolean isInvalid(CacheEntry<K, T> cacheEntry) {
 			return false;
 		}
 
@@ -31,6 +31,6 @@ public interface InvalidationStrategy<K extends CacheKey<K>, T extends Serializa
 	 * @return <code>true</code> if the passed in {@link CacheEntry} is invalid.
 	 * @param cache
 	 */
-	boolean invalidate(CacheEntry<K, T> cacheEntry);
+	boolean isInvalid(CacheEntry<K, T> cacheEntry);
 
 }

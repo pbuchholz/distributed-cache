@@ -26,13 +26,16 @@ public class LastAccessCacheInvalidationStrategy<K extends CacheKey<K>, T extend
 	 * </ol>
 	 */
 	@Override
-	public boolean invalidate(CacheEntry<K, T> cacheEntry) {
+	public boolean isInvalid(CacheEntry<K, T> cacheEntry) {
 		/* PreConditions. */
 		assert 0 != cacheEntry.getCreated();
 
-		if ((cacheEntry.neverAccessed()
-				&& (cacheEntry.getCreated() + cacheEntry.getValidationTimespan()) > System.currentTimeMillis()) //
-				|| (cacheEntry.getLastAccess() + cacheEntry.getValidationTimespan() > System.currentTimeMillis())) {
+		if (cacheEntry.neverAccessed()
+				&& (cacheEntry.getCreated() + cacheEntry.getValidationTimespan()) > System.currentTimeMillis()) {
+			return false;
+		}
+
+		if (cacheEntry.getLastAccess() + cacheEntry.getValidationTimespan() > System.currentTimeMillis()) {
 			return false;
 		}
 

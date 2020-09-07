@@ -195,7 +195,7 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 	@Override
 	public void invalidate() {
 		this.cacheEntries.entrySet().stream() //
-				.filter(e -> this.invalidationStrategy.invalidate(e.getValue())) //
+				.filter(e -> this.invalidationStrategy.isInvalid(e.getValue())) //
 				.map(Entry::getKey) //
 				.forEach(k -> this.cacheEntries.remove(k));
 	}

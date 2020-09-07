@@ -1,17 +1,14 @@
 package distributedcache.cache.invalidation;
 
-import static distributedcache.cache.BaseCacheTestBuilder.buildDefaultConfiguredBaseCacheWithRootRegion;
-import static distributedcache.cache.configuration.ConfigurationCacheProvider.ROOT_CONFIGURATION_REGION;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Duration;
-import java.util.NoSuchElementException;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import distributedcache.cache.Cache;
+import distributedcache.cache.CacheEntry;
+import distributedcache.cache.DefaultCacheEntry;
 import distributedcache.cache.configuration.ConfigurationKey;
 import distributedcache.cache.configuration.ConfigurationValue;
 
@@ -22,14 +19,8 @@ import distributedcache.cache.configuration.ConfigurationValue;
  */
 public class LastAccessCacheInvalidationStrategyTest {
 
-	private Cache<ConfigurationKey, ConfigurationValue> cache;
 	private InvalidationStrategy<ConfigurationKey, ConfigurationValue> invalidationStrategy //
 			= new LastAccessCacheInvalidationStrategy<>();
-
-	@Before
-	public void prepareCache() {
-		this.cache = buildDefaultConfiguredBaseCacheWithRootRegion();
-	}
 
 	/**
 	 * Builds a {@link ConfigurationValue} for testing purposes.
@@ -44,53 +35,38 @@ public class LastAccessCacheInvalidationStrategyTest {
 	}
 
 	/**
-	 * Puts a new {@link ConfigurationValue} into the cache and then waits for 5
-	 * seconds. The putted {@link ConfigurationValue} should still be valid after
-	 * that time span.
+	 * Builds an {@link CacheEntry} using buildConfigurationValue().
 	 * 
-	 * @throws InterruptedException
+	 * @return
 	 */
-	@Test
-	public void shouldNotInvalidateAfter5Seconds() throws InterruptedException {
-		ConfigurationKey configurationKey = new ConfigurationKey("active.consumer.count");
-
-		cache.put(ROOT_CONFIGURATION_REGION, configurationKey, this.buildConfigurationValue());
-
-		/* Access CacheEntry. */
-		cache.get(ROOT_CONFIGURATION_REGION, configurationKey);
-
-		/* After five seconds the cache entry is still valid. */
-		Thread.sleep(Duration.ofSeconds(5l).toMillis());
-
-		/* invalidate CacheEntries. */
-		invalidationStrategy.invalidate(cache);
-
-		assertNotNull("LastAccessCacheInvalidationStrategy invalidated valid CacheEntry.",
-				cache.get(ROOT_CONFIGURATION_REGION, configurationKey));
-
+	private CacheEntry<ConfigurationKey, ConfigurationValue> buildCacheEntry() {
+		CacheEntry<ConfigurationKey, ConfigurationValue> cacheEntry = new DefaultCacheEntry<>();
+		cacheEntry.setValue(this.buildConfigurationValue());
+		cacheEntry.setKey(new ConfigurationKey("active.consumer.count"));
+		cacheEntry.setCreated(System.currentTimeMillis());
+		cacheEntry.setLastAccess(System.currentTimeMillis());
+		cacheEntry.setValidationTimespan(Duration.ofSeconds(7).toMillis());
+		return cacheEntry;
 	}
 
-	/**
-	 * Puts a new {@link ConfigurationValue} into the cache and then waits for 15
-	 * seconds. The putted {@link ConfigurationValue} should have been invalidated
-	 * in the meantime.
-	 * 
-	 * @throws InterruptedException
-	 */
-	@Test(expected = NoSuchElementException.class)
+	@Test
+	public void shouldNotInvalidateAfter5Seconds() throws InterruptedException {
+
+		CacheEntry<ConfigurationKey, ConfigurationValue> cacheEntry = this.buildCacheEntry();
+		Thread.sleep(Duration.ofSeconds(5l).toMillis());
+		boolean isInvalid = invalidationStrategy.isInvalid(cacheEntry);
+
+		assertFalse("CacheEntry should be valid.", isInvalid);
+	}
+
+	@Test
 	public void shouldInvalidateAfter10Seconds() throws InterruptedException {
-		ConfigurationKey configurationKey = new ConfigurationKey("active.consumer.count");
 
-		cache.put(ROOT_CONFIGURATION_REGION, configurationKey, this.buildConfigurationValue());
+		CacheEntry<ConfigurationKey, ConfigurationValue> cacheEntry = this.buildCacheEntry();
+		Thread.sleep(Duration.ofSeconds(10l).toMillis());
+		boolean isInvalid = invalidationStrategy.isInvalid(cacheEntry);
 
-		/* After 15 seconds the cache entry is not valid any more. */
-		Thread.sleep(Duration.ofSeconds(15l).toMillis());
-
-		/* Invaldate cache entries. */
-		invalidationStrategy.invalidate(cache);
-
-		assertNull("ConfigurationValue has not been invalidated.",
-				cache.get(ROOT_CONFIGURATION_REGION, configurationKey));
+		assertTrue("CacheEntry should be invalid.", isInvalid);
 	}
 
 }
