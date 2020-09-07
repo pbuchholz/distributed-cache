@@ -148,7 +148,7 @@ public class ConfigurationBoundary implements Serializable {
 					String.format("ConfigurationValue for Key %s could not be found in ConfigurationCache.", key));
 		}
 
-		configurationCache.removeFromRegion(region, configurationKey);
+		configurationCache.remove(region, configurationKey);
 
 		Notification<ConfigurationKey> notification = DefaultNotification.Builder.<ConfigurationKey>put() //
 				.key(configurationKey) //
@@ -177,7 +177,7 @@ public class ConfigurationBoundary implements Serializable {
 							(ConfigurationValue) notification.value().get());
 					break;
 				case DELETE:
-					configurationCache.removeFromRegion(notification.affectedCacheRegion(), notification.key());
+					configurationCache.remove(notification.affectedCacheRegion(), notification.key());
 				}
 
 				/* Publish notification further to peer. */
@@ -191,8 +191,8 @@ public class ConfigurationBoundary implements Serializable {
 	// ApplicationConfiguration.
 	@Scheduled(fixedRate = 200)
 	public void invalidation() {
-		/* Invalidate cache according to strategy. */
-		cacheInvalidationStrategy.isInvalid(this.configurationCache);
+//		/* Invalidate cache according to strategy. */
+//		cacheInvalidationStrategy.isInvalid(this.configurationCache);
 	}
 
 //	public void releaseCache() {
