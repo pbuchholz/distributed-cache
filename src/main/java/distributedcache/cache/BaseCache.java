@@ -2,11 +2,13 @@ package distributedcache.cache;
 
 import java.io.Serializable;
 import java.lang.reflect.Proxy;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -61,16 +63,27 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 	@Override
 	public T get(K key) {
 		/* First identify CacheKey using same check. */
-		CacheKey<K> cachedKey = this.cacheEntries.keySet().stream() //
-				.filter(key::same) //
-				.findFirst() //
-				.get();
+		CacheKey<K> cachedKey = this.findCacheKey(key);
 
 		/* Return CacheEntry from Cache. */
 		CacheEntry<K, T> cacheEntry = Objects.requireNonNull(this.cacheEntries.get(cachedKey));
 		cacheEntry.setLastAccess(System.currentTimeMillis());
 		return cacheEntry.value();
+	}
 
+	@Override
+	public Collection<T> getAll() {
+		return this.cacheEntries.values().stream() //
+				.map(e -> e.value()) //
+				.collect(Collectors.toList());
+	}
+
+	private CacheKey<K> findCacheKey(K key) {
+		/* First identify CacheKey using same check. */
+		return this.cacheEntries.keySet().stream() //
+				.filter(key::same) //
+				.findFirst() //
+				.get();
 	}
 
 	private Optional<Cache<K, T>> findRegionByName(String regionName) {
@@ -87,13 +100,14 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 	 * @return
 	 */
 	private Stream<Entry<String, Cache<K, T>>> flatRegions(Map<String, Cache<K, T>> cacheRegions) {
-		return cacheRegions.entrySet().stream().flatMap(e -> flatRegions(e.getValue().getCacheRegions()));
+		return Stream.concat(cacheRegions.entrySet().stream(),
+				cacheRegions.entrySet().stream().flatMap(e -> flatRegions(e.getValue().getCacheRegions())));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Cache<K, T> cacheRegionByName(String regionName) {
-		return (BaseCache<K, T>) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), //
+		return (Cache<K, T>) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), //
 				new Class[] { Cache.class }, //
 				new ImmutableInvocationHandler(this.findRegionByName(regionName) //
 						.get()));
@@ -151,7 +165,7 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 			return this;
 		}
 
-		public BaseCache<K, T> build() {
+		public Cache<K, T> build() {
 			return this.baseCache;
 		}
 
@@ -160,6 +174,30 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+	}
+
+	@Override
+	public void remove(String regionName, K key) {
+		this.findRegionByName(regionName) //
+				.get() //
+				.remove(key);
+	}
+
+	@Override
+	public void remove(K key) {
+		CacheKey<K> cacheKey = this.findCacheKey(key);
+		this.cacheEntries.remove(cacheKey);
+	}
+
+	/**
+	 * Invalidates the entries of the {@link Cache}.
+	 */
+	@Override
+	public void invalidate() {
+		this.cacheEntries.entrySet().stream() //
+				.filter(e -> this.invalidationStrategy.invalidate(e.getValue())) //
+				.map(Entry::getKey) //
+				.forEach(k -> this.cacheEntries.remove(k));
 	}
 
 }

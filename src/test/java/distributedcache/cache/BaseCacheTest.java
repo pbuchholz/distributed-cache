@@ -3,11 +3,9 @@ package distributedcache.cache;
 import static distributedcache.cache.configuration.ConfigurationCacheProvider.ROOT_CONFIGURATION_REGION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
 
-import distributedcache.ImmutableInvocationHandler.MutationNotAllowedException;
 import distributedcache.cache.configuration.ConfigurationKey;
 import distributedcache.cache.configuration.ConfigurationValue;
 
@@ -44,63 +42,29 @@ public class BaseCacheTest {
 	@Test
 	public void testFlushRegion() {
 		Cache<ConfigurationKey, ConfigurationValue> cache = BaseCacheTestBuilder
-				.buildDefaultConfiguredBaseCacheWithRegions("ServerConfiguration1", "ServerConfiguration2");
-		cache.put("ServerConfiguration1", new ConfigurationKey("TransactionTimeout"), ConfigurationValue.builder() //
-				.name("TransactionTimeout") //
-				.value("10") //
-				.build());
-		cache.put("ServerConfiguration1", new ConfigurationKey("MaxDatabaseConnections"), ConfigurationValue.builder() //
-				.name("MaxDatabaseConnections") //
-				.value("99") //
-				.build());
-		cache.put("ServerConfiguration2", new ConfigurationKey("TransactionTimeout"), ConfigurationValue.builder() //
-				.name("TransactionTimeout") //
-				.value("78") //
-				.build());
-
-		assertEquals("Wrong number of CacheRegions in cache.", 2, cache.getCacheRegions().size());
-
-		assertNotNull("CacheRegion <ServerConfiguration1> not available.",
-				cache.cacheRegionByName("ServerConfiguration1"));
-		assertEquals("Wrong number of CacheEntries in CacheRegion <ServerConfiguration1>.", 2,
-				cache.cacheRegionByName("ServerConfiguration1").cacheEntries().size());
-
-		assertNotNull("CacheRegion <ServerConfiguration2> not available.",
-				cache.cacheRegionByName("ServerConfiguration2"));
-		assertEquals("Wrong number of CacheEntries in CacheRegion <ServerConfiguration2>.", 1,
-				cache.cacheRegionByName("ServerConfiguration2").cacheEntries().size());
-
-		cache.flushRegion("ServerConfiguration1");
-		assertEquals("Wrong number of CacheEntries in CacheRegion <ServerConfiguration1> after flush.", 0,
-				cache.cacheRegionByName("ServerConfiguration1").cacheEntries().size());
-	}
-
-	/**
-	 * Tests if a {@link CacheRegion} got from a {@link BaseCache} is immutable and
-	 * cannot be changed.
-	 */
-	@Test
-	public void testCacheRegionImmutability() {
-		Cache<ConfigurationKey, ConfigurationValue> cache = BaseCacheTestBuilder
 				.buildDefaultConfiguredBaseCacheWithRootRegion();
+
 		cache.put(ROOT_CONFIGURATION_REGION, new ConfigurationKey("TransactionTimeout"), ConfigurationValue.builder() //
 				.name("TransactionTimeout") //
 				.value("10") //
 				.build());
+		cache.put("sub", new ConfigurationKey("MaxDatabaseConnections"), ConfigurationValue.builder() //
+				.name("MaxDatabaseConnections") //
+				.value("99") //
+				.build());
 
-		CacheRegion<ConfigurationKey, ConfigurationValue> rootCacheRegion = cache
-				.cacheRegionByName(ROOT_CONFIGURATION_REGION);
+		assertEquals("Wrong number of cache entries in root cache region.", 1,
+				cache.cacheRegionByName(ROOT_CONFIGURATION_REGION).getAll().size());
+		assertEquals("TransactionTimeout has wrong value.", "10", cache.cacheRegionByName(ROOT_CONFIGURATION_REGION)
+				.get(new ConfigurationKey("TransactionTimeout")).getValue());
 
-		CacheEntry<ConfigurationKey, ConfigurationValue> entry = rootCacheRegion
-				.findInRegion(new ConfigurationKey("TransactionTimeout"));
+		assertEquals("Wrong number of cache entries in root cache region.", 1,
+				cache.cacheRegionByName("sub").getAll().size());
+		assertEquals("MaxDatabaseConnections has wrong value.", "99",
+				cache.cacheRegionByName("sub").get(new ConfigurationKey("MaxDatabaseConnections")).getValue());
 
-		/* Try to manipulate CacheEntry from CacheRegion. */
-		assertThrows(MutationNotAllowedException.class, () -> entry.setCreated(System.currentTimeMillis()));
-		assertThrows(MutationNotAllowedException.class,
-				() -> entry.setKey(new ConfigurationKey("ServerRuntimeVersion")));
-		assertThrows(MutationNotAllowedException.class, () -> entry.setLastAccess(System.currentTimeMillis()));
-		assertThrows(MutationNotAllowedException.class, () -> entry.setValidationTimespan(100L));
-		assertThrows(MutationNotAllowedException.class, () -> entry.setValue(null));
+		cache.flushRegion("sub");
+		assertEquals("Cache region [sub] has not been flushed.", 0, cache.cacheRegionByName("sub").getAll().size());
 	}
 
 }

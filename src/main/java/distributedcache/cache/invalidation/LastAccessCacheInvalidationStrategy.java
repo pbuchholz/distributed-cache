@@ -2,9 +2,17 @@ package distributedcache.cache.invalidation;
 
 import java.io.Serializable;
 
-import distributedcache.cache.Cache;
+import distributedcache.cache.CacheEntry;
 import distributedcache.cache.CacheKey;
 
+/**
+ * Invalidates {@link CacheEntry} based on the last access time.
+ * 
+ * @author Philipp Buchholz
+ *
+ * @param <K>
+ * @param <T>
+ */
 public class LastAccessCacheInvalidationStrategy<K extends CacheKey<K>, T extends Serializable>
 		implements InvalidationStrategy<K, T> {
 
@@ -18,23 +26,16 @@ public class LastAccessCacheInvalidationStrategy<K extends CacheKey<K>, T extend
 	 * </ol>
 	 */
 	@Override
-	public void invalidate(Cache<K, T> cache) {
-		// TODO
-//		cache.getCacheRegions().forEach((cr) -> {
-//			cr.cacheEntries().forEach((ce) -> {
-//
-//				/* PreConditions. */
-//				assert 0 != ce.getCreated();
-//
-//				if ((ce.neverAccessed() && (ce.getCreated() + ce.getValidationTimespan()) > System.currentTimeMillis()) //
-//						|| (ce.getLastAccess() + ce.getValidationTimespan() > System.currentTimeMillis())) {
-//					return;
-//				}
-//
-//				cr.removeFromRegion(ce.key());
-//			});
-//		});
+	public boolean invalidate(CacheEntry<K, T> cacheEntry) {
+		/* PreConditions. */
+		assert 0 != cacheEntry.getCreated();
 
+		if ((cacheEntry.neverAccessed()
+				&& (cacheEntry.getCreated() + cacheEntry.getValidationTimespan()) > System.currentTimeMillis()) //
+				|| (cacheEntry.getLastAccess() + cacheEntry.getValidationTimespan() > System.currentTimeMillis())) {
+			return false;
+		}
+
+		return true;
 	}
-
 }
