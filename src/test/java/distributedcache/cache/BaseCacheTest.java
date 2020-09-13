@@ -67,4 +67,16 @@ public class BaseCacheTest {
 		assertEquals("Cache region [sub] has not been flushed.", 0, cache.cacheRegionByName("sub").getAll().size());
 	}
 
+	/**
+	 * Tests if {@link Cache#cacheRegionByName(String)} works correctly.
+	 */
+	@Test
+	public void testfindRegionByName() {
+		Cache<ConfigurationKey, ConfigurationValue> cache = BaseCacheTestBuilder
+				.buildDefaultConfiguredWithHierarchicalRegion();
+
+		Cache<ConfigurationKey, ConfigurationValue> found = cache.cacheRegionByName("server-1-configuration");
+		assertNotNull("Region could not be found.", found);
+	}
+
 }

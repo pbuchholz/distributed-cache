@@ -3,11 +3,14 @@ package distributedcache.cache;
 import java.io.Serializable;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,13 +28,17 @@ import distributedcache.cache.invalidation.InvalidationStrategy;
  */
 public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements Cache<K, T> {
 
-	private Map<String, Cache<K, T>> cacheRegions = new ConcurrentHashMap<>();
+	protected Set<CacheRegion<K, T>> cacheRegions = new CopyOnWriteArraySet<>();
 
-	private Map<K, CacheEntry<K, T>> cacheEntries = new ConcurrentHashMap<>();
+	protected Map<K, CacheEntry<K, T>> cacheEntries = new ConcurrentHashMap<>();
 
-	private InvalidationStrategy<K, T> invalidationStrategy;
+	protected InvalidationStrategy<K, T> invalidationStrategy;
 
-	private CacheConfiguration cacheConfiguration;
+	protected CacheConfiguration cacheConfiguration;
+
+	protected BaseCache() {
+		/* Builder */
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -86,10 +93,9 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 				.get();
 	}
 
-	private Optional<Cache<K, T>> findRegionByName(String regionName) {
+	private Optional<CacheRegion<K, T>> findRegionByName(String regionName) {
 		return flatRegions(this.cacheRegions) //
-				.filter(cr -> cr.getKey().equals(regionName)) //
-				.map(e -> e.getValue()) //
+				.filter(cr -> cr.getRegionName().equals(regionName)) //
 				.findFirst();
 	}
 
@@ -99,16 +105,16 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 	 * 
 	 * @return
 	 */
-	private Stream<Entry<String, Cache<K, T>>> flatRegions(Map<String, Cache<K, T>> cacheRegions) {
-		return Stream.concat(cacheRegions.entrySet().stream(),
-				cacheRegions.entrySet().stream().flatMap(e -> flatRegions(e.getValue().getCacheRegions())));
+	private Stream<CacheRegion<K, T>> flatRegions(Set<CacheRegion<K, T>> cacheRegions) {
+		return Stream.concat(cacheRegions.stream(),
+				cacheRegions.stream().flatMap(cr -> flatRegions(cr.getCacheRegions())));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Cache<K, T> cacheRegionByName(String regionName) {
-		return (Cache<K, T>) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), //
-				new Class[] { Cache.class }, //
+	public CacheRegion<K, T> cacheRegionByName(String regionName) {
+		return (CacheRegion<K, T>) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), //
+				new Class[] { CacheRegion.class }, //
 				new ImmutableInvocationHandler(this.findRegionByName(regionName) //
 						.get()));
 	}
@@ -135,39 +141,73 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Map<String, Cache<K, T>> getCacheRegions() {
+	public Set<CacheRegion<K, T>> getCacheRegions() {
 		return this.cacheRegions;
 	}
 
-	public static <K extends CacheKey<K>, T extends Serializable> Builder<K, T> builder() {
-		return new Builder<>();
+	public static <K extends CacheKey<K>, T extends Serializable> BaseCacheBuilder<K, T> builder() {
+		return new BaseCacheBuilder<K, T>();
 	}
 
-	public static class Builder<K extends CacheKey<K>, T extends Serializable> {
-		private BaseCache<K, T> baseCache;
+	public static class BaseCacheBuilder<K extends CacheKey<K>, T extends Serializable>
+			extends Builder<K, T, BaseCacheBuilder<K, T>> {
 
-		public Builder() {
-			this.baseCache = new BaseCache<>();
-		}
-
-		public Builder<K, T> cacheRegion(String regionName, Cache<K, T> cacheRegion) {
-			baseCache.cacheRegions.put(regionName, cacheRegion);
-			return this;
-		}
-
-		public Builder<K, T> cacheConfiguration(CacheConfiguration cacheConfiguration) {
-			baseCache.cacheConfiguration = cacheConfiguration;
-			return this;
-		}
-
-		public Builder<K, T> invalidationStrategy(InvalidationStrategy<K, T> invalidationStrategy) {
-			this.baseCache.invalidationStrategy = invalidationStrategy;
-			return this;
-		}
-
+		@Override
 		public Cache<K, T> build() {
-			return this.baseCache;
+			BaseCache<K, T> baseCache = new BaseCache<>();
+			baseCache.cacheConfiguration = this.cacheConfiguration;
+			baseCache.invalidationStrategy = this.invalidationStrategy;
+			baseCache.cacheRegions = this.cacheRegions;
+			return baseCache;
 		}
+
+		@Override
+		protected BaseCacheBuilder<K, T> self() {
+			return this;
+		}
+
+	}
+
+	public abstract static class Builder<K extends CacheKey<K>, T extends Serializable, B extends Builder<K, T, B>> {
+		protected Set<CacheRegion<K, T>> cacheRegions;
+		protected InvalidationStrategy<K, T> invalidationStrategy;
+		protected CacheConfiguration cacheConfiguration;
+
+		public B cacheRegion(CacheRegion<K, T> cacheRegion) {
+			if (Objects.isNull(cacheRegions)) {
+				cacheRegions = new HashSet<>();
+			}
+			return self();
+		}
+
+		public B cacheRegions(CacheRegion<K, T>... cacheRegions) {
+			if (Objects.isNull(cacheRegions)) {
+				this.cacheRegions = new HashSet<>();
+			}
+
+			Stream.of(cacheRegions).forEach(cr -> this.cacheRegions.add(cr));
+
+			return self();
+		}
+
+		public B cacheConfiguration(CacheConfiguration cacheConfiguration) {
+			this.cacheConfiguration = cacheConfiguration;
+			return self();
+		}
+
+		public B invalidationStrategy(InvalidationStrategy<K, T> invalidationStrategy) {
+			this.invalidationStrategy = invalidationStrategy;
+			return self();
+		}
+
+		protected abstract B self();
+
+		/**
+		 * Builds the {@link Cache} instance.
+		 * 
+		 * @return The built {@link Cache} instance;
+		 */
+		protected abstract Cache<K, T> build();
 
 	}
 

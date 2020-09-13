@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import distributedcache.cache.BaseCache;
 import distributedcache.cache.Cache;
 import distributedcache.cache.CacheConfiguration;
+import distributedcache.cache.CacheRegion;
 
 @Component
 @Scope("application")
@@ -23,7 +24,8 @@ public class ConfigurationCacheProvider {
 		CacheConfiguration defaultCacheConfiguration = this.createDefaultCacheConfiguration();
 
 		Cache<ConfigurationKey, ConfigurationValue> cache = BaseCache.<ConfigurationKey, ConfigurationValue>builder() //
-				.cacheRegion(ROOT_CONFIGURATION_REGION, BaseCache.<ConfigurationKey, ConfigurationValue>builder() //
+				.cacheRegion(CacheRegion.<ConfigurationKey, ConfigurationValue>cacheRegionBuilder() //
+						.regionName(ROOT_CONFIGURATION_REGION) //
 						.cacheConfiguration(defaultCacheConfiguration) //
 						.build()) //
 				.cacheConfiguration(defaultCacheConfiguration) //

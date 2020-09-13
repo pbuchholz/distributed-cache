@@ -2,7 +2,6 @@ package distributedcache.cache;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Set;
 
 import distributedcache.Immutable;
@@ -88,7 +87,7 @@ public interface Cache<K extends CacheKey<K>, T extends Serializable> extends In
 	 * @return
 	 */
 	@Immutable
-	Cache<K, T> cacheRegionByName(String regionName);
+	CacheRegion<K, T> cacheRegionByName(String regionName);
 
 	/**
 	 * Returns a unmodifieable {@link Set} of the {@link DefaultCacheRegion}s
@@ -97,6 +96,6 @@ public interface Cache<K extends CacheKey<K>, T extends Serializable> extends In
 	 * @return
 	 */
 	@Immutable
-	Map<String, Cache<K, T>> getCacheRegions();
+	Set<CacheRegion<K, T>> getCacheRegions();
 
 }
