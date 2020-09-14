@@ -75,7 +75,7 @@ public class BaseCacheTest {
 		Cache<ConfigurationKey, ConfigurationValue> cache = BaseCacheTestBuilder
 				.buildDefaultConfiguredWithHierarchicalRegion();
 
-		Cache<ConfigurationKey, ConfigurationValue> found = cache.cacheRegionByName("server-1-configuration");
+		Cache<ConfigurationKey, ConfigurationValue> found = cache.cacheRegionByName("another-sub-region-2");
 		assertNotNull("Region could not be found.", found);
 	}
 
