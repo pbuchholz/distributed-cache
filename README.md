@@ -1,5 +1,5 @@
 # Distributed Cache
-Defines a distributed caching system which uses Apache Kafka as synchronization mechanismn between several cache instances. The individual cache instances are build using Java EE 8 and are deployed as WAR files.
+Defines a distributed caching system which uses Apache Kafka for synchronizing between several cache instances. The individual cache instances are spring boot services offering REST interfaces to communicate with the cache.
 
 ## Architectural patterns involved
 
