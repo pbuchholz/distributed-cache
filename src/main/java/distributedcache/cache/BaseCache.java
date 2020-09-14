@@ -3,7 +3,6 @@ package distributedcache.cache;
 import java.io.Serializable;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -28,7 +27,7 @@ import distributedcache.cache.invalidation.InvalidationStrategy;
  */
 public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements Cache<K, T> {
 
-	protected Set<CacheRegion<K, T>> cacheRegions = new CopyOnWriteArraySet<>();
+	protected Set<CacheRegion<K, T>> cacheRegions;
 
 	protected Map<K, CacheEntry<K, T>> cacheEntries = new ConcurrentHashMap<>();
 
@@ -169,22 +168,16 @@ public class BaseCache<K extends CacheKey<K>, T extends Serializable> implements
 	}
 
 	public abstract static class Builder<K extends CacheKey<K>, T extends Serializable, B extends Builder<K, T, B>> {
-		protected Set<CacheRegion<K, T>> cacheRegions;
+		protected Set<CacheRegion<K, T>> cacheRegions = new CopyOnWriteArraySet<>();
 		protected InvalidationStrategy<K, T> invalidationStrategy;
 		protected CacheConfiguration cacheConfiguration;
 
 		public B cacheRegion(CacheRegion<K, T> cacheRegion) {
-			if (Objects.isNull(cacheRegions)) {
-				cacheRegions = new HashSet<>();
-			}
+			cacheRegions.add(cacheRegion);
 			return self();
 		}
 
 		public B cacheRegions(CacheRegion<K, T>... cacheRegions) {
-			if (Objects.isNull(cacheRegions)) {
-				this.cacheRegions = new HashSet<>();
-			}
-
 			Stream.of(cacheRegions).forEach(cr -> this.cacheRegions.add(cr));
 
 			return self();

@@ -29,11 +29,11 @@ public class BaseCacheTestBuilder {
 			CacheRegion<K, V>... cacheRegionsBelowRoot) {
 
 		BaseCache.BaseCacheBuilder<K, V> builder = BaseCache.<K, V>builder() //
-				.cacheRegion(CacheRegion.<K, V>cacheRegionBuilder() //
+				.cacheRegion(BaseCacheRegion.<K, V>cacheRegionBuilder() //
 						.regionName(ROOT_CONFIGURATION_REGION) //
 						.invalidationStrategy(new InvalidationStrategy.None<>()) //
 						.cacheConfiguration(buildDefaultCacheConfiguration()) //
-						.cacheRegion(CacheRegion.<K, V>cacheRegionBuilder() //
+						.cacheRegion(BaseCacheRegion.<K, V>cacheRegionBuilder() //
 								.regionName("sub") //
 								.invalidationStrategy(new InvalidationStrategy.None<>()) //
 								.cacheConfiguration(buildDefaultCacheConfiguration()) //
@@ -49,11 +49,11 @@ public class BaseCacheTestBuilder {
 	public static <K extends CacheKey<K>, V extends Serializable> Cache<K, V> buildHierarchicalCacheRegion() {
 		return BaseCache.<K, V>builder() //
 				.cacheConfiguration(BaseCacheTestBuilder.buildDefaultCacheConfiguration()) //
-				.cacheRegion(CacheRegion.<K, V>cacheRegionBuilder() //
+				.cacheRegion(BaseCacheRegion.<K, V>cacheRegionBuilder() //
 						.regionName("server-1-configuration") //
 						.invalidationStrategy(new InvalidationStrategy.None<>()) //
 						.cacheConfiguration(buildDefaultCacheConfiguration()) //
-						.cacheRegion(CacheRegion.<K, V>cacheRegionBuilder() //
+						.cacheRegion(BaseCacheRegion.<K, V>cacheRegionBuilder() //
 								.regionName("java-configuration") //
 								.invalidationStrategy(new InvalidationStrategy.None<>()) //
 								.cacheConfiguration(buildDefaultCacheConfiguration()) //
@@ -63,17 +63,17 @@ public class BaseCacheTestBuilder {
 	}
 
 	public static <K extends CacheKey<K>, V extends Serializable> Cache<K, V> buildDefaultConfiguredWithHierarchicalRegion() {
-		return buildDefaultConfiguredBaseCacheWithRootRegion(CacheRegion.<K, V>cacheRegionBuilder() // )
+		return buildDefaultConfiguredBaseCacheWithRootRegion(BaseCacheRegion.<K, V>cacheRegionBuilder() // )
 				.regionName("another-sub-region-1") //
 				.cacheConfiguration(buildDefaultCacheConfiguration()) //
 				.invalidationStrategy(new InvalidationStrategy.None<>()) //
 				.build(),
-				CacheRegion.<K, V>cacheRegionBuilder() // )
+				BaseCacheRegion.<K, V>cacheRegionBuilder() // )
 						.regionName("another-sub-region-2") //
 						.cacheConfiguration(buildDefaultCacheConfiguration()) //
 						.invalidationStrategy(new InvalidationStrategy.None<>()) //
 						.build(),
-				CacheRegion.<K, V>cacheRegionBuilder() // )
+				BaseCacheRegion.<K, V>cacheRegionBuilder() // )
 						.regionName("another-sub-region-3") //
 						.cacheConfiguration(buildDefaultCacheConfiguration()) //
 						.invalidationStrategy(new InvalidationStrategy.None<>()) //
